@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, of, tap } from 'rxjs';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { AuthStatus, LoginResponse, User } from '../interfaces';
 
 @Injectable({
@@ -20,17 +20,35 @@ export class AuthService {
 
   constructor() {}
 
-  login(email: string, password: string): Observable<boolean> {
+  login(email: string, contrasenya: string): Observable<boolean> {
     const url = `${this.baseUrl}/usuarios/login`;
-    const body = { email, password };
+    const body = { email, contrasenya };
     return this.http.post<LoginResponse>(url, body).pipe(
-      tap(({ token }) => {
+      tap(({ token, expire }) => {
         this._authStatus.set(AuthStatus.authenticated);
         localStorage.setItem('token', token);
-        console.log({ token });
+        localStorage.setItem('exp', expire);
+        console.log({ token, expire });
       }),
 
-      map(() => true)
+      map(() => true),
+      catchError((err) => throwError(() => err.error.message))
+    );
+  }
+
+  registro(
+    DNI: string,
+    telefono: string,
+    nombre: string,
+    apellidos: string,
+    email: string,
+    contrasenya: string
+  ): Observable<boolean> {
+    const url = `${this.baseUrl}/registro`;
+    const body = { DNI, telefono, nombre, apellidos, email, contrasenya };
+    return this.http.post(url, body).pipe(
+      map(() => true),
+      catchError((err) => throwError(() => err.error.message))
     );
   }
 }
