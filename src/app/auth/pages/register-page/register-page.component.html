@@ -14,6 +14,9 @@
       placeholder="DNI/NIE"
       formControlName="DNI"
     />
+    <span *ngIf="isValidField('DNI')" class="form-text text-danger">
+      El formato del DNI/NIE ha de ser válido
+    </span>
     <span class="focus-input100"></span>
   </div>
   <div class="wrap-input100 m-b-23">
@@ -24,6 +27,9 @@
       placeholder="Teléfono"
       formControlName="telefono"
     />
+    <span *ngIf="isValidField('telefono')" class="form-text text-danger">
+      El formato del teléfono ha de ser válido
+    </span>
     <span class="focus-input100"></span>
   </div>
   <div class="wrap-input100 m-b-23">
@@ -34,6 +40,9 @@
       placeholder="Nombre"
       formControlName="nombre"
     />
+    <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+      El formato del nombre ha de ser válido
+    </span>
     <span class="focus-input100"></span>
   </div>
   <div class="wrap-input100 m-b-23">
@@ -44,6 +53,9 @@
       placeholder="Apellidos"
       formControlName="apellidos"
     />
+    <span *ngIf="isValidField('apellidos')" class="form-text text-danger">
+      El formato de los apellidos ha de ser válido
+    </span>
     <span class="focus-input100"></span>
   </div>
   <div class="wrap-input100 m-b-23">
@@ -54,10 +66,13 @@
       placeholder="Correo electrónico"
       formControlName="email"
     />
+    <span *ngIf="isValidField('email')" class="form-text text-danger">
+      El formato del correo electrónico ha de ser válido
+    </span>
     <span class="focus-input100"></span>
   </div>
 
-  <div class="wrap-input100">
+  <div class="wrap-input100 m-b-23">
     <span class="label-input100">Contraseña</span>
     <input
       class="input100"
@@ -65,6 +80,23 @@
       placeholder="Ingrese su contraseña"
       formControlName="password"
     />
+    <span *ngIf="isValidField('password')" class="form-text text-danger">
+      El formato de la contraseña ha de ser válido
+    </span>
+    <span class="focus-input100"></span>
+  </div>
+
+  <div class="wrap-input100">
+    <span class="label-input100">Repite la contraseña</span>
+    <input
+      class="input100"
+      type="password"
+      placeholder="Repite la contraseña"
+      formControlName="password2"
+    />
+    <span *ngIf="isValidField('password2')" class="form-text text-danger">
+      Las contraseñas han de coincidir
+    </span>
     <span class="focus-input100"></span>
   </div>
 

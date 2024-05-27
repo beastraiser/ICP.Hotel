@@ -1,7 +1,7 @@
 <form
   class="login100-form"
   autocomplete="off"
-  [formGroup]="myForm"
+  [formGroup]="myLoginForm"
   (ngSubmit)="login()"
 >
   <span class="login100-form-title p-b-49"> Login </span>
@@ -14,6 +14,9 @@
       placeholder="Correo electrónico"
       formControlName="email"
     />
+    <span *ngIf="isValidField('email')" class="form-text text-danger">
+      El formato del email ha de ser válido
+    </span>
     <span class="focus-input100"></span>
   </div>
 
@@ -25,6 +28,9 @@
       placeholder="Ingrese su contraseña"
       formControlName="password"
     />
+    <span *ngIf="isValidField('password')" class="form-text text-danger">
+      El formato de la contraseña ha de ser válido
+    </span>
     <span class="focus-input100"></span>
   </div>
 
@@ -36,7 +42,7 @@
       <button
         class="login100-form-btn"
         type="submit"
-        [disabled]="myForm.invalid"
+        [disabled]="myLoginForm.invalid"
       >
         Login
       </button>
