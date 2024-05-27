@@ -10,14 +10,14 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'dashboard',
-    canActivate: [isAuthenticatedGuard],
+    path: 'reservas',
+    // canActivate: [isAuthenticatedGuard],
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('./reservas/reservas.module').then((m) => m.ReservasModule),
   },
   {
     path: '**',
-    redirectTo: 'auth',
+    redirectTo: 'reservas',
   },
 ];
 

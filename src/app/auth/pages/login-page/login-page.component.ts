@@ -45,7 +45,7 @@ export class LoginPageComponent {
     const { email, password } = this.myLoginForm.value;
 
     this.authService.login(email, password).subscribe({
-      next: () => this.router.navigateByUrl('/dashboard'),
+      next: () => this.router.navigateByUrl('/reservas'),
       error: (message) => {
         Swal.fire('Login fallido', message, 'error');
       },

@@ -92,7 +92,7 @@ export class RegisterPageComponent {
           );
           // this.router.navigateByUrl('/auth/login');
           this.authService.login(email, password).subscribe({
-            next: () => this.router.navigateByUrl('/dashboard'),
+            next: () => this.router.navigateByUrl('/reservas'),
           });
         },
         error: (message) => {

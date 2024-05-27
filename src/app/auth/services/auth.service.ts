@@ -25,7 +25,10 @@ export class AuthService {
 
   userDataFromToken(token: string) {
     const user: any = jwtDecode(token);
-    const currentUser: User = { id: user.id, email: user.email };
+    const currentUser: User = {
+      id: user.id,
+      email: user.email,
+    };
     return currentUser;
   }
 
