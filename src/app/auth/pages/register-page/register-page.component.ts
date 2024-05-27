@@ -16,6 +16,7 @@ export class RegisterPageComponent {
     DNI: [
       'x3456123f',
       [Validators.required, Validators.minLength(9), Validators.maxLength(9)],
+      [],
     ],
     telefono: [
       '34655897425',
