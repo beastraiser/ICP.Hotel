@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-md p-4" data-bs-theme="dark">
+  <!-- <a class="navbar-brand me-2" routerLink="/dashboard"
+      ><img
+        src="assets/images/pwa.svg"
+        width="60"
+        height="60"
+        alt="Angular Logo"
+    /></a> -->
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div
+    class="collapse navbar-collapse justify-content-center nav-text"
+    id="navbarSupportedContent"
+  >
+    <ul class="navbar-nav mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" routerLink="">Inicio</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="">Reservas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="">Información</a>
+      </li>
+    </ul>
+  </div>
+  <ul class="navbar-nav mb-2 mb-lg-0 gap-2">
+    <li class="nav-item">
+      <button mat-fab extended aria-label="Key icon" routerLink="/auth">
+        <mat-icon>login</mat-icon><span class="button-text">Login</span>
+      </button>
+    </li>
+    <li class="nav-item">
+      <button
+        mat-fab
+        extended
+        aria-label="Key icon"
+        routerLink="/auth/register"
+      >
+        <mat-icon>person</mat-icon><span class="button-text">Registro</span>
+      </button>
+    </li>
+  </ul>
+</nav>

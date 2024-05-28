@@ -2,10 +2,10 @@ import { Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
-  templateUrl: './reservas-layouts.component.html',
-  styleUrl: './reservas-layouts.component.css',
+  templateUrl: './dahsboard-layout.component.html',
+  styleUrl: './dahsboard-layout.component.css',
 })
-export class ReservasLayoutsComponent {
+export class DashboardLayoutComponent {
   private authService = inject(AuthService);
 
   public user = computed(() => this.authService.currentUser());
