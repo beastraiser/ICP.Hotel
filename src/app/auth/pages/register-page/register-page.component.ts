@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
-import { ValidatorsService } from '../../services/validators.service';
+import { ValidatorsService } from '../../../shared/validators/validators.service';
 import { Router } from '@angular/router';
 
 @Component({

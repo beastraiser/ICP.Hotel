@@ -38,13 +38,15 @@ export class AuthService {
 
     return this.http.post<LoginResponse>(url, body).pipe(
       tap(({ token, expire }) => {
-        this._currentUser.set(this.userDataFromToken(token));
+        let currUser = this.userDataFromToken(token);
+        this._currentUser.set(currUser);
         this._authStatus.set(AuthStatus.authenticated);
 
         localStorage.setItem('token', token);
         localStorage.setItem('exp', expire);
+        localStorage.setItem('idUsuario', currUser.id.toString());
 
-        console.log({ token, expire });
+        // console.log({ token, expire });
       }),
 
       map(() => true),
@@ -94,6 +96,8 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('idUsuario');
+    localStorage.removeItem('exp');
     this._currentUser.set(null);
     this._authStatus.set(AuthStatus.notAuthenticated);
   }

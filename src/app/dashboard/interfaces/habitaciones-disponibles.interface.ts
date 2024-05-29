@@ -12,3 +12,9 @@ export enum CategoriaTipo {
   Doble = 'DOBLE',
   Supletoria = 'SUPLETORIA',
 }
+
+export interface ConsultarHabitaciones {
+  fechaInicio: string;
+  fechaFin: string;
+  maximoPersonas: number;
+}
