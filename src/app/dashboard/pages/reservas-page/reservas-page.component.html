@@ -1,7 +1,12 @@
 <div class="row justify-content-center">
   <div class="col col-sm-10 col-md-10 col-lg-10">
     <!-- Paso 1: Datos de la reserva -->
-    <mat-stepper orientation="vertical" linear="false" #stepper>
+    <mat-stepper
+      orientation="vertical"
+      linear="false"
+      (selectionChange)="onStepChange($event)"
+      #stepper
+    >
       <mat-step [stepControl]="myDisponiblilidadForm">
         <form
           [formGroup]="myDisponiblilidadForm"
@@ -71,11 +76,17 @@
               *ngFor="let habitacion of paginatedHabitaciones"
               class="col-sm-6 col-md-4 col-lg-3 mb-3"
             >
-              <mat-card (click)="selectHabitacion(habitacion)">
+              <mat-card
+                [ngClass]="{
+                  'habitacion-seleccionada':
+                    isHabitacionSeleccionada(habitacion)
+                }"
+              >
                 <mat-card-header>
-                  <mat-card-title>{{
+                  <mat-card-title>#{{ habitacion.id }}</mat-card-title>
+                  <mat-card-subtitle>{{
                     habitacion.categoriaTipo
-                  }}</mat-card-title>
+                  }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
                   <p>{{ habitacion.numeroCamas }} camas</p>
@@ -113,6 +124,14 @@
                       >
                     </mat-select>
                   </mat-form-field>
+                  <button
+                    mat-fab
+                    aria-label="Key icon"
+                    class="col-2"
+                    (click)="toggleHabitacionSeleccionada(habitacion)"
+                  >
+                    <mat-icon>key</mat-icon>
+                  </button>
                 </mat-card-content>
               </mat-card>
             </div>
@@ -131,7 +150,7 @@
             <button
               mat-button
               matStepperNext
-              [disabled]="!myHabitacionesServiciosForm.valid"
+              [disabled]="!selectedHabitaciones"
             >
               Next
             </button>
@@ -144,32 +163,18 @@
         <form [formGroup]="myDatosPersonalesForm">
           <ng-template matStepLabel>Datos personales</ng-template>
 
-          <ng-container *ngIf="isLoggedIn; else notLoggedInForm">
+          <ng-container *ngIf="isLoggedIn; else noLogForm">
             <!-- Campos para usuario logueado -->
-            <mat-form-field class="col min-width">
-              <mat-label>DNI/NIE</mat-label>
-              <input matInput required formControlName="DNI" />
-            </mat-form-field>
-            <mat-form-field class="col min-width">
-              <mat-label>Nombre</mat-label>
-              <input matInput required formControlName="nombre" />
-            </mat-form-field>
-            <mat-form-field class="col min-width">
-              <mat-label>Apellidos</mat-label>
-              <input matInput required formControlName="apellidos" />
-            </mat-form-field>
-            <mat-form-field class="col min-width">
-              <mat-label>Teléfono</mat-label>
-              <input matInput type="tel" required formControlName="telefono" />
-            </mat-form-field>
+            <p>Ya tenemos tus datos listos, ¡Gracias por Iniciar sesión!</p>
+            <p>Puedes pasar a la confirmación de la reserva</p>
           </ng-container>
 
-          <ng-template #notLoggedInForm>
+          <ng-template #noLogForm>
             <!-- Preguntar si tiene cuenta -->
             <div *ngIf="askForAccount">
               <p>¿Tienes una cuenta?</p>
-              <button mat-button (click)="hasAccount(true)">Sí</button>
-              <button mat-button (click)="hasAccount(false)">No</button>
+              <button mat-button (click)="tieneCuenta(true)">Sí</button>
+              <button mat-button (click)="tieneCuenta(false)">No</button>
             </div>
 
             <!-- Formulario para usuarios que tienen cuenta -->
@@ -178,6 +183,7 @@
                 <mat-label>Email</mat-label>
                 <input matInput type="email" required formControlName="email" />
               </mat-form-field>
+              <button mat-button (click)="usuarioConCuenta()">Enviar</button>
             </div>
 
             <!-- Formulario para usuarios que no tienen cuenta -->
@@ -203,6 +209,7 @@
                   formControlName="telefono"
                 />
               </mat-form-field>
+              <button mat-button (click)="crearCliente()">Enviar</button>
             </div>
           </ng-template>
 
@@ -211,7 +218,7 @@
             <button
               mat-button
               matStepperNext
-              [disabled]="!myDatosPersonalesForm.valid"
+              [disabled]="!myDatosPersonalesForm.valid && !isLoggedIn"
             >
               Next
             </button>
@@ -223,12 +230,49 @@
       <mat-step>
         <ng-template matStepLabel>Confirmación</ng-template>
         <p>Confirmación de la reserva.</p>
-        <button mat-button (click)="generateFinalJSON()">
+        <mat-card *ngIf="reserva">
+          <mat-card-header>
+            <mat-card-title>Reserva #{{ reserva.id }}</mat-card-title>
+            <mat-card-subtitle
+              >{{ reserva.nombreCliente }}
+              {{ reserva.apellidosCliente }}</mat-card-subtitle
+            >
+          </mat-card-header>
+
+          <mat-card-content>
+            <p>
+              <strong>Fecha de Inicio:</strong> {{ reserva.fechaInicio | date }}
+            </p>
+            <p><strong>Fecha de Fin:</strong> {{ reserva.fechaFin | date }}</p>
+            <p>
+              <strong>Coste Total:</strong> {{ reserva.costeTotal | currency }}
+            </p>
+
+            <div *ngFor="let rhs of reserva.reservaHabitacionServicios">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title
+                    >Habitación #{{ rhs.idHabitacion }}</mat-card-title
+                  >
+                  <mat-card-subtitle>{{
+                    rhs.tipoHabitacion
+                  }}</mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content>
+                  <p><strong>Servicio:</strong> {{ rhs.nombreServicio }}</p>
+                </mat-card-content>
+              </mat-card>
+              <br />
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <button mat-button *ngIf="!reserva" (click)="crearReserva()">
           Finalizar Reserva
         </button>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button (click)="resetForm()">Reset</button>
         </div>
       </mat-step>
     </mat-stepper>

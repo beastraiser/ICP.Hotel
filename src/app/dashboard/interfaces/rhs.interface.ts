@@ -1,4 +1,4 @@
 export interface Rhs {
   idHabitacion: number;
-  idServicio: number;
+  idServicio: number | null;
 }
