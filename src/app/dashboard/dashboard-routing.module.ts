@@ -1,12 +1,16 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardLayoutsComponent } from './layouts/dashboard-layouts/dashboard-layouts.component';
+import { DashboardLayoutComponent } from './pages/layout/dahsboard-layout.component';
+import { ReservasPageComponent } from './pages/reservas-page/reservas-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardLayoutsComponent,
-    // children: []
+    component: DashboardLayoutComponent,
+    children: [
+      { path: 'reservas', component: ReservasPageComponent },
+      { path: '**', redirectTo: 'reservas' },
+    ],
   },
 ];
 

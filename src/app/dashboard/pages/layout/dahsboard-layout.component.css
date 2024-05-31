@@ -1,0 +1,27 @@
+.dashboard-layout {
+  background-image: url(../../../../assets/images/bg-04.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  background-attachment: fixed;
+  backdrop-filter: blur(1px) saturate(120%) contrast(80%);
+}
+
+dashboard-header {
+  animation-name: headerColorAnimation;
+  animation-timeline: scroll();
+}
+
+@keyframes headerColorAnimation {
+  0% {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(0.6) translateY(-20px);
+  }
+  100% {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(0.6) translateY(-20px);
+  }
+}

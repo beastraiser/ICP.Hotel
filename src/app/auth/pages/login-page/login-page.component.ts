@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { ValidatorsService } from '../../services/validators.service';
+import { ValidatorsService } from '../../../shared/validators/validators.service';
 
 @Component({
   templateUrl: './login-page.component.html',
@@ -45,7 +45,7 @@ export class LoginPageComponent {
     const { email, password } = this.myLoginForm.value;
 
     this.authService.login(email, password).subscribe({
-      next: () => this.router.navigateByUrl('/dashboard'),
+      next: () => this.router.navigateByUrl('/reservas'),
       error: (message) => {
         Swal.fire('Login fallido', message, 'error');
       },

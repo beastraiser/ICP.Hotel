@@ -1,0 +1,356 @@
+<div class="row justify-content-center align-content-center content-display">
+  <div class="col col-sm-10 col-md-10 col-lg-10">
+    <!-- Paso 1: Datos de la reserva -->
+    <mat-stepper
+      orientation="vertical"
+      linear="false"
+      (selectionChange)="onStepChange($event)"
+      #stepper
+    >
+      <mat-step [stepControl]="myDisponiblilidadForm" color="accent">
+        <form
+          [formGroup]="myDisponiblilidadForm"
+          (ngSubmit)="mostrarHabitaciones(stepper)"
+          class="row justify-content-center flex-wrap m-5"
+        >
+          <ng-template matStepLabel
+            >Selecciona los datos de tu reserva</ng-template
+          >
+          <mat-form-field class="col min-width">
+            <mat-label>Fechas</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input
+                matStartDate
+                required
+                formControlName="fechaInicio"
+                placeholder="Fecha Inicio"
+              />
+
+              <input
+                matEndDate
+                required
+                formControlName="fechaFin"
+                placeholder="Fecha Fin"
+              />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+          <mat-form-field class="col min-width">
+            <mat-label>Personas</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              max="3"
+              required
+              formControlName="maximoPersonas"
+            />
+          </mat-form-field>
+          <button
+            mat-fab
+            aria-label="Key icon"
+            class="col-2"
+            [disabled]="myDisponiblilidadForm.invalid"
+          >
+            <mat-icon>key</mat-icon>
+          </button>
+        </form>
+      </mat-step>
+
+      <!-- Paso 2: Selección de habitaciones y servicios -->
+      <mat-step [stepControl]="myHabitacionesServiciosForm" color="accent">
+        <form
+          [formGroup]="myHabitacionesServiciosForm"
+          class="row justify-content-center flex-wrap mt-3"
+        >
+          <ng-template matStepLabel
+            >Selecciona una habitación disponible</ng-template
+          >
+          <div class="row">
+            <div
+              *ngFor="let habitacion of paginatedHabitaciones"
+              class="col-sm-6 col-md-4 col-lg-3 mb-3"
+            >
+              <mat-card
+                [ngClass]="{
+                  'habitacion-seleccionada':
+                    isHabitacionSeleccionada(habitacion)
+                }"
+              >
+                <mat-card-header>
+                  <mat-card-title>Nº {{ habitacion.id }}</mat-card-title>
+                  <mat-card-subtitle>{{
+                    habitacion.categoriaTipo
+                  }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>{{ habitacion.numeroCamas }} camas</p>
+                  <p>{{ habitacion.maximoPersonas }} personas</p>
+                  <p>
+                    {{
+                      habitacion.costeNoche | currency : "EUR" : "symbol"
+                    }}/noche
+                  </p>
+                  <mat-form-field class="w-100">
+                    <mat-label>Servicios</mat-label>
+                    <mat-select
+                      multiple
+                      [(value)]="selectedServicios[habitacion.id]"
+                      (selectionChange)="
+                        toggleServiceSelection(habitacion.id, $event.value)
+                      "
+                    >
+                      <mat-option
+                        *ngFor="let servicio of servicios"
+                        [value]="servicio.id"
+                        >{{ servicio.nombre }} {{ servicio.coste }}€</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="w-100">
+                    <mat-label>Extras</mat-label>
+                    <mat-select
+                      multiple
+                      [(value)]="selectedExtras[habitacion.id]"
+                      (selectionChange)="
+                        toggleExtraSelection(habitacion.id, $event.value)
+                      "
+                    >
+                      <mat-option
+                        *ngFor="let extra of extras"
+                        [value]="extra.id"
+                        >{{ extra.nombre }} {{ extra.coste }}€</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                  <button
+                    mat-raised-button
+                    color="accent"
+                    class="w-100"
+                    (click)="toggleHabitacionSeleccionada(habitacion)"
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+
+          <!-- Paginador -->
+          <mat-paginator
+            [length]="habitacionesDisponibles.length"
+            [pageSize]="pageSize"
+            (page)="onPageChange($event)"
+            class="bg-transparent"
+          ></mat-paginator>
+
+          <!-- Botones de navegación -->
+          <div>
+            <button
+              mat-stroked-button
+              color="basic"
+              matStepperPrevious
+              class="mx-1"
+            >
+              Back
+            </button>
+            <button
+              matStepperNext
+              [disabled]="selectedHabitaciones.length === 0"
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Paso 3: Datos personales -->
+      <mat-step [stepControl]="myDatosPersonalesForm" color="accent">
+        <form
+          [formGroup]="myDatosPersonalesForm"
+          class="row justify-content-center flex-wrap mt-3"
+        >
+          <ng-template matStepLabel>Datos personales</ng-template>
+
+          <ng-container *ngIf="isLoggedIn; else noLogForm">
+            <!-- Campos para usuario logueado -->
+            <p>Ya tenemos tus datos listos, ¡Gracias por Iniciar sesión!</p>
+            <p>Puedes pasar a la confirmación de la reserva</p>
+          </ng-container>
+
+          <ng-template #noLogForm>
+            <!-- Preguntar si tiene cuenta -->
+            <div *ngIf="askForAccount" class="col-4 text-center">
+              <p>¿Tienes una cuenta?</p>
+              <button
+                mat-flat-button
+                color="accent"
+                class="mx-1"
+                (click)="tieneCuenta(true)"
+              >
+                Sí
+              </button>
+              <button
+                mat-flat-button
+                color="accent"
+                class="mx-1"
+                (click)="tieneCuenta(false)"
+              >
+                No
+              </button>
+            </div>
+
+            <!-- Formulario para usuarios que tienen cuenta -->
+            <div
+              *ngIf="hasAccountForm"
+              class="row justify-content-center flex-wrap mt-3"
+            >
+              <mat-form-field class="col min-width">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" required formControlName="email" />
+              </mat-form-field>
+              <button
+                mat-flat-button
+                color="accent"
+                (click)="usuarioConCuenta()"
+              >
+                Enviar
+              </button>
+            </div>
+
+            <!-- Formulario para usuarios que no tienen cuenta -->
+            <div
+              *ngIf="!hasAccountForm && !askForAccount"
+              class="row justify-content-center flex-wrap mt-3 gap-1"
+            >
+              <mat-form-field class="col min-width p-0">
+                <mat-label>DNI/NIE</mat-label>
+                <input matInput required formControlName="DNI" />
+              </mat-form-field>
+              <mat-form-field class="col min-width p-0">
+                <mat-label>Nombre</mat-label>
+                <input matInput required formControlName="nombre" />
+              </mat-form-field>
+              <mat-form-field class="col min-width p-0">
+                <mat-label>Apellidos</mat-label>
+                <input matInput required formControlName="apellidos" />
+              </mat-form-field>
+              <mat-form-field class="col min-width p-0">
+                <mat-label>Teléfono</mat-label>
+                <input
+                  matInput
+                  type="tel"
+                  required
+                  formControlName="telefono"
+                />
+              </mat-form-field>
+              <button mat-flat-button color="accent" (click)="crearCliente()">
+                Enviar
+              </button>
+            </div>
+          </ng-template>
+
+          <div>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              matStepperPrevious
+            >
+              Back
+            </button>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1 my-3"
+              matStepperNext
+              [disabled]="
+                (!myDatosPersonalesForm.valid && !isLoggedIn) || clientId === 0
+              "
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Paso 4: Confirmación -->
+      <mat-step color="accent">
+        <ng-template matStepLabel>Confirmación</ng-template>
+        <p>Confirmación de la reserva.</p>
+        <div class="row justify-content-center flex-wrap mt-3">
+          <mat-card *ngIf="reserva">
+            <mat-card-header>
+              <mat-card-title>Reserva #{{ reserva.id }}</mat-card-title>
+              <mat-card-subtitle
+                >{{ reserva.nombreCliente }}
+                {{ reserva.apellidosCliente }}</mat-card-subtitle
+              >
+            </mat-card-header>
+
+            <mat-card-content>
+              <p>
+                <strong>Fecha de Inicio:</strong>
+                {{ reserva.fechaInicio | date }}
+              </p>
+              <p>
+                <strong>Fecha de Fin:</strong> {{ reserva.fechaFin | date }}
+              </p>
+              <p>
+                <strong>Coste Total:</strong>
+                {{ reserva.costeTotal | currency }}
+              </p>
+
+              <div *ngFor="let rhs of reserva.reservaHabitacionServicios">
+                <mat-card>
+                  <mat-card-header>
+                    <mat-card-title
+                      >Habitación #{{ rhs.idHabitacion }}</mat-card-title
+                    >
+                    <mat-card-subtitle>{{
+                      rhs.tipoHabitacion
+                    }}</mat-card-subtitle>
+                  </mat-card-header>
+
+                  <mat-card-content>
+                    <p><strong>Servicio:</strong> {{ rhs.nombreServicio }}</p>
+                  </mat-card-content>
+                </mat-card>
+                <br />
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <button mat-button *ngIf="!reserva" (click)="crearReserva()">
+            Finalizar Reserva
+          </button>
+          <div>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              matStepperPrevious
+            >
+              Back
+            </button>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              (click)="resetForm()"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>

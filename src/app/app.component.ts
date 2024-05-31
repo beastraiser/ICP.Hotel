@@ -29,12 +29,17 @@ export class AppComponent {
         return;
 
       case AuthStatus.authenticated:
+      case AuthStatus.notAuthenticated:
         this.router.navigateByUrl('/dashboard');
         return;
 
-      case AuthStatus.notAuthenticated:
-        this.router.navigateByUrl('/auth/login');
-        return;
+      // case AuthStatus.authenticated:
+      //   this.router.navigateByUrl('/reservas');
+      //   return;
+
+      // case AuthStatus.notAuthenticated:
+      //   this.router.navigateByUrl('/auth/login');
+      //   return;
     }
   });
 }

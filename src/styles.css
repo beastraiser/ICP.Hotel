@@ -1,5 +1,4 @@
-/* //////////////////////////////////////////////////////////////////
-[ FONT ]*/
+/*[ FONT ]*/
 
 @font-face {
   font-family: Poppins-Regular;
@@ -21,21 +20,33 @@
   src: url("./assets/fonts/poppins/Poppins-SemiBold.ttf");
 }
 
-/*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
-* {
+/* CSS RGB */
+
+:root {
+  --bg-color: rgba(0, 0, 0, 1);
+  --swamp-green: rgba(73, 255, 24, 0.5);
+  --purple-complementary: rgba(206, 24, 255, 0.7);
+  --medium-slate-blue: rgba(139, 86, 254, 1);
+  --hunyadi-yellow: rgba(246, 174, 45, 1);
+  --russian-violet: rgba(55, 34, 100, 1);
+  --red-violet: rgba(204, 29, 136, 1);
+  --deep-sky-blue: rgba(0, 187, 249, 1);
+}
+
+/*[ RESTYLE TAG ]*/
+
+html,
+body {
+  height: 100%;
+}
+body {
   margin: 0px;
   padding: 0px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   box-sizing: border-box;
-  font-family: Poppins-Bold;
 }
 
-body,
-html {
-  height: 100%;
-  font-family: Poppins-Regular, sans-serif;
-}
-
+/* [ GENERAL STYLES ] */
 /*---------------------------------------------*/
 a {
   font-family: Poppins-Regular;
