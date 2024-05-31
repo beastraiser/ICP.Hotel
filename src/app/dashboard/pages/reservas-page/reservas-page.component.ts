@@ -375,7 +375,7 @@ export class ReservasPageComponent {
       ) {
         this.reservaHabitacionServicios.push({
           idHabitacion: habitacion.id,
-          idServicio: null,
+          idServicio: 17,
         });
       }
       // // Recorrer y procesar los servicios seleccionados

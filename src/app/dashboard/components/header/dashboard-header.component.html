@@ -34,7 +34,7 @@
     </ul>
   </div>
   <ng-container *ngIf="!isAuthenticated(); else loggedIn">
-    <ul class="navbar-nav mb-2 mb-lg-0 gap-2">
+    <ul class="navbar-nav mb-2 mb-lg-0 gap-2 hide">
       <li class="nav-item">
         <button mat-fab extended aria-label="Key icon" routerLink="/auth">
           <mat-icon>login</mat-icon><span class="button-text">Login</span>
@@ -46,6 +46,7 @@
           extended
           aria-label="Key icon"
           routerLink="/auth/register"
+          color="basic"
         >
           <mat-icon>person</mat-icon><span class="button-text">Registro</span>
         </button>

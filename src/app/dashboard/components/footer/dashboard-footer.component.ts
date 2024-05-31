@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './dashboard-footer.component.html',
   styleUrl: './dashboard-footer.component.css',
 })
-export class DashboardFooterComponent {}
+export class DashboardFooterComponent {
+  year = new Date().getFullYear();
+}

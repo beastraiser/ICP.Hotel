@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="row justify-content-center align-content-center content-display">
   <div class="col col-sm-10 col-md-10 col-lg-10">
     <!-- Paso 1: Datos de la reserva -->
     <mat-stepper
@@ -7,7 +7,7 @@
       (selectionChange)="onStepChange($event)"
       #stepper
     >
-      <mat-step [stepControl]="myDisponiblilidadForm">
+      <mat-step [stepControl]="myDisponiblilidadForm" color="accent">
         <form
           [formGroup]="myDisponiblilidadForm"
           (ngSubmit)="mostrarHabitaciones(stepper)"
@@ -59,15 +59,15 @@
           >
             <mat-icon>key</mat-icon>
           </button>
-          <div>
-            <button mat-button matStepperNext>Next</button>
-          </div>
         </form>
       </mat-step>
 
       <!-- Paso 2: Selección de habitaciones y servicios -->
-      <mat-step [stepControl]="myHabitacionesServiciosForm">
-        <form [formGroup]="myHabitacionesServiciosForm">
+      <mat-step [stepControl]="myHabitacionesServiciosForm" color="accent">
+        <form
+          [formGroup]="myHabitacionesServiciosForm"
+          class="row justify-content-center flex-wrap mt-3"
+        >
           <ng-template matStepLabel
             >Selecciona una habitación disponible</ng-template
           >
@@ -83,7 +83,7 @@
                 }"
               >
                 <mat-card-header>
-                  <mat-card-title>#{{ habitacion.id }}</mat-card-title>
+                  <mat-card-title>Nº {{ habitacion.id }}</mat-card-title>
                   <mat-card-subtitle>{{
                     habitacion.categoriaTipo
                   }}</mat-card-subtitle>
@@ -91,8 +91,12 @@
                 <mat-card-content>
                   <p>{{ habitacion.numeroCamas }} camas</p>
                   <p>{{ habitacion.maximoPersonas }} personas</p>
-                  <p>{{ habitacion.costeNoche }}€/noche</p>
-                  <mat-form-field>
+                  <p>
+                    {{
+                      habitacion.costeNoche | currency : "EUR" : "symbol"
+                    }}/noche
+                  </p>
+                  <mat-form-field class="w-100">
                     <mat-label>Servicios</mat-label>
                     <mat-select
                       multiple
@@ -108,7 +112,7 @@
                       >
                     </mat-select>
                   </mat-form-field>
-                  <mat-form-field>
+                  <mat-form-field class="w-100">
                     <mat-label>Extras</mat-label>
                     <mat-select
                       multiple
@@ -125,12 +129,12 @@
                     </mat-select>
                   </mat-form-field>
                   <button
-                    mat-fab
-                    aria-label="Key icon"
-                    class="col-2"
+                    mat-raised-button
+                    color="accent"
+                    class="w-100"
                     (click)="toggleHabitacionSeleccionada(habitacion)"
                   >
-                    <mat-icon>key</mat-icon>
+                    <mat-icon>add</mat-icon>
                   </button>
                 </mat-card-content>
               </mat-card>
@@ -142,15 +146,25 @@
             [length]="habitacionesDisponibles.length"
             [pageSize]="pageSize"
             (page)="onPageChange($event)"
+            class="bg-transparent"
           ></mat-paginator>
 
           <!-- Botones de navegación -->
           <div>
-            <button mat-button matStepperPrevious>Back</button>
             <button
-              mat-button
+              mat-stroked-button
+              color="basic"
+              matStepperPrevious
+              class="mx-1"
+            >
+              Back
+            </button>
+            <button
               matStepperNext
-              [disabled]="!selectedHabitaciones"
+              [disabled]="selectedHabitaciones.length === 0"
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
             >
               Next
             </button>
@@ -159,8 +173,11 @@
       </mat-step>
 
       <!-- Paso 3: Datos personales -->
-      <mat-step [stepControl]="myDatosPersonalesForm">
-        <form [formGroup]="myDatosPersonalesForm">
+      <mat-step [stepControl]="myDatosPersonalesForm" color="accent">
+        <form
+          [formGroup]="myDatosPersonalesForm"
+          class="row justify-content-center flex-wrap mt-3"
+        >
           <ng-template matStepLabel>Datos personales</ng-template>
 
           <ng-container *ngIf="isLoggedIn; else noLogForm">
@@ -171,36 +188,62 @@
 
           <ng-template #noLogForm>
             <!-- Preguntar si tiene cuenta -->
-            <div *ngIf="askForAccount">
+            <div *ngIf="askForAccount" class="col-4 text-center">
               <p>¿Tienes una cuenta?</p>
-              <button mat-button (click)="tieneCuenta(true)">Sí</button>
-              <button mat-button (click)="tieneCuenta(false)">No</button>
+              <button
+                mat-flat-button
+                color="accent"
+                class="mx-1"
+                (click)="tieneCuenta(true)"
+              >
+                Sí
+              </button>
+              <button
+                mat-flat-button
+                color="accent"
+                class="mx-1"
+                (click)="tieneCuenta(false)"
+              >
+                No
+              </button>
             </div>
 
             <!-- Formulario para usuarios que tienen cuenta -->
-            <div *ngIf="hasAccountForm">
+            <div
+              *ngIf="hasAccountForm"
+              class="row justify-content-center flex-wrap mt-3"
+            >
               <mat-form-field class="col min-width">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" required formControlName="email" />
               </mat-form-field>
-              <button mat-button (click)="usuarioConCuenta()">Enviar</button>
+              <button
+                mat-flat-button
+                color="accent"
+                (click)="usuarioConCuenta()"
+              >
+                Enviar
+              </button>
             </div>
 
             <!-- Formulario para usuarios que no tienen cuenta -->
-            <div *ngIf="!hasAccountForm && !askForAccount">
-              <mat-form-field class="col min-width">
+            <div
+              *ngIf="!hasAccountForm && !askForAccount"
+              class="row justify-content-center flex-wrap mt-3 gap-1"
+            >
+              <mat-form-field class="col min-width p-0">
                 <mat-label>DNI/NIE</mat-label>
                 <input matInput required formControlName="DNI" />
               </mat-form-field>
-              <mat-form-field class="col min-width">
+              <mat-form-field class="col min-width p-0">
                 <mat-label>Nombre</mat-label>
                 <input matInput required formControlName="nombre" />
               </mat-form-field>
-              <mat-form-field class="col min-width">
+              <mat-form-field class="col min-width p-0">
                 <mat-label>Apellidos</mat-label>
                 <input matInput required formControlName="apellidos" />
               </mat-form-field>
-              <mat-form-field class="col min-width">
+              <mat-form-field class="col min-width p-0">
                 <mat-label>Teléfono</mat-label>
                 <input
                   matInput
@@ -209,16 +252,29 @@
                   formControlName="telefono"
                 />
               </mat-form-field>
-              <button mat-button (click)="crearCliente()">Enviar</button>
+              <button mat-flat-button color="accent" (click)="crearCliente()">
+                Enviar
+              </button>
             </div>
           </ng-template>
 
           <div>
-            <button mat-button matStepperPrevious>Back</button>
             <button
-              mat-button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              matStepperPrevious
+            >
+              Back
+            </button>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1 my-3"
               matStepperNext
-              [disabled]="!myDatosPersonalesForm.valid && !isLoggedIn"
+              [disabled]="
+                (!myDatosPersonalesForm.valid && !isLoggedIn) || clientId === 0
+              "
             >
               Next
             </button>
@@ -227,52 +283,72 @@
       </mat-step>
 
       <!-- Paso 4: Confirmación -->
-      <mat-step>
+      <mat-step color="accent">
         <ng-template matStepLabel>Confirmación</ng-template>
         <p>Confirmación de la reserva.</p>
-        <mat-card *ngIf="reserva">
-          <mat-card-header>
-            <mat-card-title>Reserva #{{ reserva.id }}</mat-card-title>
-            <mat-card-subtitle
-              >{{ reserva.nombreCliente }}
-              {{ reserva.apellidosCliente }}</mat-card-subtitle
+        <div class="row justify-content-center flex-wrap mt-3">
+          <mat-card *ngIf="reserva">
+            <mat-card-header>
+              <mat-card-title>Reserva #{{ reserva.id }}</mat-card-title>
+              <mat-card-subtitle
+                >{{ reserva.nombreCliente }}
+                {{ reserva.apellidosCliente }}</mat-card-subtitle
+              >
+            </mat-card-header>
+
+            <mat-card-content>
+              <p>
+                <strong>Fecha de Inicio:</strong>
+                {{ reserva.fechaInicio | date }}
+              </p>
+              <p>
+                <strong>Fecha de Fin:</strong> {{ reserva.fechaFin | date }}
+              </p>
+              <p>
+                <strong>Coste Total:</strong>
+                {{ reserva.costeTotal | currency }}
+              </p>
+
+              <div *ngFor="let rhs of reserva.reservaHabitacionServicios">
+                <mat-card>
+                  <mat-card-header>
+                    <mat-card-title
+                      >Habitación #{{ rhs.idHabitacion }}</mat-card-title
+                    >
+                    <mat-card-subtitle>{{
+                      rhs.tipoHabitacion
+                    }}</mat-card-subtitle>
+                  </mat-card-header>
+
+                  <mat-card-content>
+                    <p><strong>Servicio:</strong> {{ rhs.nombreServicio }}</p>
+                  </mat-card-content>
+                </mat-card>
+                <br />
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <button mat-button *ngIf="!reserva" (click)="crearReserva()">
+            Finalizar Reserva
+          </button>
+          <div>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              matStepperPrevious
             >
-          </mat-card-header>
-
-          <mat-card-content>
-            <p>
-              <strong>Fecha de Inicio:</strong> {{ reserva.fechaInicio | date }}
-            </p>
-            <p><strong>Fecha de Fin:</strong> {{ reserva.fechaFin | date }}</p>
-            <p>
-              <strong>Coste Total:</strong> {{ reserva.costeTotal | currency }}
-            </p>
-
-            <div *ngFor="let rhs of reserva.reservaHabitacionServicios">
-              <mat-card>
-                <mat-card-header>
-                  <mat-card-title
-                    >Habitación #{{ rhs.idHabitacion }}</mat-card-title
-                  >
-                  <mat-card-subtitle>{{
-                    rhs.tipoHabitacion
-                  }}</mat-card-subtitle>
-                </mat-card-header>
-
-                <mat-card-content>
-                  <p><strong>Servicio:</strong> {{ rhs.nombreServicio }}</p>
-                </mat-card-content>
-              </mat-card>
-              <br />
-            </div>
-          </mat-card-content>
-        </mat-card>
-        <button mat-button *ngIf="!reserva" (click)="crearReserva()">
-          Finalizar Reserva
-        </button>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="resetForm()">Reset</button>
+              Back
+            </button>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              (click)="resetForm()"
+            >
+              Reset
+            </button>
+          </div>
         </div>
       </mat-step>
     </mat-stepper>
