@@ -1,0 +1,22 @@
+mat-card {
+  max-width: 600px;
+  margin: auto;
+}
+
+mat-card-header {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.example-header-image {
+  background-image: url("/assets/user.png");
+  background-size: cover;
+}
+
+mat-card-title {
+  font-weight: bold;
+}
+
+mat-card-content p {
+  margin: 0;
+}

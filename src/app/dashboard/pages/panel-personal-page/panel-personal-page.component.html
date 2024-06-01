@@ -1,0 +1,64 @@
+<div class="row justify-content-center align-content-center content-display">
+  <div class="col col-sm-10 col-md-10 col-lg-10 col-xl-8">
+    <form
+      *ngIf="!isLoggedIn && !checked"
+      [formGroup]="myReservasCheckForm"
+      class="row justify-content-center flex-wrap mt-3"
+    >
+      <!-- Preguntar si tiene cuenta -->
+      <div *ngIf="askForAccount" class="col-4 text-center">
+        <p>¿Tienes una cuenta?</p>
+        <button
+          mat-flat-button
+          color="accent"
+          class="mx-1"
+          (click)="tieneCuenta(true)"
+        >
+          Sí
+        </button>
+        <button
+          mat-flat-button
+          color="accent"
+          class="mx-1"
+          (click)="tieneCuenta(false)"
+        >
+          No
+        </button>
+      </div>
+
+      <!-- Formulario para usuarios que tienen cuenta -->
+      <div
+        *ngIf="hasAccountForm && !checked"
+        class="row justify-content-center flex-wrap mt-3"
+      >
+        <mat-form-field class="col min-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" required formControlName="email" />
+        </mat-form-field>
+        <button mat-flat-button color="accent" (click)="usuarioConCuenta()">
+          Enviar
+        </button>
+      </div>
+
+      <!-- Formulario para usuarios que no tienen cuenta -->
+      <div
+        *ngIf="!hasAccountForm && !askForAccount && !checked"
+        class="row justify-content-center flex-wrap mt-3 gap-1"
+      >
+        <mat-form-field class="col min-width p-0">
+          <mat-label>DNI/NIE</mat-label>
+          <input matInput required formControlName="DNI" />
+        </mat-form-field>
+        <button mat-flat-button color="accent" (click)="usuarioSinCuenta()">
+          Enviar
+        </button>
+      </div>
+    </form>
+
+    <div *ngFor="let reserva of reservas">
+      <dashboard-reserva-card-component
+        [reserva]="reserva"
+      ></dashboard-reserva-card-component>
+    </div>
+  </div>
+</div>

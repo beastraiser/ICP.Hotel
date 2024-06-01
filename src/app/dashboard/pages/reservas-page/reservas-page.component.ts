@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 import { Reserva } from '../../interfaces/reservaPost.interface';
 
 @Component({
-  selector: 'app-reservas-page',
+  selector: 'dashboard-reservas-page',
   templateUrl: './reservas-page.component.html',
   styleUrl: './reservas-page.component.css',
 })
@@ -378,37 +378,6 @@ export class ReservasPageComponent {
           idServicio: 17,
         });
       }
-      // // Recorrer y procesar los servicios seleccionados
-      // for (const habitacionId in this.selectedServicios) {
-      //   if (this.selectedServicios.hasOwnProperty(habitacionId)) {
-      //     this.selectedServicios[habitacionId].forEach((servicioId) => {
-      //       if (Array.isArray(servicioId)) {
-      //         return;
-      //       } else {
-      //         this.reservaHabitacionServicios.push({
-      //           idHabitacion: parseInt(habitacionId, 10),
-      //           idServicio: servicioId,
-      //         });
-      //       }
-      //     });
-      //   }
-      // }
-
-      // // Recorrer y procesar los extras seleccionados
-      // for (const habitacionId in this.selectedExtras) {
-      //   if (this.selectedExtras.hasOwnProperty(habitacionId)) {
-      //     this.selectedExtras[habitacionId].forEach((extraId) => {
-      //       if (Array.isArray(extraId)) {
-      //         return;
-      //       } else {
-      //         this.reservaHabitacionServicios.push({
-      //           idHabitacion: parseInt(habitacionId, 10),
-      //           idServicio: extraId,
-      //         });
-      //       }
-      //     });
-      //   }
-      // }
     }
     if (this.reservaHabitacionServicios.length === 0) {
       Swal.fire(

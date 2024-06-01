@@ -8,6 +8,9 @@ import { DashboardFooterComponent } from './components/footer/dashboard-footer.c
 import { ReservasPageComponent } from './pages/reservas-page/reservas-page.component';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PanelPersonalPageComponent } from './pages/panel-personal-page/panel-personal-page.component';
+import { ReservaCardComponentComponent } from './components/reserva-card-component/reserva-card-component.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,12 +18,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     DashboardHeaderComponent,
     DashboardFooterComponent,
     ReservasPageComponent,
+    PanelPersonalPageComponent,
+    ReservaCardComponentComponent,
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [DatePipe],
 })

@@ -100,4 +100,32 @@ export class DashboardService {
       catchError((err) => throwError(() => err.error.message))
     );
   }
+
+  obtenerReservasPorUsuario(idUsuario: number): Observable<Reserva[]> {
+    const url = `${this.baseUrl}/reservas/usuario/${idUsuario}`;
+
+    return this.http.get<Reserva[]>(url).pipe(
+      tap((x) => console.log(x)),
+      catchError((err) => throwError(() => err.error.message))
+    );
+  }
+
+  obtenerReservasPorCliente(idCliente: number): Observable<Reserva[]> {
+    const url = `${this.baseUrl}/reservas/cliente/${idCliente}`;
+
+    return this.http.get<Reserva[]>(url).pipe(
+      tap((x) => console.log(x)),
+      catchError((err) => throwError(() => err.error.message))
+    );
+  }
+
+  obtenerClientePorDni(dni: string): Observable<ClienteDatos> {
+    const url = `${this.baseUrl}/clientes/dni`;
+    const body = { dni };
+
+    return this.http.post<ClienteDatos>(url, body).pipe(
+      tap((x) => console.log(x)),
+      catchError((err) => throwError(() => err.error.message))
+    );
+  }
 }
