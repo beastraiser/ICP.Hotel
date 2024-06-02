@@ -4,7 +4,6 @@
   background-size: cover;
   background-position: bottom;
   background-attachment: fixed;
-  backdrop-filter: blur(1px) saturate(120%) contrast(80%);
 }
 
 dashboard-header {

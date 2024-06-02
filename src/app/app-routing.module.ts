@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { isAuthenticatedGuard } from './auth/guards/is-authenticated.guard';
 import { isNotAuthenticatedGuard } from './auth/guards/is-not-authenticated.guard';
+import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
 
 const routes: Routes = [
   {
@@ -16,8 +17,17 @@ const routes: Routes = [
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: '**',
+    path: '',
     redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: '404',
+    component: Error404PageComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '404',
   },
 ];
 

@@ -1,0 +1,64 @@
+<div class="row justify-content-center align-content-center content-display">
+  <form
+    *ngIf="!isLoggedIn && !checked"
+    [formGroup]="myReservasCheckForm"
+    class="row justify-content-center flex-wrap mt-3"
+  >
+    <!-- Preguntar si tiene cuenta -->
+    <div *ngIf="askForAccount" class="col-4 text-center">
+      <p class="fs-1">¿Tienes una cuenta?</p>
+      <button
+        mat-flat-button
+        color="accent"
+        class="mx-2 button-size fs-3"
+        (click)="tieneCuenta(true)"
+      >
+        Sí
+      </button>
+      <button
+        mat-flat-button
+        color="accent"
+        class="mx-2 button-size fs-3"
+        (click)="tieneCuenta(false)"
+      >
+        No
+      </button>
+    </div>
+
+    <!-- Formulario para usuarios que tienen cuenta -->
+    <div *ngIf="hasAccountForm && !checked" class="row col-6 mt-3">
+      <mat-form-field class="col-10 min-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" required formControlName="email" />
+      </mat-form-field>
+      <button mat-fab color="accent" (click)="usuarioConCuenta()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+
+    <!-- Formulario para usuarios que no tienen cuenta -->
+    <div
+      *ngIf="!hasAccountForm && !askForAccount && !checked"
+      class="row col-6 mt-3"
+    >
+      <mat-form-field class="col-10 min-width">
+        <mat-label>DNI/NIE</mat-label>
+        <input matInput required formControlName="DNI" />
+      </mat-form-field>
+      <button mat-fab color="accent" (click)="usuarioSinCuenta()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="checked" class="col-8">
+    <div class="row p-4 flex-wrap reservas-bg my-5">
+      <div *ngFor="let reserva of reservas" class="col-12">
+        <dashboard-reserva-card-component
+          [reserva]="reserva"
+          (cancelar)="cancelarReserva($event)"
+        ></dashboard-reserva-card-component>
+      </div>
+    </div>
+  </div>
+</div>

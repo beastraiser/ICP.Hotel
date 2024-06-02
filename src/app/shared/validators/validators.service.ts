@@ -44,4 +44,23 @@ export class ValidatorsService {
       ? { fechaMenorQueHoy: { value: control.value } }
       : null;
   }
+
+  public isValidInterval(fechaIni: string, fechaFin: string) {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+      const fecha1 = new Date(formGroup.get(fechaIni)?.value);
+      const fecha2 = new Date(formGroup.get(fechaFin)?.value);
+
+      if (!fecha1 || !fecha2) {
+        return null;
+      }
+
+      if (fecha1.getTime() === fecha2.getTime()) {
+        formGroup.get(fechaFin)?.setErrors({ notValid: true });
+        return { notValid: true };
+      }
+
+      formGroup.get(fechaFin)?.setErrors(null);
+      return null;
+    };
+  }
 }

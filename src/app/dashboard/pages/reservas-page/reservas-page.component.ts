@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 import { Reserva } from '../../interfaces/reservaPost.interface';
 
 @Component({
-  selector: 'app-reservas-page',
+  selector: 'dashboard-reservas-page',
   templateUrl: './reservas-page.component.html',
   styleUrl: './reservas-page.component.css',
 })
@@ -53,14 +53,23 @@ export class ReservasPageComponent {
   public userId: number = 0;
   public clientId: number = 0;
 
-  public myDisponiblilidadForm: FormGroup = this.fb.group({
-    fechaInicio: [
-      '',
-      [Validators.required, this.validatorsService.isValidDate],
-    ],
-    fechaFin: ['', [Validators.required, this.validatorsService.isValidDate]],
-    maximoPersonas: ['', [Validators.required, Validators.min(1)]],
-  });
+  public habitacionesAgrupadas: any[] = [];
+
+  public myDisponiblilidadForm: FormGroup = this.fb.group(
+    {
+      fechaInicio: [
+        '',
+        [Validators.required, this.validatorsService.isValidDate],
+      ],
+      fechaFin: ['', [Validators.required, this.validatorsService.isValidDate]],
+      maximoPersonas: ['', [Validators.required, Validators.min(1)]],
+    },
+    {
+      validators: [
+        this.validatorsService.isValidInterval('fechaInicio', 'fechaFin'),
+      ],
+    }
+  );
 
   public myHabitacionesServiciosForm: FormGroup = this.fb.group({
     habitacionSeleccionada: ['', Validators.required],
@@ -325,6 +334,7 @@ export class ReservasPageComponent {
       .subscribe({
         next: (reserva) => {
           this.reserva = reserva;
+          this.agruparHabitaciones();
           Swal.fire(
             '¡Enhorabuena!',
             'Su reserva ha sido creada con éxito',
@@ -339,7 +349,8 @@ export class ReservasPageComponent {
   }
 
   generarDatosReserva() {
-    // Recorre todas las habitaciones seleccionadas
+    this.reservaHabitacionServicios = [];
+
     for (const habitacion of this.selectedHabitaciones) {
       // Obtiene los servicios y extras seleccionados para esta habitación
       const serviciosSeleccionados =
@@ -378,37 +389,6 @@ export class ReservasPageComponent {
           idServicio: 17,
         });
       }
-      // // Recorrer y procesar los servicios seleccionados
-      // for (const habitacionId in this.selectedServicios) {
-      //   if (this.selectedServicios.hasOwnProperty(habitacionId)) {
-      //     this.selectedServicios[habitacionId].forEach((servicioId) => {
-      //       if (Array.isArray(servicioId)) {
-      //         return;
-      //       } else {
-      //         this.reservaHabitacionServicios.push({
-      //           idHabitacion: parseInt(habitacionId, 10),
-      //           idServicio: servicioId,
-      //         });
-      //       }
-      //     });
-      //   }
-      // }
-
-      // // Recorrer y procesar los extras seleccionados
-      // for (const habitacionId in this.selectedExtras) {
-      //   if (this.selectedExtras.hasOwnProperty(habitacionId)) {
-      //     this.selectedExtras[habitacionId].forEach((extraId) => {
-      //       if (Array.isArray(extraId)) {
-      //         return;
-      //       } else {
-      //         this.reservaHabitacionServicios.push({
-      //           idHabitacion: parseInt(habitacionId, 10),
-      //           idServicio: extraId,
-      //         });
-      //       }
-      //     });
-      //   }
-      // }
     }
     if (this.reservaHabitacionServicios.length === 0) {
       Swal.fire(
@@ -418,6 +398,31 @@ export class ReservasPageComponent {
       );
       return;
     }
+  }
+
+  agruparHabitaciones() {
+    const habitacionesMap = new Map<number, any>();
+
+    this.reservaHabitacionServicios.forEach((servicio) => {
+      if (!habitacionesMap.has(servicio.idHabitacion)) {
+        const habitacionReserva = this.reserva?.reservaHabitacionServicios.find(
+          (h) => h.idHabitacion === servicio.idHabitacion
+        );
+
+        habitacionesMap.set(servicio.idHabitacion, {
+          idHabitacion: servicio.idHabitacion,
+          tipoHabitacion: habitacionReserva!.tipoHabitacion,
+          servicios: [],
+        });
+      }
+      const habitacion = habitacionesMap.get(servicio.idHabitacion);
+      const servicioNombre =
+        this.servicios.find((s) => s.id === servicio.idServicio)?.nombre ||
+        'Desconocido';
+      habitacion.servicios.push(servicioNombre);
+    });
+
+    this.habitacionesAgrupadas = Array.from(habitacionesMap.values());
   }
 
   resetForm() {
@@ -432,6 +437,8 @@ export class ReservasPageComponent {
     this.selectedServicios = {};
     this.selectedExtras = {};
     this.habitacionesDisponibles = [];
+    this.selectedHabitaciones = [];
+    this.habitacionesAgrupadas = [];
     this.paginatedHabitaciones = [];
     this.reservaHabitacionServicios = [];
     this.reserva = null;

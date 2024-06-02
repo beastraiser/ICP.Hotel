@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../../auth/services/auth.service';
+import { AuthStatus } from '../../../auth/interfaces';
 
 @Component({
   selector: 'dashboard-footer',
@@ -7,4 +9,17 @@ import { Component } from '@angular/core';
 })
 export class DashboardFooterComponent {
   year = new Date().getFullYear();
+
+  private authService = inject(AuthService);
+
+  isAuthenticated() {
+    if (this.authService.authStatus() === AuthStatus.authenticated) {
+      return true;
+    }
+    return false;
+  }
+
+  logout() {
+    return this.authService.logout();
+  }
 }

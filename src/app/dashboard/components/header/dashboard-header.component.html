@@ -1,11 +1,4 @@
 <nav class="navbar navbar-expand-md p-4" data-bs-theme="dark">
-  <!-- <a class="navbar-brand me-2" routerLink="/dashboard"
-      ><img
-        src="assets/images/pwa.svg"
-        width="60"
-        height="60"
-        alt="Angular Logo"
-    /></a> -->
   <button
     class="navbar-toggler"
     type="button"
@@ -23,44 +16,16 @@
   >
     <ul class="navbar-nav mb-2 mb-lg-0">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" routerLink="">Inicio</a>
+        <a class="nav-link active" aria-current="page" routerLink="reservas"
+          >Inicio</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="">Reservas</a>
+        <a class="nav-link" routerLink="panel">Reservas</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="">Información</a>
       </li>
     </ul>
   </div>
-  <ng-container *ngIf="!isAuthenticated(); else loggedIn">
-    <ul class="navbar-nav mb-2 mb-lg-0 gap-2 hide">
-      <li class="nav-item">
-        <button mat-fab extended aria-label="Key icon" routerLink="/auth">
-          <mat-icon>login</mat-icon><span class="button-text">Login</span>
-        </button>
-      </li>
-      <li class="nav-item">
-        <button
-          mat-fab
-          extended
-          aria-label="Key icon"
-          routerLink="/auth/register"
-          color="basic"
-        >
-          <mat-icon>person</mat-icon><span class="button-text">Registro</span>
-        </button>
-      </li>
-    </ul>
-  </ng-container>
-
-  <ng-template #loggedIn>
-    <ul class="navbar-nav mb-2 mb-lg-0 gap-2">
-      <li class="nav-item">
-        <button mat-fab extended aria-label="Key icon" (click)="logout()">
-          <mat-icon>logout</mat-icon><span class="button-text">Logout</span>
-        </button>
-      </li>
-    </ul>
-  </ng-template>
 </nav>
