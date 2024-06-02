@@ -1,4 +1,6 @@
-<div class="row justify-content-center align-content-center content-display">
+<div
+  class="row justify-content-center align-content-center content-display my-5"
+>
   <div class="col col-sm-10 col-md-10 col-lg-10">
     <!-- Paso 1: Datos de la reserva -->
     <mat-stepper
@@ -82,20 +84,35 @@
                     isHabitacionSeleccionada(habitacion)
                 }"
               >
-                <mat-card-header>
+                <mat-card-header class="p-3">
                   <mat-card-title>Nº {{ habitacion.id }}</mat-card-title>
                   <mat-card-subtitle>{{
-                    habitacion.categoriaTipo
+                    habitacion.categoriaTipo | titlecase
                   }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>{{ habitacion.numeroCamas }} camas</p>
-                  <p>{{ habitacion.maximoPersonas }} personas</p>
-                  <p>
-                    {{
-                      habitacion.costeNoche | currency : "EUR" : "symbol"
-                    }}/noche
-                  </p>
+                  <div class="row my-4 align-content-center">
+                    <div class="col">
+                      <p>
+                        <strong>Camas: </strong>{{ habitacion.numeroCamas }}
+                      </p>
+                      <p>
+                        <strong>Máximo personas: </strong
+                        >{{ habitacion.maximoPersonas }}
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p
+                        class="d-flex align-items-center h-100 justify-content-center fs-4 price"
+                      >
+                        <strong
+                          >{{
+                            habitacion.costeNoche | currency : "EUR" : "symbol"
+                          }}/noche</strong
+                        >
+                      </p>
+                    </div>
+                  </div>
                   <mat-form-field class="w-100">
                     <mat-label>Servicios</mat-label>
                     <mat-select
@@ -211,9 +228,9 @@
             <!-- Formulario para usuarios que tienen cuenta -->
             <div
               *ngIf="hasAccountForm"
-              class="row justify-content-center flex-wrap mt-3"
+              class="row justify-content-center flex-wrap mt-3 gap-1"
             >
-              <mat-form-field class="col min-width">
+              <mat-form-field class="col min-width p-0">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" required formControlName="email" />
               </mat-form-field>
@@ -285,58 +302,121 @@
       <!-- Paso 4: Confirmación -->
       <mat-step color="accent">
         <ng-template matStepLabel>Confirmación</ng-template>
-        <p>Confirmación de la reserva.</p>
+        <p class="fs-4 text-center">¡Todo listo!</p>
         <div class="row justify-content-center flex-wrap mt-3">
-          <mat-card *ngIf="reserva">
+          <mat-card *ngIf="reserva" class="mb-3 p-0 col-8">
             <mat-card-header>
-              <mat-card-title>Reserva #{{ reserva.id }}</mat-card-title>
-              <mat-card-subtitle
-                >{{ reserva.nombreCliente }}
-                {{ reserva.apellidosCliente }}</mat-card-subtitle
-              >
+              <!-- <div mat-card-avatar class="example-header-image"></div> -->
+              <mat-card-title>Nº Reserva: {{ reserva.id }}</mat-card-title>
+              <mat-card-subtitle class="mb-1">
+                {{ reserva.nombreCliente }} {{ reserva.apellidosCliente }}
+              </mat-card-subtitle>
             </mat-card-header>
-
-            <mat-card-content>
+            <mat-card-content class="mt-2 fs-5">
               <p>
-                <strong>Fecha de Inicio:</strong>
-                {{ reserva.fechaInicio | date }}
-              </p>
-              <p>
-                <strong>Fecha de Fin:</strong> {{ reserva.fechaFin | date }}
+                <strong>Fechas:</strong> {{ reserva.fechaInicio | date }} -
+                {{ reserva.fechaFin | date }}
               </p>
               <p>
                 <strong>Coste Total:</strong>
                 {{ reserva.costeTotal | currency }}
               </p>
-
-              <div *ngFor="let rhs of reserva.reservaHabitacionServicios">
-                <mat-card>
+              <div class="row gap-3 p-4">
+                <mat-card
+                  *ngFor="let habitacion of habitacionesAgrupadas"
+                  class="col p-0"
+                >
                   <mat-card-header>
-                    <mat-card-title
-                      >Habitación #{{ rhs.idHabitacion }}</mat-card-title
-                    >
-                    <mat-card-subtitle>{{
-                      rhs.tipoHabitacion
-                    }}</mat-card-subtitle>
+                    <mat-card-title>
+                      Habitación <strong>{{ habitacion.idHabitacion }}</strong>
+                    </mat-card-title>
                   </mat-card-header>
-
-                  <mat-card-content>
-                    <p><strong>Servicio:</strong> {{ rhs.nombreServicio }}</p>
+                  <mat-card-content class="mt-1">
+                    <p>
+                      <strong>Tipo Habitación:</strong>
+                      {{ habitacion.tipoHabitacion }}
+                    </p>
+                    <p>
+                      <strong>Servicios:</strong>
+                      <span
+                        *ngFor="
+                          let servicio of habitacion.servicios;
+                          let i = index
+                        "
+                      >
+                        {{ servicio
+                        }}<span *ngIf="i < habitacion.servicios.length - 1"
+                          >,
+                        </span>
+                      </span>
+                    </p>
                   </mat-card-content>
                 </mat-card>
-                <br />
               </div>
             </mat-card-content>
           </mat-card>
-          <button mat-button *ngIf="!reserva" (click)="crearReserva()">
+
+          <!-- <mat-card *ngIf="reserva" class="mb-3 p-0 col-8">
+            <mat-card-header>
+
+              <mat-card-title>Nº Reserva: {{ reserva.id }}</mat-card-title>
+              <mat-card-subtitle class="mb-1"
+                >{{ reserva.nombreCliente }}
+                {{ reserva.apellidosCliente }}</mat-card-subtitle
+              >
+            </mat-card-header>
+            <mat-card-content class="mt-2 fs-5">
+              <p>
+                <strong>Fechas:</strong> {{ reserva.fechaInicio | date }} -
+                {{ reserva.fechaFin | date }}
+              </p>
+              <p>
+                <strong>Coste Total:</strong>
+                {{ reserva.costeTotal | currency }}
+              </p>
+              <div class="row gap-3 p-4">
+                <mat-card
+                  *ngFor="let habitacion of reserva.reservaHabitacionServicios"
+                  class="col p-0"
+                >
+                  <mat-card-header>
+                    <mat-card-title
+                      >Habitación
+                      <strong>{{
+                        habitacion.idHabitacion
+                      }}</strong></mat-card-title
+                    >
+                  </mat-card-header>
+                  <mat-card-content class="mt-1"
+                    ><p>
+                      <strong>Tipo Habitación:</strong>
+                      {{ habitacion.tipoHabitacion }}
+                    </p>
+                    <p>
+                      <strong>Servicio:</strong> {{ habitacion.nombreServicio }}
+                    </p></mat-card-content
+                  >
+                </mat-card>
+              </div>
+            </mat-card-content>
+          </mat-card> -->
+
+          <button
+            *ngIf="!reserva"
+            mat-flat-button
+            color="accent"
+            (click)="crearReserva()"
+          >
             Finalizar Reserva
           </button>
+
           <div>
             <button
               mat-stroked-button
               color="basic"
               class="mx-1"
               matStepperPrevious
+              [disabled]="reserva"
             >
               Back
             </button>

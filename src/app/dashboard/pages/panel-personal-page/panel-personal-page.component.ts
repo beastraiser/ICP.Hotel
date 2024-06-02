@@ -7,6 +7,9 @@ import { DashboardService } from '../../services/dashboard.service';
 import { DatePipe } from '@angular/common';
 import { ValidatorsService } from '../../../shared/validators/validators.service';
 import { AuthStatus } from '../../../auth/interfaces';
+import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { EditarReservaModalComponent } from '../../components/editar-reserva-modal/editar-reserva-modal.component';
 
 @Component({
   selector: 'dashboard-panel-personal-page',
@@ -20,6 +23,7 @@ export class PanelPersonalPageComponent implements OnInit {
   private dashboardService = inject(DashboardService);
   private validatorsService = inject(ValidatorsService);
   private datePipe = inject(DatePipe);
+  private dialog = inject(MatDialog);
 
   public reservas: Reserva[] = [];
 
@@ -32,8 +36,6 @@ export class PanelPersonalPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkUserLoggedIn();
-    localStorage.setItem('ruta', '/reservas/panel');
-    // this.router.navigateByUrl('/reservas/panel');
   }
 
   public myReservasCheckForm: FormGroup = this.fb.group({
@@ -58,7 +60,13 @@ export class PanelPersonalPageComponent implements OnInit {
       this.authService.authStatus() === AuthStatus.authenticated;
     if (this.isLoggedIn) {
       this.userId = parseInt(localStorage.getItem('idUsuario')!);
+      this.dashboardService.obtenerClienteConUsuario(this.userId).subscribe({
+        next: (cliente) => {
+          localStorage.setItem('idCliente', `${cliente.idCliente}`);
+        },
+      });
       this.obtenerReservasPorUsuario();
+      this.checked = true;
     }
     return;
   }
@@ -81,6 +89,12 @@ export class PanelPersonalPageComponent implements OnInit {
     return this.dashboardService.obtenerUsuarioPorEmail(email).subscribe({
       next: (usuario) => {
         this.userId = usuario.id;
+        localStorage.setItem('idUsuario', `${this.userId}`);
+        this.dashboardService.obtenerClienteConUsuario(this.userId).subscribe({
+          next: (cliente) => {
+            localStorage.setItem('idCliente', `${cliente.idCliente}`);
+          },
+        });
         this.obtenerReservasPorUsuario();
         this.checked = true;
       },
@@ -95,6 +109,8 @@ export class PanelPersonalPageComponent implements OnInit {
     return this.dashboardService.obtenerClientePorDni(DNI).subscribe({
       next: (cliente) => {
         this.clientId = cliente.id;
+        localStorage.setItem('idCliente', `${this.clientId}`);
+        localStorage.setItem('idUsuario', '1');
         this.obtenerReservasPorCliente();
         this.checked = true;
       },
@@ -109,7 +125,17 @@ export class PanelPersonalPageComponent implements OnInit {
       .obtenerReservasPorCliente(this.clientId)
       .subscribe({
         next: (reservas) => {
-          this.reservas = reservas;
+          if (reservas) {
+            this.reservas = reservas.filter(
+              (reservas) => reservas.cancelada === false
+            );
+          } else {
+            Swal.fire(
+              'Error',
+              'No se han encontrado reservas a su nombre',
+              'error'
+            );
+          }
         },
         error: (msg) => {
           console.log(`obtenerReservasPorCliente(): ${msg}`);
@@ -122,11 +148,60 @@ export class PanelPersonalPageComponent implements OnInit {
       .obtenerReservasPorUsuario(this.userId)
       .subscribe({
         next: (reservas) => {
-          this.reservas = reservas;
+          if (reservas) {
+            this.reservas = reservas.filter(
+              (reservas) => reservas.cancelada === false
+            );
+          } else {
+            Swal.fire(
+              'Error',
+              'No se han encontrado reservas a su nombre',
+              'error'
+            );
+          }
         },
         error: (msg) => {
           console.log(`obtenerReservasPorUsuario(): ${msg}`);
         },
       });
   }
+
+  cancelarReserva(id: number) {
+    this.dashboardService.cancelarReserva(id).subscribe({
+      next: (result) => {
+        if (result) {
+          Swal.fire(
+            'Cancelación exitosa',
+            'La reserva ha sido cancelada con éxito',
+            'success'
+          );
+          this.reservas = this.reservas.filter((reserva) => reserva.id !== id);
+        } else {
+          Swal.fire('Error', 'No se pudo cancelar la reserva', 'error');
+        }
+      },
+      error: (error) => {
+        Swal.fire(
+          'Error',
+          'Ha ocurrido un error al cancelar la reserva',
+          'error'
+        );
+        console.error('Error al cancelar la reserva:', error);
+      },
+    });
+  }
+
+  // openEditModal(reserva: Reserva): void {
+  //   const dialogRef = this.dialog.open(EditarReservaModalComponent, {
+  //     width: '400px',
+  //     data: { reserva },
+  //   });
+
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       // Lógica para actualizar la lista de reservas después de editar
+  //       this.loadReservas();
+  //     }
+  //   });
+  // }
 }

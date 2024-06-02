@@ -53,14 +53,23 @@ export class ReservasPageComponent {
   public userId: number = 0;
   public clientId: number = 0;
 
-  public myDisponiblilidadForm: FormGroup = this.fb.group({
-    fechaInicio: [
-      '',
-      [Validators.required, this.validatorsService.isValidDate],
-    ],
-    fechaFin: ['', [Validators.required, this.validatorsService.isValidDate]],
-    maximoPersonas: ['', [Validators.required, Validators.min(1)]],
-  });
+  public habitacionesAgrupadas: any[] = [];
+
+  public myDisponiblilidadForm: FormGroup = this.fb.group(
+    {
+      fechaInicio: [
+        '',
+        [Validators.required, this.validatorsService.isValidDate],
+      ],
+      fechaFin: ['', [Validators.required, this.validatorsService.isValidDate]],
+      maximoPersonas: ['', [Validators.required, Validators.min(1)]],
+    },
+    {
+      validators: [
+        this.validatorsService.isValidInterval('fechaInicio', 'fechaFin'),
+      ],
+    }
+  );
 
   public myHabitacionesServiciosForm: FormGroup = this.fb.group({
     habitacionSeleccionada: ['', Validators.required],
@@ -325,6 +334,7 @@ export class ReservasPageComponent {
       .subscribe({
         next: (reserva) => {
           this.reserva = reserva;
+          this.agruparHabitaciones();
           Swal.fire(
             '¡Enhorabuena!',
             'Su reserva ha sido creada con éxito',
@@ -339,7 +349,8 @@ export class ReservasPageComponent {
   }
 
   generarDatosReserva() {
-    // Recorre todas las habitaciones seleccionadas
+    this.reservaHabitacionServicios = [];
+
     for (const habitacion of this.selectedHabitaciones) {
       // Obtiene los servicios y extras seleccionados para esta habitación
       const serviciosSeleccionados =
@@ -389,6 +400,31 @@ export class ReservasPageComponent {
     }
   }
 
+  agruparHabitaciones() {
+    const habitacionesMap = new Map<number, any>();
+
+    this.reservaHabitacionServicios.forEach((servicio) => {
+      if (!habitacionesMap.has(servicio.idHabitacion)) {
+        const habitacionReserva = this.reserva?.reservaHabitacionServicios.find(
+          (h) => h.idHabitacion === servicio.idHabitacion
+        );
+
+        habitacionesMap.set(servicio.idHabitacion, {
+          idHabitacion: servicio.idHabitacion,
+          tipoHabitacion: habitacionReserva!.tipoHabitacion,
+          servicios: [],
+        });
+      }
+      const habitacion = habitacionesMap.get(servicio.idHabitacion);
+      const servicioNombre =
+        this.servicios.find((s) => s.id === servicio.idServicio)?.nombre ||
+        'Desconocido';
+      habitacion.servicios.push(servicioNombre);
+    });
+
+    this.habitacionesAgrupadas = Array.from(habitacionesMap.values());
+  }
+
   resetForm() {
     this.myDatosPersonalesForm.reset();
     this.myDisponiblilidadForm.reset();
@@ -401,6 +437,8 @@ export class ReservasPageComponent {
     this.selectedServicios = {};
     this.selectedExtras = {};
     this.habitacionesDisponibles = [];
+    this.selectedHabitaciones = [];
+    this.habitacionesAgrupadas = [];
     this.paginatedHabitaciones = [];
     this.reservaHabitacionServicios = [];
     this.reserva = null;

@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PanelPersonalPageComponent } from './pages/panel-personal-page/panel-personal-page.component';
 import { ReservaCardComponentComponent } from './components/reserva-card-component/reserva-card-component.component';
 import { SharedModule } from '../shared/shared.module';
+import { EditarReservaModalComponent } from './components/editar-reserva-modal/editar-reserva-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     ReservasPageComponent,
     PanelPersonalPageComponent,
     ReservaCardComponentComponent,
+    EditarReservaModalComponent,
   ],
   imports: [
     CommonModule,

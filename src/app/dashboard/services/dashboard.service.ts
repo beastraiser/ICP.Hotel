@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { HabitacionDisponible } from '../interfaces/habitaciones-disponibles.interface';
 import { Servicio } from '../interfaces/servicios.interface';
 import { ClienteUsuario } from '../interfaces/cliente-usuario.interface';
@@ -125,6 +125,38 @@ export class DashboardService {
 
     return this.http.post<ClienteDatos>(url, body).pipe(
       tap((x) => console.log(x)),
+      catchError((err) => throwError(() => err.error.message))
+    );
+  }
+
+  cancelarReserva(id: number): Observable<boolean> {
+    const url = `${this.baseUrl}/reservas/${id}/cancelar`;
+
+    return this.http.put(url, {}).pipe(
+      map(() => true),
+      catchError((err) => throwError(() => err.error.message))
+    );
+  }
+
+  actualizarReserva(
+    id: number,
+    reservaHabitacionServicios: Rhs[],
+    idCliente: number,
+    idUsuario: number,
+    fechaInicio: string,
+    fechaFin: string
+  ): Observable<boolean> {
+    const url = `${this.baseUrl}/reservas/${id}`;
+    const body = {
+      reservaHabitacionServicios,
+      idCliente,
+      idUsuario,
+      fechaInicio,
+      fechaFin,
+    };
+
+    return this.http.put(url, body).pipe(
+      map(() => true),
       catchError((err) => throwError(() => err.error.message))
     );
   }

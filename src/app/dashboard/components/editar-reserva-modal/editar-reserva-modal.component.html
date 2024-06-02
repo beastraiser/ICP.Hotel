@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Editar Reserva</h1>
+<div mat-dialog-content>
+  <form [formGroup]="editReservaForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha Inicio</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="fechaInicio" />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha Fin</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="fechaFin" />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <div formArrayName="reservaHabitacionServicios">
+      <div
+        *ngFor="
+          let servicio of editReservaForm
+            .get('reservaHabitacionServicios')
+            ?.getRawValue() || [];
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <mat-form-field appearance="fill">
+          <mat-label>Id Habitacion</mat-label>
+          <input matInput formControlName="idHabitacion" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Id Servicio</mat-label>
+          <input matInput formControlName="idServicio" />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-button color="primary" (click)="onSave()">Guardar</button>
+</div>

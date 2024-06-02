@@ -1,3 +1,19 @@
 .min-width {
   min-width: 150px;
 }
+
+.reservas-bg {
+  background: rgba(245, 230, 200, 0.95);
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.content-display {
+  min-height: 80vh;
+}
+
+.button-size {
+  height: 70px;
+  width: 140px;
+}

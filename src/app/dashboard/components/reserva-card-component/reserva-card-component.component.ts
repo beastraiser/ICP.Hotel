@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Reserva } from '../../interfaces/reservaPost.interface';
 
 @Component({
@@ -9,8 +9,15 @@ import { Reserva } from '../../interfaces/reservaPost.interface';
 export class ReservaCardComponentComponent implements OnInit {
   @Input()
   public reserva!: Reserva;
+  public reservaButtons!: boolean;
+
+  @Output() cancelar = new EventEmitter<number>();
 
   ngOnInit(): void {
     if (!this.reserva) throw Error('Usted no tiene reservas');
+  }
+
+  onCancelarReserva() {
+    this.cancelar.emit(this.reserva.id);
   }
 }
