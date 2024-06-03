@@ -30,38 +30,34 @@ export class DashboardService {
     const url = `${this.baseUrl}/habitaciones/fechas`;
     const body = { fechaInicio, fechaFin, maximoPersonas };
 
-    return this.http.post<HabitacionDisponible[]>(url, body).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
-    );
+    return this.http
+      .post<HabitacionDisponible[]>(url, body)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
   mostrarServicios(): Observable<Servicio[]> {
     const url = `${this.baseUrl}/servicios/lista`;
 
-    return this.http.get<Servicio[]>(url).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
-    );
+    return this.http
+      .get<Servicio[]>(url)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
   obtenerClienteConUsuario(idUsuario: number): Observable<ClienteUsuario> {
     const url = `${this.baseUrl}/registro/usuario/${idUsuario}`;
 
-    return this.http.get<ClienteUsuario>(url).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
-    );
+    return this.http
+      .get<ClienteUsuario>(url)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
   obtenerUsuarioPorEmail(email: string): Observable<UsuarioDatos> {
     const url = `${this.baseUrl}/usuarios/email`;
     const body = { email };
 
-    return this.http.post<UsuarioDatos>(url, body).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
-    );
+    return this.http
+      .post<UsuarioDatos>(url, body)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
   crearCliente(
@@ -73,10 +69,9 @@ export class DashboardService {
     const url = `${this.baseUrl}/clientes`;
     const body = { dni, telefono, nombre, apellidos };
 
-    return this.http.post<ClienteDatos>(url, body).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
-    );
+    return this.http
+      .post<ClienteDatos>(url, body)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
   crearReserva(
@@ -95,38 +90,38 @@ export class DashboardService {
       fechaFin,
     };
 
-    return this.http.post<Reserva>(url, body).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
-    );
+    return this.http
+      .post<Reserva>(url, body)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
   obtenerReservasPorUsuario(idUsuario: number): Observable<Reserva[]> {
     const url = `${this.baseUrl}/reservas/usuario/${idUsuario}`;
 
     return this.http.get<Reserva[]>(url).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
+      catchError((err) => {
+        return throwError(
+          () => new Error(err.error.message || 'Error desconocido')
+        );
+      })
     );
   }
 
   obtenerReservasPorCliente(idCliente: number): Observable<Reserva[]> {
     const url = `${this.baseUrl}/reservas/cliente/${idCliente}`;
 
-    return this.http.get<Reserva[]>(url).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
-    );
+    return this.http
+      .get<Reserva[]>(url)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
   obtenerClientePorDni(dni: string): Observable<ClienteDatos> {
     const url = `${this.baseUrl}/clientes/dni`;
     const body = { dni };
 
-    return this.http.post<ClienteDatos>(url, body).pipe(
-      tap((x) => console.log(x)),
-      catchError((err) => throwError(() => err.error.message))
-    );
+    return this.http
+      .post<ClienteDatos>(url, body)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
   cancelarReserva(id: number): Observable<boolean> {
@@ -159,5 +154,12 @@ export class DashboardService {
       map(() => true),
       catchError((err) => throwError(() => err.error.message))
     );
+  }
+
+  getReservationById(id: number): Observable<Reserva> {
+    const url = `${this.baseUrl}/reservas/${id}`;
+    return this.http
+      .get<Reserva>(url)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 }

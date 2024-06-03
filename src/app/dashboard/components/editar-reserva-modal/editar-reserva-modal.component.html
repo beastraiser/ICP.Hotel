@@ -1,44 +1,54 @@
-<h1 mat-dialog-title>Editar Reserva</h1>
-<div mat-dialog-content>
-  <form [formGroup]="editReservaForm">
+<h1 mat-dialog-title class="dialog-title text-center">Editar Reserva</h1>
+<div mat-dialog-content class="dialog-content">
+  <form [formGroup]="reservationForm">
     <mat-form-field appearance="fill">
-      <mat-label>Fecha Inicio</mat-label>
-      <input matInput [matDatepicker]="picker1" formControlName="fechaInicio" />
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
+      <mat-label>Seleccione el rango de fechas</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input
+          matStartDate
+          required
+          formControlName="fechaInicio"
+          placeholder="Fecha Inicio"
+          class="date-input"
+        />
+        <input
+          matEndDate
+          required
+          formControlName="fechaFin"
+          placeholder="Fecha Fin"
+          class="date-input"
+        />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+        class="datepicker-toggle"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker
+        #picker
+        class="date-range-picker"
+      ></mat-date-range-picker>
     </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Fecha Fin</mat-label>
-      <input matInput [matDatepicker]="picker2" formControlName="fechaFin" />
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
-
-    <div formArrayName="reservaHabitacionServicios">
-      <div
-        *ngFor="
-          let servicio of editReservaForm
-            .get('reservaHabitacionServicios')
-            ?.getRawValue() || [];
-          let i = index
-        "
-        [formGroupName]="i"
-      >
-        <mat-form-field appearance="fill">
-          <mat-label>Id Habitacion</mat-label>
-          <input matInput formControlName="idHabitacion" />
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Id Servicio</mat-label>
-          <input matInput formControlName="idServicio" />
-        </mat-form-field>
-      </div>
-    </div>
   </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancelar</button>
-  <button mat-button color="primary" (click)="onSave()">Guardar</button>
+<div mat-dialog-actions class="dialog-actions w-100">
+  <button
+    mat-flat-button
+    color="primary"
+    class="w-100"
+    (click)="guardarCambios()"
+    class="save-button"
+  >
+    Guardar
+  </button>
+  <button
+    mat-flat-button
+    color="warn"
+    class="w-100"
+    (click)="cerrarModal()"
+    class="cancel-button"
+  >
+    Cancelar
+  </button>
 </div>

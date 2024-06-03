@@ -1,6 +1,5 @@
 <mat-card *ngIf="reserva; else sinReservas" class="mb-3">
   <mat-card-header>
-    <!-- <div mat-card-avatar class="example-header-image"></div> -->
     <mat-card-title>Nº Reserva: {{ reserva.id }}</mat-card-title>
     <mat-card-subtitle
       >{{ reserva.nombreCliente }}
@@ -14,7 +13,12 @@
     </p>
     <p><strong>Cancelada:</strong> {{ reserva.cancelada ? "Sí" : "No" }}</p>
     <p><strong>Coste Total:</strong> {{ reserva.costeTotal | currency }}</p>
-    <div *ngFor="let habitacion of reserva.reservaHabitacionServicios">
+    <div
+      *ngFor="
+        let habitacion of reserva.reservaHabitacionServicios;
+        let i = index
+      "
+    >
       <hr />
       <h5>
         Habitación <strong>{{ habitacion.idHabitacion }}</strong>
@@ -24,7 +28,14 @@
     </div>
   </mat-card-content>
   <mat-card-actions class="justify-content-center gap-1">
-    <button mat-flat-button color="primary" class="w-100">Editar</button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="w-100"
+      (click)="openEditarReservaModal()"
+    >
+      Editar Fechas
+    </button>
     <button
       mat-flat-button
       color="warn"

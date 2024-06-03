@@ -137,8 +137,8 @@ export class PanelPersonalPageComponent implements OnInit {
             );
           }
         },
-        error: (msg) => {
-          console.log(`obtenerReservasPorCliente(): ${msg}`);
+        error: (message) => {
+          console.log(`obtenerReservasPorCliente(): ${message}`);
         },
       });
   }
@@ -148,20 +148,12 @@ export class PanelPersonalPageComponent implements OnInit {
       .obtenerReservasPorUsuario(this.userId)
       .subscribe({
         next: (reservas) => {
-          if (reservas) {
-            this.reservas = reservas.filter(
-              (reservas) => reservas.cancelada === false
-            );
-          } else {
-            Swal.fire(
-              'Error',
-              'No se han encontrado reservas a su nombre',
-              'error'
-            );
-          }
+          this.reservas = reservas.filter(
+            (reservas) => reservas.cancelada === false
+          );
         },
-        error: (msg) => {
-          console.log(`obtenerReservasPorUsuario(): ${msg}`);
+        error: (message) => {
+          console.log(`obtenerReservasPorUsuario(): ${message}`);
         },
       });
   }
@@ -190,18 +182,4 @@ export class PanelPersonalPageComponent implements OnInit {
       },
     });
   }
-
-  // openEditModal(reserva: Reserva): void {
-  //   const dialogRef = this.dialog.open(EditarReservaModalComponent, {
-  //     width: '400px',
-  //     data: { reserva },
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result) {
-  //       // Lógica para actualizar la lista de reservas después de editar
-  //       this.loadReservas();
-  //     }
-  //   });
-  // }
 }

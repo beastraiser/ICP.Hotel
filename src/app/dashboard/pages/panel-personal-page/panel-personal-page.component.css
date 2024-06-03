@@ -17,3 +17,7 @@
   height: 70px;
   width: 140px;
 }
+
+.bg-transparent {
+  background: transparent;
+}

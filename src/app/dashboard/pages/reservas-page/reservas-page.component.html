@@ -356,51 +356,6 @@
             </mat-card-content>
           </mat-card>
 
-          <!-- <mat-card *ngIf="reserva" class="mb-3 p-0 col-8">
-            <mat-card-header>
-
-              <mat-card-title>Nº Reserva: {{ reserva.id }}</mat-card-title>
-              <mat-card-subtitle class="mb-1"
-                >{{ reserva.nombreCliente }}
-                {{ reserva.apellidosCliente }}</mat-card-subtitle
-              >
-            </mat-card-header>
-            <mat-card-content class="mt-2 fs-5">
-              <p>
-                <strong>Fechas:</strong> {{ reserva.fechaInicio | date }} -
-                {{ reserva.fechaFin | date }}
-              </p>
-              <p>
-                <strong>Coste Total:</strong>
-                {{ reserva.costeTotal | currency }}
-              </p>
-              <div class="row gap-3 p-4">
-                <mat-card
-                  *ngFor="let habitacion of reserva.reservaHabitacionServicios"
-                  class="col p-0"
-                >
-                  <mat-card-header>
-                    <mat-card-title
-                      >Habitación
-                      <strong>{{
-                        habitacion.idHabitacion
-                      }}</strong></mat-card-title
-                    >
-                  </mat-card-header>
-                  <mat-card-content class="mt-1"
-                    ><p>
-                      <strong>Tipo Habitación:</strong>
-                      {{ habitacion.tipoHabitacion }}
-                    </p>
-                    <p>
-                      <strong>Servicio:</strong> {{ habitacion.nombreServicio }}
-                    </p></mat-card-content
-                  >
-                </mat-card>
-              </div>
-            </mat-card-content>
-          </mat-card> -->
-
           <button
             *ngIf="!reserva"
             mat-flat-button

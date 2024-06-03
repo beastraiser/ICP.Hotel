@@ -14,7 +14,7 @@ const routes: Routes = [
       { path: 'panel', component: PanelPersonalPageComponent },
       { path: '404', component: Error404PageComponent },
       { path: '', redirectTo: 'reservas', pathMatch: 'full' },
-      // { path: '**', redirectTo: '404' },
+      { path: '**', redirectTo: '404', pathMatch: 'full' },
     ],
   },
 ];

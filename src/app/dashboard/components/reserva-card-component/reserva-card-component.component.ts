@@ -1,12 +1,36 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import { Reserva } from '../../interfaces/reservaPost.interface';
+import { AuthService } from '../../../auth/services/auth.service';
+import { Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { DashboardService } from '../../services/dashboard.service';
+import { ValidatorsService } from '../../../shared/validators/validators.service';
+import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { EditarReservaModalComponent } from '../editar-reserva-modal/editar-reserva-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'dashboard-reserva-card-component',
   templateUrl: './reserva-card-component.component.html',
   styleUrl: './reserva-card-component.component.css',
 })
-export class ReservaCardComponentComponent implements OnInit {
+export class ReservaCardComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  private dashboardService = inject(DashboardService);
+  private validatorsService = inject(ValidatorsService);
+  private datePipe = inject(DatePipe);
+  private dialog = inject(MatDialog);
+
   @Input()
   public reserva!: Reserva;
   public reservaButtons!: boolean;
@@ -19,5 +43,42 @@ export class ReservaCardComponentComponent implements OnInit {
 
   onCancelarReserva() {
     this.cancelar.emit(this.reserva.id);
+  }
+
+  openEditarReservaModal() {
+    const dialogRef = this.dialog.open(EditarReservaModalComponent, {
+      width: 'auto',
+      data: { reserva: this.reserva }, // Pasar la reserva al modal
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('El modal se ha cerrado con resultado:', result);
+      if (result) {
+        this.updateReservation(result);
+      }
+      // Aquí puedes manejar el resultado del modal si es necesario
+    });
+  }
+
+  updateReservation(updatedData: any) {
+    this.dashboardService
+      .actualizarReserva(
+        updatedData.id,
+        updatedData.reservaHabitacionServicios,
+        updatedData.idCliente,
+        updatedData.idUsuario,
+        updatedData.fechaInicio,
+        updatedData.fechaFin
+      )
+      .subscribe({
+        next: () => {
+          Swal.fire(
+            '¡Exito!',
+            'Actualice la página para ver las modificaciones',
+            'success'
+          );
+        },
+        error: (err) => console.error('Error actualizando reserva', err),
+      });
   }
 }

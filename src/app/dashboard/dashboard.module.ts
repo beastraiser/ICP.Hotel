@@ -7,9 +7,9 @@ import { DashboardHeaderComponent } from './components/header/dashboard-header.c
 import { DashboardFooterComponent } from './components/footer/dashboard-footer.component';
 import { ReservasPageComponent } from './pages/reservas-page/reservas-page.component';
 import { MaterialModule } from '../material/material.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PanelPersonalPageComponent } from './pages/panel-personal-page/panel-personal-page.component';
-import { ReservaCardComponentComponent } from './components/reserva-card-component/reserva-card-component.component';
+import { ReservaCardComponent } from './components/reserva-card-component/reserva-card-component.component';
 import { SharedModule } from '../shared/shared.module';
 import { EditarReservaModalComponent } from './components/editar-reserva-modal/editar-reserva-modal.component';
 
@@ -20,7 +20,7 @@ import { EditarReservaModalComponent } from './components/editar-reserva-modal/e
     DashboardFooterComponent,
     ReservasPageComponent,
     PanelPersonalPageComponent,
-    ReservaCardComponentComponent,
+    ReservaCardComponent,
     EditarReservaModalComponent,
   ],
   imports: [
@@ -29,6 +29,7 @@ import { EditarReservaModalComponent } from './components/editar-reserva-modal/e
     MaterialModule,
     ReactiveFormsModule,
     SharedModule,
+    FormsModule
   ],
   providers: [DatePipe],
 })

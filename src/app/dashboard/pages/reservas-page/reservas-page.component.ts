@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -23,7 +23,7 @@ import { Reserva } from '../../interfaces/reservaPost.interface';
   templateUrl: './reservas-page.component.html',
   styleUrl: './reservas-page.component.css',
 })
-export class ReservasPageComponent {
+export class ReservasPageComponent implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
@@ -54,6 +54,10 @@ export class ReservasPageComponent {
   public clientId: number = 0;
 
   public habitacionesAgrupadas: any[] = [];
+  public rutaActual: string = '';
+
+  ngOnInit(): void {
+  }
 
   public myDisponiblilidadForm: FormGroup = this.fb.group(
     {
@@ -179,12 +183,6 @@ export class ReservasPageComponent {
     );
   }
 
-  // selectHabitacion(habitacion: HabitacionDisponible) {
-  //   this.myHabitacionesServiciosForm
-  //     .get('habitacionSeleccionada')
-  //     ?.setValue(habitacion);
-  //   this.selectedHabitaciones.push(habitacion);
-  // }
   toggleHabitacionSeleccionada(habitacion: HabitacionDisponible) {
     const index = this.selectedHabitaciones.findIndex(
       (h) => h.id === habitacion.id
