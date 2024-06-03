@@ -4,6 +4,7 @@ import { DashboardLayoutComponent } from './pages/layout/dahsboard-layout.compon
 import { ReservasPageComponent } from './pages/reservas-page/reservas-page.component';
 import { PanelPersonalPageComponent } from './pages/panel-personal-page/panel-personal-page.component';
 import { Error404PageComponent } from '../shared/pages/error404-page/error404-page.component';
+import { InformacionPageComponent } from './pages/informacion-page/informacion-page.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'reservas', component: ReservasPageComponent },
       { path: 'panel', component: PanelPersonalPageComponent },
+      { path: 'info', component: InformacionPageComponent },
       { path: '404', component: Error404PageComponent },
       { path: '', redirectTo: 'reservas', pathMatch: 'full' },
       { path: '**', redirectTo: '404', pathMatch: 'full' },

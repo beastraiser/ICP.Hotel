@@ -12,6 +12,7 @@ import { PanelPersonalPageComponent } from './pages/panel-personal-page/panel-pe
 import { ReservaCardComponent } from './components/reserva-card-component/reserva-card-component.component';
 import { SharedModule } from '../shared/shared.module';
 import { EditarReservaModalComponent } from './components/editar-reserva-modal/editar-reserva-modal.component';
+import { InformacionPageComponent } from './pages/informacion-page/informacion-page.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { EditarReservaModalComponent } from './components/editar-reserva-modal/e
     PanelPersonalPageComponent,
     ReservaCardComponent,
     EditarReservaModalComponent,
+    InformacionPageComponent,
   ],
   imports: [
     CommonModule,
