@@ -32,8 +32,8 @@ mat-card-content p {
 }
 
 mat-stepper {
-  background: rgba(245, 230, 200, 0.95);
-  border-radius: 20px;
+  background: rgba(245, 230, 200, 0.8);
+  border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
@@ -45,4 +45,27 @@ mat-stepper {
 
 .price {
   color: rgba(10, 66, 117, 0.8);
+}
+
+.logged-in-container {
+  background-color: #f0f8ff;
+  border: 1px solid #cce7ff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 500px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-message {
+  font-size: 1.2em;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.confirmation-message {
+  font-size: 1em;
+  color: #333;
+  margin-top: 0;
 }

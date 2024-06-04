@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject, OnInit } from '@angular/core';
+import { Component, ViewChild, inject, OnInit, Signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,7 +14,7 @@ import { HabitacionDisponible } from '../../interfaces/habitaciones-disponibles.
 import { MatStepper } from '@angular/material/stepper';
 import { Servicio } from '../../interfaces/servicios.interface';
 import { Rhs } from '../../interfaces/rhs.interface';
-import { AuthStatus } from '../../../auth/interfaces';
+import { AuthStatus, User } from '../../../auth/interfaces';
 import Swal from 'sweetalert2';
 import { Reserva } from '../../interfaces/reservaPost.interface';
 
@@ -54,10 +54,9 @@ export class ReservasPageComponent implements OnInit {
   public clientId: number = 0;
 
   public habitacionesAgrupadas: any[] = [];
-  public rutaActual: string = '';
+  public currentRol = this.authService.currentUser()?.rol;
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public myDisponiblilidadForm: FormGroup = this.fb.group(
     {
@@ -227,26 +226,50 @@ export class ReservasPageComponent implements OnInit {
   }
 
   checkUserLoggedIn() {
-    this.isLoggedIn =
-      this.authService.authStatus() === AuthStatus.authenticated;
+    if (
+      this.authService.authStatus() === AuthStatus.authenticated &&
+      this.authService.currentUser()?.rol === 'CLIENTE'
+    )
+      this.isLoggedIn =
+        this.authService.authStatus() === AuthStatus.authenticated;
     if (this.isLoggedIn) {
-      const idUsuario = localStorage.getItem('idUsuario');
-      if (idUsuario != null) {
-        this.usuarioLogeado(parseInt(idUsuario));
+      const idUsuario = this.authService.currentUser()?.id;
+      if (idUsuario) {
+        this.usuarioLogeado(idUsuario);
+        // Anulo los campos para que el formulario pase a valid
+        this.myDatosPersonalesForm.get('email')?.setValidators(null);
+        this.myDatosPersonalesForm.get('DNI')?.setValidators(null);
+        this.myDatosPersonalesForm.get('nombre')?.setValidators(null);
+        this.myDatosPersonalesForm.get('apellidos')?.setValidators(null);
+        this.myDatosPersonalesForm.get('telefono')?.setValidators(null);
+
+        this.myDatosPersonalesForm.get('email')?.updateValueAndValidity();
+        this.myDatosPersonalesForm.get('DNI')?.updateValueAndValidity();
+        this.myDatosPersonalesForm.get('nombre')?.updateValueAndValidity();
+        this.myDatosPersonalesForm.get('apellidos')?.updateValueAndValidity();
+        this.myDatosPersonalesForm.get('telefono')?.updateValueAndValidity();
       }
     }
   }
 
   crearCliente() {
-    const { dni, telefono, nombre, apellidos } =
+    const { DNI, telefono, nombre, apellidos } =
       this.myDatosPersonalesForm.value;
 
     return this.dashboardService
-      .crearCliente(dni, telefono, nombre, apellidos)
+      .crearCliente(DNI, telefono, nombre, apellidos)
       .subscribe({
         next: (cliente) => {
           this.clientId = cliente.id;
-          this.userId = 1;
+          // Ruta para el usuario recepcion
+          if (this.authService.authStatus() === AuthStatus.authenticated) {
+            this.userId = this.authService.currentUser()!.id;
+          }
+          // Ruta para el cliente sin cuenta. Se le asigna el usuario invitado
+          else {
+            this.userId = 1;
+          }
+          Swal.fire('Datos enviados con éxito', '', 'success');
         },
         error: (msg) => {
           Swal.fire('Registro fallido', msg, 'error');
@@ -280,6 +303,7 @@ export class ReservasPageComponent implements OnInit {
     return this.dashboardService.obtenerUsuarioPorEmail(email).subscribe({
       next: (usuario) => {
         this.usuarioLogeado(usuario.id);
+        Swal.fire('Datos enviados con éxito', '', 'success');
       },
       error: (msg) => {
         console.log(`usuarioConCuenta(): ${msg}`);
@@ -301,7 +325,6 @@ export class ReservasPageComponent implements OnInit {
   }
 
   onStepChange(event: any) {
-    console.log(this.isLoggedIn);
     const step = event.selectedStep;
     if (step) {
       this.checkUserLoggedIn();

@@ -33,6 +33,7 @@ export class PanelPersonalPageComponent implements OnInit {
   public checked = false;
   public userId: number = 0;
   public clientId: number = 0;
+  public currentRol = this.authService.currentUser()?.rol;
 
   ngOnInit(): void {
     this.checkUserLoggedIn();
@@ -58,28 +59,42 @@ export class PanelPersonalPageComponent implements OnInit {
   checkUserLoggedIn() {
     this.isLoggedIn =
       this.authService.authStatus() === AuthStatus.authenticated;
-    if (this.isLoggedIn) {
-      this.userId = parseInt(localStorage.getItem('idUsuario')!);
+    if (this.isLoggedIn && this.currentRol === 'CLIENTE') {
+      this.myReservasCheckForm.get('email')?.setValidators(null);
+      this.myReservasCheckForm.get('email')?.updateValueAndValidity();
+      this.myReservasCheckForm.get('DNI')?.setValidators(null);
+      this.myReservasCheckForm.get('DNI')?.updateValueAndValidity();
+
+      this.userId = this.authService.currentUser()!.id;
+
       this.dashboardService.obtenerClienteConUsuario(this.userId).subscribe({
         next: (cliente) => {
           localStorage.setItem('idCliente', `${cliente.idCliente}`);
+          this.clientId = cliente.idCliente;
+          this.obtenerReservasPorCliente();
         },
       });
-      this.obtenerReservasPorUsuario();
       this.checked = true;
     }
-    return;
   }
 
   tieneCuenta(hasAccount: boolean) {
     this.askForAccount = false;
     this.hasAccountForm = hasAccount;
     if (!hasAccount) {
-      this.myReservasCheckForm.get('email')?.setValidators(null);
-      this.myReservasCheckForm.get('email')?.updateValueAndValidity();
+      if (this.currentRol === 'RECEPCION') {
+        this.myReservasCheckForm.get('email')?.setValidators(null);
+        this.myReservasCheckForm.get('email')?.updateValueAndValidity();
+      } else {
+        this.router.navigateByUrl('auth/register');
+      }
     } else {
-      this.myReservasCheckForm.get('DNI')?.setValidators(null);
-      this.myReservasCheckForm.get('DNI')?.updateValueAndValidity();
+      if (this.currentRol === 'RECEPCION') {
+        this.myReservasCheckForm.get('DNI')?.setValidators(null);
+        this.myReservasCheckForm.get('DNI')?.updateValueAndValidity();
+      } else {
+        this.router.navigateByUrl('auth/login');
+      }
     }
   }
 
@@ -93,6 +108,7 @@ export class PanelPersonalPageComponent implements OnInit {
         this.dashboardService.obtenerClienteConUsuario(this.userId).subscribe({
           next: (cliente) => {
             localStorage.setItem('idCliente', `${cliente.idCliente}`);
+            this.clientId = cliente.idCliente;
           },
         });
         this.obtenerReservasPorUsuario();

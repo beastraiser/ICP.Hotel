@@ -46,9 +46,13 @@ export class DashboardService {
   obtenerClienteConUsuario(idUsuario: number): Observable<ClienteUsuario> {
     const url = `${this.baseUrl}/registro/usuario/${idUsuario}`;
 
-    return this.http
-      .get<ClienteUsuario>(url)
-      .pipe(catchError((err) => throwError(() => err.error.message)));
+    return this.http.get<ClienteUsuario>(url).pipe(
+      tap((cli) => console.log(cli)),
+      catchError((err) => {
+        console.error('Error:', err);
+        return throwError(() => new Error('Error al obtener los datos'));
+      })
+    );
   }
 
   obtenerUsuarioPorEmail(email: string): Observable<UsuarioDatos> {

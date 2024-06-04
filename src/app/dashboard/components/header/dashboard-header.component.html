@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md p-4" data-bs-theme="dark">
+<nav class="navbar navbar-expand-md p-4">
   <button
     class="navbar-toggler"
     type="button"
@@ -16,15 +16,22 @@
   >
     <ul class="navbar-nav mb-2 mb-lg-0">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" routerLink="reservas"
+        <a
+          class="nav-link"
+          [routerLink]="['reservas']"
+          routerLinkActive="active"
           >Inicio</a
         >
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="panel">Reservas</a>
+        <a class="nav-link" [routerLink]="['panel']" routerLinkActive="active"
+          >Reservas</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="info">Información</a>
+        <a class="nav-link" [routerLink]="['info']" routerLinkActive="active"
+          >Información</a
+        >
       </li>
     </ul>
   </div>

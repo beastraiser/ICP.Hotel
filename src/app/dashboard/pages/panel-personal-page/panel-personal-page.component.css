@@ -1,4 +1,4 @@
-.min-width {
+/* .min-width {
   min-width: 150px;
 }
 
@@ -14,10 +14,57 @@
 }
 
 .button-size {
-  height: 60px;
-  width: 120px;
+  height: 40px;
+  width: 100px;
 }
 
 .bg-transparent {
   background: transparent;
+} */
+/* Define styles for the form on a dark background */
+
+/* Define styles for the content area on a dark background */
+
+.content-display {
+  min-height: 80vh;
+}
+
+.dialog {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.content-display label {
+  color: #fff;
+}
+
+.content-display input {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.content-display mat-icon {
+  color: #fff;
+}
+
+.content-display .mat-card {
+  background: transparent;
+}
+
+.content-display .mat-card-content {
+  color: #fff;
+}
+
+.content-display .mat-flat-button {
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.content-display .mat-flat-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }

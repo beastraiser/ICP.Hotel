@@ -198,9 +198,14 @@
           <ng-template matStepLabel>Datos personales</ng-template>
 
           <ng-container *ngIf="isLoggedIn; else noLogForm">
-            <!-- Campos para usuario logueado -->
-            <p>Ya tenemos tus datos listos, ¡Gracias por Iniciar sesión!</p>
-            <p>Puedes pasar a la confirmación de la reserva</p>
+            <div class="logged-in-container">
+              <p class="welcome-message">
+                Ya tenemos tus datos listos, ¡Gracias por Iniciar sesión!
+              </p>
+              <p class="confirmation-message">
+                Puedes pasar a la confirmación de la reserva
+              </p>
+            </div>
           </ng-container>
 
           <ng-template #noLogForm>
@@ -289,9 +294,7 @@
               color="basic"
               class="mx-1 my-3"
               matStepperNext
-              [disabled]="
-                (!myDatosPersonalesForm.valid && !isLoggedIn) || clientId === 0
-              "
+              [disabled]="!myDatosPersonalesForm.valid || clientId === 0"
             >
               Next
             </button>
@@ -302,7 +305,7 @@
       <!-- Paso 4: Confirmación -->
       <mat-step color="accent">
         <ng-template matStepLabel>Confirmación</ng-template>
-        <p class="fs-4 text-center">¡Todo listo!</p>
+        <p *ngIf="reserva" class="fs-4 text-center">¡Todo listo!</p>
         <div class="row justify-content-center flex-wrap mt-3">
           <mat-card *ngIf="reserva" class="mb-3 p-0 col-8">
             <mat-card-header>

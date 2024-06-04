@@ -17,10 +17,10 @@ dashboard-header {
   }
   50% {
     background: rgba(0, 0, 0, 0.9);
-    transform: scale(0.6) translateY(-20px);
+    transform: scale(0.6) translateY(-50px);
   }
   100% {
     background: rgba(0, 0, 0, 0.9);
-    transform: scale(0.6) translateY(-20px);
+    transform: scale(0.6) translateY(-50px);
   }
 }

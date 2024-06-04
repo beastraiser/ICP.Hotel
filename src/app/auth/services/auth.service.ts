@@ -28,6 +28,7 @@ export class AuthService {
     const currentUser: User = {
       id: user.id,
       email: user.email,
+      rol: user.rol,
     };
     return currentUser;
   }
