@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { ValidatorsService } from '../../../shared/validators/validators.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { DatePipe } from '@angular/common';
-import { DashboardService } from '../../services/dashboard.service';
+import { ReservasService } from '../../services/reservas.service';
 import { HabitacionDisponible } from '../../interfaces/habitaciones-disponibles.interface';
 import { MatStepper } from '@angular/material/stepper';
 import { Servicio } from '../../interfaces/servicios.interface';
@@ -19,15 +19,15 @@ import Swal from 'sweetalert2';
 import { Reserva } from '../../interfaces/reservaPost.interface';
 
 @Component({
-  selector: 'dashboard-reservas-page',
-  templateUrl: './reservas-page.component.html',
-  styleUrl: './reservas-page.component.css',
+  selector: 'reservas-crear-page',
+  templateUrl: './crear-page.component.html',
+  styleUrl: './crear-page.component.css',
 })
-export class ReservasPageComponent implements OnInit {
+export class CrearPageComponent implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
-  private dashboardService = inject(DashboardService);
+  private dashboardService = inject(ReservasService);
   private validatorsService = inject(ValidatorsService);
   private datePipe = inject(DatePipe);
 

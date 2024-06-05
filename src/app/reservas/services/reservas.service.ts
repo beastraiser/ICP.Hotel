@@ -16,7 +16,7 @@ import { Rhs } from '../interfaces/rhs.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class DashboardService {
+export class ReservasService {
   private readonly baseUrl: string = environment.baseUrl;
   private http = inject(HttpClient);
 

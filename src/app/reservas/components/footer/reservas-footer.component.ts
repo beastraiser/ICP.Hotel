@@ -3,11 +3,11 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { AuthStatus } from '../../../auth/interfaces';
 
 @Component({
-  selector: 'dashboard-footer',
-  templateUrl: './dashboard-footer.component.html',
-  styleUrl: './dashboard-footer.component.css',
+  selector: 'reservas-footer',
+  templateUrl: './reservas-footer.component.html',
+  styleUrl: './reservas-footer.component.css',
 })
-export class DashboardFooterComponent {
+export class ReservasFooterComponent {
   year = new Date().getFullYear();
 
   private authService = inject(AuthService);

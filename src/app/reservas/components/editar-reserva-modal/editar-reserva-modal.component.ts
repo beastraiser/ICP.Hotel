@@ -2,7 +2,6 @@ import { Component, Inject, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
-import { DashboardService } from '../../services/dashboard.service';
 import { ValidatorsService } from '../../../shared/validators/validators.service';
 import { DatePipe } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -10,6 +9,7 @@ import Swal from 'sweetalert2';
 import { Servicio } from '../../interfaces/servicios.interface';
 import { NgModel } from '@angular/forms';
 import { Rhs } from '../../interfaces/rhs.interface';
+import { ReservasService } from '../../services/reservas.service';
 
 @Component({
   selector: 'dashboard-editar-reserva-modal',
@@ -24,7 +24,7 @@ export class EditarReservaModalComponent {
 
   constructor(
     private fb: FormBuilder,
-    private dashboardService: DashboardService,
+    private dashboardService: ReservasService,
     private validatorsService: ValidatorsService,
     public dialogRef: MatDialogRef<EditarReservaModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

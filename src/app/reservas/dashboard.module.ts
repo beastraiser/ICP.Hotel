@@ -2,10 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardLayoutComponent } from './pages/layout/dahsboard-layout.component';
-import { DashboardHeaderComponent } from './components/header/dashboard-header.component';
-import { DashboardFooterComponent } from './components/footer/dashboard-footer.component';
-import { ReservasPageComponent } from './pages/reservas-page/reservas-page.component';
+import { ReservasHeaderComponent } from './components/header/reservas-header.component';
+import { ReservasFooterComponent } from './components/footer/reservas-footer.component';
 import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PanelPersonalPageComponent } from './pages/panel-personal-page/panel-personal-page.component';
@@ -13,13 +11,15 @@ import { ReservaCardComponent } from './components/reserva-card-component/reserv
 import { SharedModule } from '../shared/shared.module';
 import { EditarReservaModalComponent } from './components/editar-reserva-modal/editar-reserva-modal.component';
 import { InformacionPageComponent } from './pages/informacion-page/informacion-page.component';
+import { ReservasLayoutComponent } from './pages/layout-page/layout-page.component';
+import { CrearPageComponent } from './pages/crear-page/crear-page.component';
 
 @NgModule({
   declarations: [
-    DashboardLayoutComponent,
-    DashboardHeaderComponent,
-    DashboardFooterComponent,
-    ReservasPageComponent,
+    ReservasLayoutComponent,
+    ReservasHeaderComponent,
+    ReservasFooterComponent,
+    CrearPageComponent,
     PanelPersonalPageComponent,
     ReservaCardComponent,
     EditarReservaModalComponent,
@@ -31,7 +31,7 @@ import { InformacionPageComponent } from './pages/informacion-page/informacion-p
     MaterialModule,
     ReactiveFormsModule,
     SharedModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [DatePipe],
 })

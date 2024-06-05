@@ -3,11 +3,11 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { AuthStatus } from '../../../auth/interfaces';
 
 @Component({
-  selector: 'dashboard-header',
-  templateUrl: './dashboard-header.component.html',
-  styleUrl: './dashboard-header.component.css',
+  selector: 'reservas-header',
+  templateUrl: './reservas-header.component.html',
+  styleUrl: './reservas-header.component.css',
 })
-export class DashboardHeaderComponent {
+export class ReservasHeaderComponent {
   private authService = inject(AuthService);
 
   isAuthenticated() {

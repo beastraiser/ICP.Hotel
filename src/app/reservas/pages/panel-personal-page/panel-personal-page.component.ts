@@ -3,13 +3,12 @@ import { Reserva } from '../../interfaces/reservaPost.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
-import { DashboardService } from '../../services/dashboard.service';
 import { DatePipe } from '@angular/common';
 import { ValidatorsService } from '../../../shared/validators/validators.service';
 import { AuthStatus } from '../../../auth/interfaces';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
-import { EditarReservaModalComponent } from '../../components/editar-reserva-modal/editar-reserva-modal.component';
+import { ReservasService } from '../../services/reservas.service';
 
 @Component({
   selector: 'dashboard-panel-personal-page',
@@ -20,7 +19,7 @@ export class PanelPersonalPageComponent implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
-  private dashboardService = inject(DashboardService);
+  private dashboardService = inject(ReservasService);
   private validatorsService = inject(ValidatorsService);
   private datePipe = inject(DatePipe);
   private dialog = inject(MatDialog);
