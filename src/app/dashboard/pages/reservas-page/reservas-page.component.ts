@@ -165,7 +165,8 @@ export class ReservasPageComponent implements OnInit {
     this.dashboardService.mostrarServicios().subscribe({
       next: (servicios) => {
         this.servicios = servicios.filter(
-          (servicio) => servicio.tipo === 'SERVICIO'
+          (servicio) =>
+            servicio.tipo === 'SERVICIO' && servicio.nombre !== 'SIN SERVICIO'
         );
         this.extras = servicios.filter((servicio) => servicio.tipo === 'EXTRA');
       },
@@ -440,7 +441,17 @@ export class ReservasPageComponent implements OnInit {
       const servicioNombre =
         this.servicios.find((s) => s.id === servicio.idServicio)?.nombre ||
         'Desconocido';
-      habitacion.servicios.push(servicioNombre);
+      const extraNombre =
+        this.extras.find((e) => e.id === servicio.idServicio)?.nombre ||
+        'Desconocido';
+
+      if (servicioNombre !== 'Desconocido') {
+        habitacion.servicios.push(servicioNombre);
+      }
+
+      if (extraNombre !== 'Desconocido') {
+        habitacion.servicios.push(extraNombre);
+      }
     });
 
     this.habitacionesAgrupadas = Array.from(habitacionesMap.values());

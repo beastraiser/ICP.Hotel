@@ -1,7 +1,12 @@
 <div
-  class="row justify-content-center align-content-center content-display my-5"
+  class="row justify-content-center align-content-center content-display my-5 flex-column"
 >
   <div class="col col-sm-10 col-md-10 col-lg-10">
+    <!-- <img
+      src="../../../../assets/images/Best_Western_logo.svg"
+      class="logo"
+      alt="Logo"
+    /> -->
     <!-- Paso 1: Datos de la reserva -->
     <mat-stepper
       orientation="vertical"
@@ -13,7 +18,7 @@
         <form
           [formGroup]="myDisponiblilidadForm"
           (ngSubmit)="mostrarHabitaciones(stepper)"
-          class="row justify-content-center flex-wrap m-5"
+          class="row justify-content-center flex-wrap m-5 m-sm-2"
         >
           <ng-template matStepLabel
             >Selecciona los datos de tu reserva</ng-template
@@ -125,8 +130,9 @@
                       <mat-option
                         *ngFor="let servicio of servicios"
                         [value]="servicio.id"
-                        >{{ servicio.nombre }} {{ servicio.coste }}€</mat-option
-                      >
+                        >{{ servicio.nombre | titlecase }}
+                        {{ servicio.coste | currency : "EUR" : "symbol" }}
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field class="w-100">
@@ -141,7 +147,10 @@
                       <mat-option
                         *ngFor="let extra of extras"
                         [value]="extra.id"
-                        >{{ extra.nombre }} {{ extra.coste }}€</mat-option
+                        >{{ extra.nombre | titlecase }}
+                        {{
+                          extra.coste | currency : "EUR" : "symbol"
+                        }}</mat-option
                       >
                     </mat-select>
                   </mat-form-field>
@@ -210,12 +219,15 @@
 
           <ng-template #noLogForm>
             <!-- Preguntar si tiene cuenta -->
-            <div *ngIf="askForAccount" class="col-4 text-center">
+            <div
+              *ngIf="askForAccount"
+              class="col-sm-10 col-md-8 col-lg-4 text-center question-container"
+            >
               <p>¿Tienes una cuenta?</p>
               <button
                 mat-flat-button
                 color="accent"
-                class="mx-1"
+                class="mx-1 account-button"
                 (click)="tieneCuenta(true)"
               >
                 Sí
@@ -223,7 +235,7 @@
               <button
                 mat-flat-button
                 color="accent"
-                class="mx-1"
+                class="mx-1 account-button"
                 (click)="tieneCuenta(false)"
               >
                 No
@@ -233,7 +245,7 @@
             <!-- Formulario para usuarios que tienen cuenta -->
             <div
               *ngIf="hasAccountForm"
-              class="row justify-content-center flex-wrap mt-3 gap-1"
+              class="row justify-content-center flex-wrap mt-3 gap-1 form-container"
             >
               <mat-form-field class="col min-width p-0">
                 <mat-label>Email</mat-label>
@@ -242,6 +254,7 @@
               <button
                 mat-flat-button
                 color="accent"
+                class="submit-button"
                 (click)="usuarioConCuenta()"
               >
                 Enviar
@@ -251,21 +264,21 @@
             <!-- Formulario para usuarios que no tienen cuenta -->
             <div
               *ngIf="!hasAccountForm && !askForAccount"
-              class="row justify-content-center flex-wrap mt-3 gap-1"
+              class="row justify-content-center flex-wrap mt-3 gap-1 form-container"
             >
-              <mat-form-field class="col min-width p-0">
+              <mat-form-field class="col min-width p-0 form-field">
                 <mat-label>DNI/NIE</mat-label>
                 <input matInput required formControlName="DNI" />
               </mat-form-field>
-              <mat-form-field class="col min-width p-0">
+              <mat-form-field class="col min-width p-0 form-field">
                 <mat-label>Nombre</mat-label>
                 <input matInput required formControlName="nombre" />
               </mat-form-field>
-              <mat-form-field class="col min-width p-0">
+              <mat-form-field class="col min-width p-0 form-field">
                 <mat-label>Apellidos</mat-label>
                 <input matInput required formControlName="apellidos" />
               </mat-form-field>
-              <mat-form-field class="col min-width p-0">
+              <mat-form-field class="col min-width p-0 form-field">
                 <mat-label>Teléfono</mat-label>
                 <input
                   matInput
@@ -274,7 +287,12 @@
                   formControlName="telefono"
                 />
               </mat-form-field>
-              <button mat-flat-button color="accent" (click)="crearCliente()">
+              <button
+                mat-flat-button
+                color="accent"
+                class="submit-button"
+                (click)="crearCliente()"
+              >
                 Enviar
               </button>
             </div>
@@ -305,36 +323,43 @@
       <!-- Paso 4: Confirmación -->
       <mat-step color="accent">
         <ng-template matStepLabel>Confirmación</ng-template>
-        <p *ngIf="reserva" class="fs-4 text-center">¡Todo listo!</p>
+        <p *ngIf="!reserva" class="fs-4 text-center fw-bolder mt-3">
+          ¡Todo listo!
+        </p>
         <div class="row justify-content-center flex-wrap mt-3">
-          <mat-card *ngIf="reserva" class="mb-3 p-0 col-8">
-            <mat-card-header>
-              <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card
+            *ngIf="reserva"
+            class="mb-3 p-0 col-lg-8 col-sm-12 reservation-card"
+          >
+            <mat-card-header class="reservation-card-header">
+              <div mat-card-avatar class="example-header-image"></div>
               <mat-card-title>Nº Reserva: {{ reserva.id }}</mat-card-title>
               <mat-card-subtitle class="mb-1">
                 {{ reserva.nombreCliente }} {{ reserva.apellidosCliente }}
               </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content class="mt-2 fs-5">
-              <p>
+            <mat-card-content class="mt-2 fs-5 reservation-card-content">
+              <p class="fs-5">
                 <strong>Fechas:</strong> {{ reserva.fechaInicio | date }} -
                 {{ reserva.fechaFin | date }}
               </p>
-              <p>
-                <strong>Coste Total:</strong>
-                {{ reserva.costeTotal | currency }}
+              <p class="fs-5">
+                <strong>Coste Total: </strong>
+                <span>{{
+                  reserva.costeTotal | currency : "EUR" : "symbol"
+                }}</span>
               </p>
-              <div class="row gap-3 p-4">
+              <div class="row gap-3 p-4 room-container mt-2">
                 <mat-card
                   *ngFor="let habitacion of habitacionesAgrupadas"
-                  class="col p-0"
+                  class="col p-0 room-card"
                 >
-                  <mat-card-header>
+                  <mat-card-header class="room-card-header">
                     <mat-card-title>
                       Habitación <strong>{{ habitacion.idHabitacion }}</strong>
                     </mat-card-title>
                   </mat-card-header>
-                  <mat-card-content class="mt-1">
+                  <mat-card-content class="mt-1 room-card-content">
                     <p>
                       <strong>Tipo Habitación:</strong>
                       {{ habitacion.tipoHabitacion }}
@@ -364,6 +389,7 @@
             mat-flat-button
             color="accent"
             (click)="crearReserva()"
+            class="col-4 mb-4"
           >
             Finalizar Reserva
           </button>
