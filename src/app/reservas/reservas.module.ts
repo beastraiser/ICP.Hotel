@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { DashboardRoutingModule } from './dashboard-routing.module';
+import { ReservasRoutingModule } from './reservas-routing.module';
 import { ReservasHeaderComponent } from './components/header/reservas-header.component';
 import { ReservasFooterComponent } from './components/footer/reservas-footer.component';
 import { MaterialModule } from '../material/material.module';
@@ -27,7 +27,7 @@ import { CrearPageComponent } from './pages/crear-page/crear-page.component';
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule,
+    ReservasRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
     SharedModule,
@@ -35,4 +35,4 @@ import { CrearPageComponent } from './pages/crear-page/crear-page.component';
   ],
   providers: [DatePipe],
 })
-export class DashboardModule {}
+export class ReservasModule {}

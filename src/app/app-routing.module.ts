@@ -12,9 +12,9 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'dashboard',
+    path: 'reservas',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('./reservas/reservas.module').then((m) => m.ReservasModule),
   },
   {
     path: 'admin',
@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'reservas',
     pathMatch: 'full',
   },
   {

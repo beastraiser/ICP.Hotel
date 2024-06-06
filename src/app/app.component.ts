@@ -2,7 +2,6 @@ import { Component, inject, computed, effect } from '@angular/core';
 import { AuthService } from './auth/services/auth.service';
 import { AuthStatus } from './auth/interfaces';
 import { Router } from '@angular/router';
-import { DashboardService } from './dashboard/services/dashboard.service';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +30,7 @@ export class AppComponent {
 
       case AuthStatus.authenticated:
       case AuthStatus.notAuthenticated:
-        this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/reservas');
         return;
     }
   });
