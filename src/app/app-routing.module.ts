@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { isAuthenticatedGuard } from './auth/guards/is-authenticated.guard';
 import { isNotAuthenticatedGuard } from './auth/guards/is-not-authenticated.guard';
 import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
+import { isAdminGuard } from './admin/guards/is-admin.guard';
 
 const routes: Routes = [
   {
@@ -11,14 +12,19 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'dashboard',
-    // canActivate: [isAuthenticatedGuard],
+    path: 'reservas',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('./reservas/reservas.module').then((m) => m.ReservasModule),
+  },
+  {
+    path: 'admin',
+    canActivate: [isAdminGuard],
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'reservas',
     pathMatch: 'full',
   },
   {

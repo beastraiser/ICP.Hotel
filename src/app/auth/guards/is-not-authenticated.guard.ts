@@ -8,8 +8,11 @@ export const isNotAuthenticatedGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   console.log({ status: authService.authStatus() });
 
-  if (authService.authStatus() === AuthStatus.authenticated) {
-    router.navigateByUrl('/dashboard');
+  if (
+    authService.authStatus() === AuthStatus.authenticated &&
+    authService.currentUser()?.rol !== 'ADMIN'
+  ) {
+    router.navigateByUrl('/reservas');
     return false;
   }
 

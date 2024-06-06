@@ -20,6 +20,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   exports: [
@@ -43,6 +45,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatStepperModule,
     MatRadioModule,
     MatPaginatorModule,
+    MatTableModule,
+    MatTabsModule,
   ],
 })
 export class MaterialModule {}

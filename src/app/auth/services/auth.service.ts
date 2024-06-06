@@ -21,6 +21,7 @@ export class AuthService {
 
   constructor() {
     this.checkAuthStatus().subscribe();
+    
   }
 
   userDataFromToken(token: string) {

@@ -1,0 +1,46 @@
+<div *ngIf="!usuario" class="container align-content-center">
+  <form
+    [formGroup]="emailForm"
+    (ngSubmit)="buscarUsuario()"
+    class="row justify-content-center m-3"
+  >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-6">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Email" required />
+      <mat-hint class="text-white fw-bold"
+        >Busca un usuario por su email</mat-hint
+      >
+    </mat-form-field>
+    <button mat-fab color="basic" [disabled]="emailForm.invalid">
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+</div>
+
+<div *ngIf="usuario" class="container align-content-center">
+  <form
+    [formGroup]="userForm"
+    (ngSubmit)="guardarCambios()"
+    class="row justify-content-center m-3"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>Perfil</mat-label>
+      <input
+        matInput
+        formControlName="idPerfil"
+        placeholder="Perfil"
+        type="number"
+        min="1"
+        max="4"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-6">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Email" required />
+    </mat-form-field>
+    <button mat-fab color="basic" [disabled]="userForm.invalid">
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+</div>
