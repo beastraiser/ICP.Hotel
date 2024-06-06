@@ -1,7 +1,6 @@
-
 <footer
   class="text-center text-white container-fluid px-0 pt-4"
-  style="background-color: #0a4275"
+  style="background-color: #343a40"
 >
   <p class="d-flex justify-content-center align-items-center gap-2">
     <ng-container *ngIf="!isAuthenticated(); else loggedIn">
@@ -16,14 +15,14 @@
         routerLink="/auth/register"
         color="basic"
       >
-        <mat-icon>person</mat-icon><span class="button-text">Registro</span>
+        <mat-icon>person</mat-icon><span class="button-text">Register</span>
       </button>
     </ng-container>
 
     <ng-template #loggedIn>
       <ul class="navbar-nav mb-2 mb-lg-0 gap-2">
         <li class="nav-item">
-          <button mat-fab extended aria-label="Key icon" (click)="logout()">
+          <button mat-fab extended aria-label="Key icon" (click)="logout()" class="button">
             <mat-icon>logout</mat-icon><span class="button-text">Logout</span>
           </button>
         </li>
@@ -31,10 +30,8 @@
     </ng-template>
   </p>
 
-  <!-- Copyright -->
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
     © {{ year }} Copyright:
-    <a class="text-white" href="">Hotel.com</a>
+    <a class="text-white" href="">AdminPortal.com</a>
   </div>
-  <!-- Copyright -->
 </footer>

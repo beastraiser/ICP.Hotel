@@ -5,7 +5,7 @@ import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { HabitacionDisponible } from '../interfaces/habitaciones-disponibles.interface';
 import { Servicio } from '../interfaces/servicios.interface';
 import { ClienteUsuario } from '../interfaces/cliente-usuario.interface';
-import { UsuarioDatos } from '../interfaces/usuario-datos.interface';
+import { UsuarioDatos } from '../../shared/interfaces/usuario-datos.interface';
 import { ClienteDatos } from '../interfaces/cliente.interface';
 import {
   Reserva,

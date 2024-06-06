@@ -29,6 +29,12 @@ export class AppComponent {
         return;
 
       case AuthStatus.authenticated:
+        if (this.authService.currentUser()?.rol === 'ADMIN') {
+          this.router.navigateByUrl('/admin');
+        } else {
+          this.router.navigateByUrl('/reservas');
+        }
+        return;
       case AuthStatus.notAuthenticated:
         this.router.navigateByUrl('/reservas');
         return;

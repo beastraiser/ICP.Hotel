@@ -12,6 +12,7 @@ export const isAdminGuard: CanActivateFn = (route, state) => {
     authService.authStatus() === AuthStatus.authenticated &&
     rol === 'ADMIN'
   ) {
+    console.log(`rol:${rol}`);
     return true;
   }
 
