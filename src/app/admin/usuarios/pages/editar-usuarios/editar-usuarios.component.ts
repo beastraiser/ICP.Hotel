@@ -26,7 +26,7 @@ export class EditarUsuariosComponent {
 
   public emailForm: FormGroup = this.fb.group({
     email: [
-      '',
+      'alexandru11@example.com',
       [
         Validators.required,
         Validators.pattern(this.validatorsService.emailPattern),
@@ -35,15 +35,25 @@ export class EditarUsuariosComponent {
   });
 
   public userForm: FormGroup = this.fb.group({
-    idPerfil: [[this.usuario?.idPerfil], [Validators.required]],
+    idPerfil: [this.usuario?.idPerfil, [Validators.required]],
     email: [
-      [this.usuario?.email],
+      this.usuario?.email,
       [
         Validators.required,
         Validators.pattern(this.validatorsService.emailPattern),
       ],
     ],
+    contrasenya: [
+      '',
+      [Validators.pattern(this.validatorsService.passwordPattern)],
+    ],
   });
+
+  hide = true;
+  clickEvent(event: MouseEvent) {
+    this.hide = !this.hide;
+    event.stopPropagation();
+  }
 
   buscarUsuario(): void {
     this.reservasService
@@ -51,6 +61,10 @@ export class EditarUsuariosComponent {
       .subscribe({
         next: (data) => {
           this.usuario = data;
+          this.userForm.patchValue({
+            idPerfil: this.usuario.idPerfil,
+            email: this.usuario.email,
+          });
           console.log(this.usuario);
         },
         error: (error) => {
@@ -62,19 +76,31 @@ export class EditarUsuariosComponent {
   }
 
   guardarCambios(): void {
+    debugger;
+    if (!this.usuario) return;
+
+    const idPerfil = this.userForm.get('idPerfil')?.value;
+    const email = this.userForm.get('email')?.value;
+    const contrasenya =
+      this.userForm.get('contrasenya')?.value !== ''
+        ? this.userForm.get('contrasenya')?.value
+        : this.usuario.contrasenya;
+    const fechaRegistro = this.usuario.fechaRegistro;
+
     this.userService
       .actualizarUsuario(
-        this.usuario!.id,
-        this.userForm.get('idPerfil')?.value,
-        this.userForm.get('email')?.value,
-        this.usuario!.contrasenya,
-        this.usuario!.fechaRegistro
+        this.usuario.id,
+        idPerfil,
+        email,
+        contrasenya,
+        fechaRegistro
       )
       .subscribe({
         next: () => {
           this.snackbar.open('Usuario actualizado', 'Cerrar', {
             duration: 3000,
           });
+          this.usuario = null;
         },
         error: (error) => {
           this.snackbar.open('Error al actualizar usuario', 'Cerrar', {
@@ -82,5 +108,23 @@ export class EditarUsuariosComponent {
           });
         },
       });
+  }
+
+  borrarUsuario(): void {
+    if (!this.usuario) return;
+
+    this.userService.borrarUsuario(this.usuario.id).subscribe({
+      next: () => {
+        this.snackbar.open('Usuario eliminado', 'Cerrar', {
+          duration: 3000,
+        });
+        this.usuario = null;
+      },
+      error: (error) => {
+        this.snackbar.open('Usuario no encontrado', 'Cerrar', {
+          duration: 3000,
+        });
+      },
+    });
   }
 }

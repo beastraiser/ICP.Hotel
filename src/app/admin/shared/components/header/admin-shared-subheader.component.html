@@ -1,11 +1,17 @@
 <mat-toolbar color="primary" class="custom-toolbar">
-  <span class="text-white toolbar-title">Gestión de Usuarios</span>
+  <span class="text-white toolbar-title">Gestión de {{ modulo }}</span>
   <span class="spacer"></span>
   <nav>
-    <a mat-button routerLink="crear" routerLinkActive="active" class="nav-link">
-      Crear
-    </a>
     <a
+      *ngFor="let ruta of rutas"
+      mat-button
+      [routerLink]="ruta.path"
+      routerLinkActive="active"
+      class="nav-link"
+    >
+      {{ ruta.label }}
+    </a>
+    <!-- <a
       mat-button
       routerLink="editar"
       routerLinkActive="active"
@@ -13,16 +19,19 @@
     >
       Editar
     </a>
-    <a
-      mat-button
-      routerLink="eliminar"
-      routerLinkActive="active"
-      class="nav-link"
-    >
-      Eliminar
-    </a>
     <a mat-button routerLink="ver" routerLinkActive="active" class="nav-link">
       Ver
-    </a>
+    </a> -->
   </nav>
 </mat-toolbar>
+
+<!-- <nav class="navbar">
+  <ul [class.open]="menuOpen" class="nav-list">
+    <li *ngFor="let ruta of rutas" class="nav-item">
+      <a [routerLink]="ruta.path" class="nav-link" (click)="toggleMenu()">{{
+        ruta.label
+      }}</a>
+    </li>
+  </ul>
+  <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+</nav> -->

@@ -10,6 +10,14 @@ const routes: Routes = [
       import('./usuarios/usuarios.module').then((m) => m.UsuariosModule),
   },
   {
+    path: 'habitaciones',
+    component: AdminLayoutComponent,
+    loadChildren: () =>
+      import('./habitaciones/habitaciones.module').then(
+        (m) => m.HabitacionesModule
+      ),
+  },
+  {
     path: '',
     redirectTo: 'usuarios',
     pathMatch: 'full',

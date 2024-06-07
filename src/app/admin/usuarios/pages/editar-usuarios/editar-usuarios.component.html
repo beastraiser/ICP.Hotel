@@ -1,9 +1,5 @@
 <div *ngIf="!usuario" class="container align-content-center">
-  <form
-    [formGroup]="emailForm"
-    (ngSubmit)="buscarUsuario()"
-    class="row justify-content-center m-3"
-  >
+  <form [formGroup]="emailForm" class="row justify-content-center m-3">
     <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-6">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" placeholder="Email" required />
@@ -11,7 +7,12 @@
         >Busca un usuario por su email</mat-hint
       >
     </mat-form-field>
-    <button mat-fab color="basic" [disabled]="emailForm.invalid">
+    <button
+      mat-fab
+      color="basic"
+      [disabled]="emailForm.invalid"
+      (click)="buscarUsuario()"
+    >
       <mat-icon>send</mat-icon>
     </button>
   </form>
@@ -20,10 +21,9 @@
 <div *ngIf="usuario" class="container align-content-center">
   <form
     [formGroup]="userForm"
-    (ngSubmit)="guardarCambios()"
-    class="row justify-content-center m-3"
+    class="row justify-content-center align-content-center flex-column m-3"
   >
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
       <mat-label>Perfil</mat-label>
       <input
         matInput
@@ -35,12 +35,49 @@
         required
       />
     </mat-form-field>
-    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-6">
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" placeholder="Email" required />
     </mat-form-field>
-    <button mat-fab color="basic" [disabled]="userForm.invalid">
-      <mat-icon>send</mat-icon>
-    </button>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Contraseña</mat-label>
+      <input
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        formControlName="contrasenya"
+        placeholder="Contraseña"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <div
+      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1"
+    >
+      <button
+        mat-flat-button
+        color="basic"
+        [disabled]="userForm.invalid"
+        (click)="guardarCambios()"
+        class="w-100"
+      >
+        Editar
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        [disabled]="userForm.invalid"
+        (click)="borrarUsuario()"
+        class="w-100"
+      >
+        Eliminar
+      </button>
+    </div>
   </form>
 </div>

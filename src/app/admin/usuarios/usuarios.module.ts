@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditarUsuariosComponent } from './pages/editar-usuarios/editar-usuarios.component';
 import { VerUsuariosComponent } from './pages/ver-usuarios/ver-usuarios.component';
-import { EliminarUsuariosComponent } from './pages/eliminar-usuarios/eliminar-usuarios.component';
 import { CrearUsuariosComponent } from './pages/crear-usuarios/crear-usuarios.component';
 import { AdminSharedModule } from '../shared/admin-shared.module';
 import { UsuariosLayoutComponent } from './pages/layout/usuarios-layout.component';
@@ -14,10 +13,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     EditarUsuariosComponent,
     VerUsuariosComponent,
-    EliminarUsuariosComponent,
     CrearUsuariosComponent,
     UsuariosLayoutComponent,
   ],
-  imports: [CommonModule, AdminSharedModule, UsuariosRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AdminSharedModule,
+    UsuariosRoutingModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class UsuariosModule {}
