@@ -6,7 +6,7 @@ import { ValidatorsService } from '../../../shared/validators/validators.service
 import { DatePipe } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { Servicio } from '../../interfaces/servicios.interface';
+import { Servicio } from '../../../shared/interfaces/servicios.interface';
 import { NgModel } from '@angular/forms';
 import { Rhs } from '../../interfaces/rhs.interface';
 import { ReservasService } from '../../services/reservas.service';

@@ -1,0 +1,21 @@
+.container {
+  min-height: 70vh;
+}
+.file-name {
+  margin-left: 1rem;
+  color: white;
+}
+.button {
+  background-color: #17a2b8;
+}
+
+img {
+  width: auto;
+  height: 170px;
+  border-radius: 20px;
+}
+mat-hint {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 3px;
+  border-radius: 0px 0px 5px 5px;
+}

@@ -1,8 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { UsuarioDatos } from '../../../../shared/interfaces/usuario-datos.interface';
 import { UserService } from '../../services/user-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ReservasService } from '../../../../reservas/services/reservas.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidatorsService } from '../../../../shared/validators/validators.service';
 
@@ -13,7 +11,6 @@ import { ValidatorsService } from '../../../../shared/validators/validators.serv
 })
 export class CrearUsuariosComponent {
   private userService = inject(UserService);
-  private reservasService = inject(ReservasService);
   private snackbar = inject(MatSnackBar);
   private fb = inject(FormBuilder);
   private validatorsService = inject(ValidatorsService);

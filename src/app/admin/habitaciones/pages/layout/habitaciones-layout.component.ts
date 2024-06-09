@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   templateUrl: './habitaciones-layout.component.html',

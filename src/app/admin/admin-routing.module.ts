@@ -18,8 +18,32 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'servicios',
+    component: AdminLayoutComponent,
+    loadChildren: () =>
+      import('./servicios/servicios.module').then((m) => m.ServiciosModule),
+  },
+  {
+    path: 'categorias',
+    component: AdminLayoutComponent,
+    loadChildren: () =>
+      import('./categorias/categorias.module').then((m) => m.CategoriasModule),
+  },
+  {
+    path: 'clientes',
+    component: AdminLayoutComponent,
+    loadChildren: () =>
+      import('./clientes/clientes.module').then((m) => m.ClientesModule),
+  },
+  {
+    path: 'perfiles',
+    component: AdminLayoutComponent,
+    loadChildren: () =>
+      import('./perfiles/perfiles.module').then((m) => m.PerfilesModule),
+  },
+  {
     path: '',
-    redirectTo: 'usuarios',
+    redirectTo: 'perfiles',
     pathMatch: 'full',
   },
 ];

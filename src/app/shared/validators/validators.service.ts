@@ -8,8 +8,8 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class ValidatorsService {
-  public nombresPattern: string = '[a-zA-Z]+';
-  public apellidosPattern: string = '([A-Z][a-z]+(?:\\s[A-Z][a-z]+)*)';
+  public nombresPattern: string =
+    '^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:[\\s-][A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*)$';
   public emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
   public dniPattern: string = '(([X-Zx-z]\\d{7}[A-Za-z])|(\\d{8}[A-Za-z]))';
   public tlfPattern: string = '^\\d{2}\\d{9}$';

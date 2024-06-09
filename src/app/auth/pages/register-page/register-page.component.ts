@@ -43,7 +43,7 @@ export class RegisterPageComponent {
         'Bulc Bulc',
         [
           Validators.required,
-          Validators.pattern(this.validatorsService.apellidosPattern),
+          Validators.pattern(this.validatorsService.nombresPattern),
         ],
       ],
       email: [

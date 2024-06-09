@@ -1,0 +1,10 @@
+.container {
+  min-height: 70vh;
+}
+.file-name {
+  margin-left: 1rem;
+  color: white;
+}
+.button {
+  background-color: #17a2b8;
+}

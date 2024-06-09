@@ -1,0 +1,81 @@
+<div *ngIf="!cliente" class="container align-content-center">
+  <form [formGroup]="clienteIdForm" class="row justify-content-center m-3">
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-6">
+      <mat-label>Id Cliente</mat-label>
+      <input
+        matInput
+        formControlName="id"
+        placeholder="Id"
+        required
+        type="number"
+      />
+      <mat-hint class="text-white fw-bold">Busca un cliente por su id</mat-hint>
+    </mat-form-field>
+    <button
+      mat-fab
+      color="basic"
+      [disabled]="clienteIdForm.invalid"
+      (click)="buscarCliente()"
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+</div>
+
+<div *ngIf="cliente" class="container align-content-center">
+  <form
+    [formGroup]="clienteEditForm"
+    class="row justify-content-center align-content-center flex-column m-3"
+  >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>DNI/NIE</mat-label>
+      <input matInput required formControlName="dni" placeholder="DNI/NIE" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Nombre</mat-label>
+      <input matInput required formControlName="nombre" placeholder="Nombre" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Apellidos</mat-label>
+      <input
+        matInput
+        required
+        formControlName="apellidos"
+        placeholder="Apellidos"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Teléfono</mat-label>
+      <input
+        matInput
+        type="telefono"
+        required
+        formControlName="telefono"
+        placeholder="Teléfono"
+      />
+    </mat-form-field>
+
+    <div
+      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1 mt-4"
+    >
+      <button
+        mat-flat-button
+        color="basic"
+        [disabled]="clienteEditForm.invalid"
+        (click)="guardarCambios()"
+        class="w-100"
+      >
+        Editar
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        [disabled]="clienteEditForm.invalid"
+        (click)="borrarCliente()"
+        class="w-100"
+      >
+        Eliminar
+      </button>
+    </div>
+  </form>
+</div>

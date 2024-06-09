@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 import { ReservasService } from '../../services/reservas.service';
 import { HabitacionDisponible } from '../../interfaces/habitaciones-disponibles.interface';
 import { MatStepper } from '@angular/material/stepper';
-import { Servicio } from '../../interfaces/servicios.interface';
+import { Servicio } from '../../../shared/interfaces/servicios.interface';
 import { Rhs } from '../../interfaces/rhs.interface';
 import { AuthStatus, User } from '../../../auth/interfaces';
 import Swal from 'sweetalert2';
@@ -104,7 +104,7 @@ export class CrearPageComponent implements OnInit {
       '',
       [
         Validators.required,
-        Validators.pattern(this.validatorsService.apellidosPattern),
+        Validators.pattern(this.validatorsService.nombresPattern),
       ],
     ],
     email: [
