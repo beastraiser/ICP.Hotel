@@ -63,6 +63,26 @@ export class ReservasService {
       .pipe(catchError((err) => throwError(() => err.error.message)));
   }
 
+  obtenerUsuarioPorId(id: number): Observable<UsuarioDatos> {
+    const url = `${this.baseUrl}/usuarios/${id}`;
+
+    return this.http
+      .get<UsuarioDatos>(url)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
+  }
+
+  checkUsuarioCredenciales(
+    email: string,
+    contrasenya: string
+  ): Observable<UsuarioDatos> {
+    const url = `${this.baseUrl}/usuarios/check`;
+    const body = { email, contrasenya };
+
+    return this.http
+      .post<UsuarioDatos>(url, body)
+      .pipe(catchError((err) => throwError(() => err.error.message)));
+  }
+
   crearCliente(
     dni: string,
     telefono: string,

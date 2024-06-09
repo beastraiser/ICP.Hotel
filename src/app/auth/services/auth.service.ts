@@ -21,7 +21,7 @@ export class AuthService {
 
   constructor() {
     this.checkAuthStatus().subscribe();
-    
+
   }
 
   userDataFromToken(token: string) {
@@ -47,8 +47,6 @@ export class AuthService {
         localStorage.setItem('token', token);
         localStorage.setItem('exp', expire);
         localStorage.setItem('idUsuario', currUser.id.toString());
-
-        // console.log({ token, expire });
       }),
 
       map(() => true),

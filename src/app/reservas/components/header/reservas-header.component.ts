@@ -17,6 +17,13 @@ export class ReservasHeaderComponent {
     return false;
   }
 
+  isClient() {
+    if (this.authService.currentUser()?.rol === 'CLIENTE') {
+      return true;
+    }
+    return false;
+  }
+
   logout() {
     return this.authService.logout();
   }

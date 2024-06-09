@@ -13,6 +13,7 @@ import { EditarReservaModalComponent } from './components/editar-reserva-modal/e
 import { InformacionPageComponent } from './pages/informacion-page/informacion-page.component';
 import { ReservasLayoutComponent } from './pages/layout-page/layout-page.component';
 import { CrearPageComponent } from './pages/crear-page/crear-page.component';
+import { CuentaPageComponent } from './pages/cuenta-page/cuenta-page.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { CrearPageComponent } from './pages/crear-page/crear-page.component';
     ReservaCardComponent,
     EditarReservaModalComponent,
     InformacionPageComponent,
+    CuentaPageComponent,
   ],
   imports: [
     CommonModule,

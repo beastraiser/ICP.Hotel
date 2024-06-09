@@ -30,6 +30,11 @@
           >Información</a
         >
       </li>
+      <li *ngIf="isClient()" class="nav-item">
+        <a class="nav-link" routerLink="cuenta" routerLinkActive="active"
+          >Datos Personales</a
+        >
+      </li>
     </ul>
   </div>
 </nav>

@@ -49,7 +49,9 @@ export class CrearPageComponent implements OnInit {
 
   public isLoggedIn = false;
   public askForAccount = true;
+  public askForReservation = false;
   public hasAccountForm = false;
+  public isFirstReservation = false;
   public userId: number = 0;
   public clientId: number = 0;
 
@@ -114,7 +116,20 @@ export class CrearPageComponent implements OnInit {
         Validators.pattern(this.validatorsService.emailPattern),
       ],
     ],
+    contrasenya: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(this.validatorsService.passwordPattern),
+      ],
+    ],
   });
+
+  hide = true;
+  clickEvent(event: MouseEvent) {
+    this.hide = !this.hide;
+    event.stopPropagation();
+  }
 
   get formattedFechaInicio(): string {
     const date = this.myDisponiblilidadForm.get('fechaInicio')!.value;
@@ -263,7 +278,7 @@ export class CrearPageComponent implements OnInit {
         next: (cliente) => {
           this.clientId = cliente.id;
           // Ruta para el usuario recepcion
-          if (this.authService.authStatus() === AuthStatus.authenticated) {
+          if (this.authService.currentUser()!.rol === 'RECEPCION') {
             this.userId = this.authService.currentUser()!.id;
           }
           // Ruta para el cliente sin cuenta. Se le asigna el usuario invitado
@@ -271,6 +286,7 @@ export class CrearPageComponent implements OnInit {
             this.userId = 1;
           }
           Swal.fire('Datos enviados con éxito', '', 'success');
+          this.myStepper.next();
         },
         error: (msg) => {
           Swal.fire('Registro fallido', msg, 'error');
@@ -278,13 +294,39 @@ export class CrearPageComponent implements OnInit {
       });
   }
 
+  obtenerClientePorDNI() {
+    const { DNI } = this.myDatosPersonalesForm.value;
+
+    return this.dashboardService.obtenerClientePorDni(DNI).subscribe({
+      next: (cliente) => {
+        this.clientId = cliente.id;
+        // Ruta para el usuario recepcion
+        if (this.authService.currentUser()!.rol === 'RECEPCION') {
+          this.userId = this.authService.currentUser()!.id;
+        }
+        // Ruta para el cliente sin cuenta. Se le asigna el usuario invitado
+        else {
+          this.userId = 1;
+        }
+        Swal.fire('Datos enviados con éxito', '', 'success');
+        this.myStepper.next();
+      },
+      error: (msg) => {
+        Swal.fire('Registro fallido', msg, 'error');
+      },
+    });
+  }
+
   // Anula unos campos u otros dependiendo de la opción que elija
   tieneCuenta(hasAccount: boolean) {
     this.askForAccount = false;
     this.hasAccountForm = hasAccount;
     if (!hasAccount) {
+      this.askForReservation = true;
       this.myDatosPersonalesForm.get('email')?.setValidators(null);
+      this.myDatosPersonalesForm.get('contrasenya')?.setValidators(null);
       this.myDatosPersonalesForm.get('email')?.updateValueAndValidity();
+      this.myDatosPersonalesForm.get('contrasenya')?.updateValueAndValidity();
     } else {
       this.myDatosPersonalesForm.get('DNI')?.setValidators(null);
       this.myDatosPersonalesForm.get('nombre')?.setValidators(null);
@@ -298,18 +340,35 @@ export class CrearPageComponent implements OnInit {
     }
   }
 
+  esPrimeraReserva(esPrimera: boolean) {
+    this.askForReservation = false;
+    this.isFirstReservation = esPrimera;
+    if (!esPrimera) {
+      this.myDatosPersonalesForm.get('nombre')?.setValidators(null);
+      this.myDatosPersonalesForm.get('apellidos')?.setValidators(null);
+      this.myDatosPersonalesForm.get('telefono')?.setValidators(null);
+      this.myDatosPersonalesForm.get('nombre')?.updateValueAndValidity();
+      this.myDatosPersonalesForm.get('apellidos')?.updateValueAndValidity();
+      this.myDatosPersonalesForm.get('telefono')?.updateValueAndValidity();
+    }
+  }
+
   // Usuario con cuenta pero no logueado
   usuarioConCuenta() {
-    const { email } = this.myDatosPersonalesForm.value;
-    return this.dashboardService.obtenerUsuarioPorEmail(email).subscribe({
-      next: (usuario) => {
-        this.usuarioLogeado(usuario.id);
-        Swal.fire('Datos enviados con éxito', '', 'success');
-      },
-      error: (msg) => {
-        console.log(`usuarioConCuenta(): ${msg}`);
-      },
-    });
+    const { email, contrasenya } = this.myDatosPersonalesForm.value;
+
+    this.dashboardService
+      .checkUsuarioCredenciales(email, contrasenya)
+      .subscribe({
+        next: (user) => {
+          this.usuarioLogeado(user.id);
+          Swal.fire('Datos enviados con éxito', '', 'success');
+          this.myStepper.next();
+        },
+        error: (message) => {
+          Swal.fire('Datos erroneos', message, 'error');
+        },
+      });
   }
 
   // Usuario logueado

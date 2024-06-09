@@ -21,8 +21,6 @@ export class PanelPersonalPageComponent implements OnInit {
   private authService = inject(AuthService);
   private dashboardService = inject(ReservasService);
   private validatorsService = inject(ValidatorsService);
-  private datePipe = inject(DatePipe);
-  private dialog = inject(MatDialog);
 
   public reservas: Reserva[] = [];
 
