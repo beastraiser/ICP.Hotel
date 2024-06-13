@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { AuthStatus, LoginResponse, User } from '../interfaces';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthService {
   private readonly baseUrl: string = environment.baseUrl;
   private http = inject(HttpClient);
+  private router = inject(Router);
 
   private _currentUser = signal<User | null>(null);
   private _authStatus = signal<AuthStatus>(AuthStatus.checking);
@@ -21,7 +23,6 @@ export class AuthService {
 
   constructor() {
     this.checkAuthStatus().subscribe();
-
   }
 
   userDataFromToken(token: string) {
@@ -102,5 +103,15 @@ export class AuthService {
     localStorage.removeItem('exp');
     this._currentUser.set(null);
     this._authStatus.set(AuthStatus.notAuthenticated);
+    // this.router
+    //   .navigateByUrl('/auth')
+    //   .then((success) => {
+    //     if (!success) {
+    //       console.error('Redirección a /auth fallida');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error('Error al intentar redirigir a /auth:', err);
+    //   });
   }
 }

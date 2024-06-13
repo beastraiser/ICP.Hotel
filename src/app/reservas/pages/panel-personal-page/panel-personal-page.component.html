@@ -64,7 +64,7 @@
   </form>
 
   <div *ngIf="checked" class="col-lg-8 col-sm-12">
-    <div class="row p-4 flex-wrap reservas-bg my-5">
+    <div class="row p-4 flex-wrap reservas-bg my-5 justify-content-center">
       <div *ngIf="reservas.length !== 0; else sinReservas">
         <div *ngFor="let reserva of reservas" class="col-12">
           <dashboard-reserva-card-component
@@ -77,12 +77,19 @@
   </div>
 
   <ng-template #sinReservas>
-    <mat-card class="col-12 bg-transparent">
+    <mat-card class="col-auto">
       <mat-card-content>
-        <p class="fs-3"><strong>No existen reservas a su nombre</strong></p>
+        <p class="fs-3 text-center">
+          <strong>No existen reservas a su nombre</strong>
+        </p>
       </mat-card-content>
       <mat-card-actions class="d-flex justify-content-center">
-        <button mat-flat-button color="accent" routerLink="/dashboard">
+        <button
+          mat-flat-button
+          color="accent"
+          routerLink="/reservas"
+          class="m-2"
+        >
           Volver al inicio
         </button>
       </mat-card-actions>

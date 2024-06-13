@@ -60,6 +60,7 @@ export class EditarHabitacionesComponent {
           duration: 3000,
         });
         this.habitacion = null;
+        this.idHabitacionForm.reset();
       },
       error: (error) => {
         this.snackbar.open('Error al actualizar habitacion', 'Cerrar', {
@@ -78,6 +79,7 @@ export class EditarHabitacionesComponent {
           duration: 3000,
         });
         this.habitacion = null;
+        this.idHabitacionForm.reset();
       },
       error: (error) => {
         this.snackbar.open('Habitacion no encontrada', 'Cerrar', {

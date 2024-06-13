@@ -1,5 +1,10 @@
 <mat-card *ngIf="reserva; else sinReservas" class="mb-3">
-  <mat-card-header>
+  <mat-card-header
+    [ngClass]="{
+      'mat-card-header-cancelled': reserva.cancelada,
+      'mat-card-header-active': !reserva.cancelada
+    }"
+  >
     <mat-card-title>Nº Reserva: {{ reserva.id }}</mat-card-title>
     <mat-card-subtitle
       >{{ reserva.nombreCliente }}
@@ -8,8 +13,9 @@
   </mat-card-header>
   <mat-card-content>
     <p>
-      <strong>Fechas:</strong> {{ reserva.fechaInicio | date }} -
-      {{ reserva.fechaFin | date }}
+      <strong>Fechas:</strong>
+      {{ reserva.fechaInicio | dateAdjust | date : "mediumDate" }} -
+      {{ reserva.fechaFin | dateAdjust | date : "mediumDate" }}
     </p>
     <p><strong>Cancelada:</strong> {{ reserva.cancelada ? "Sí" : "No" }}</p>
     <p><strong>Coste Total:</strong> {{ reserva.costeTotal | currency }}</p>
@@ -27,7 +33,10 @@
       <p><strong>Servicio:</strong> {{ habitacion.nombreServicio }}</p>
     </div>
   </mat-card-content>
-  <mat-card-actions class="justify-content-center gap-1">
+  <mat-card-actions
+    *ngIf="!reserva.cancelada"
+    class="justify-content-center gap-1"
+  >
     <button
       mat-flat-button
       color="primary"

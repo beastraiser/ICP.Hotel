@@ -43,7 +43,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'perfiles',
+    redirectTo: 'usuarios',
     pathMatch: 'full',
   },
 ];

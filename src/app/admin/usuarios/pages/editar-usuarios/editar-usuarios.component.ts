@@ -65,7 +65,6 @@ export class EditarUsuariosComponent {
             idPerfil: this.usuario.idPerfil,
             email: this.usuario.email,
           });
-          console.log(this.usuario);
         },
         error: (error) => {
           this.snackbar.open('Usuario no encontrado', 'Cerrar', {
@@ -76,7 +75,6 @@ export class EditarUsuariosComponent {
   }
 
   guardarCambios(): void {
-    debugger;
     if (!this.usuario) return;
 
     const idPerfil = this.userForm.get('idPerfil')?.value;

@@ -112,6 +112,7 @@ export class PanelPersonalPageComponent implements OnInit {
         this.checked = true;
       },
       error: (msg) => {
+        Swal.fire('Error', 'El usuario no existe', 'error');
         console.log(`usuarioConCuenta(): ${msg}`);
       },
     });
@@ -128,6 +129,7 @@ export class PanelPersonalPageComponent implements OnInit {
         this.checked = true;
       },
       error: (msg) => {
+        Swal.fire('Error', 'El cliente no existe', 'error');
         console.log(`obtenerClientePorDni(): ${msg}`);
       },
     });
@@ -139,9 +141,7 @@ export class PanelPersonalPageComponent implements OnInit {
       .subscribe({
         next: (reservas) => {
           if (reservas) {
-            this.reservas = reservas.filter(
-              (reservas) => reservas.cancelada === false
-            );
+            this.reservas = reservas;
           } else {
             Swal.fire(
               'Error',
@@ -161,9 +161,7 @@ export class PanelPersonalPageComponent implements OnInit {
       .obtenerReservasPorUsuario(this.userId)
       .subscribe({
         next: (reservas) => {
-          this.reservas = reservas.filter(
-            (reservas) => reservas.cancelada === false
-          );
+          this.reservas = reservas;
         },
         error: (message) => {
           console.log(`obtenerReservasPorUsuario(): ${message}`);

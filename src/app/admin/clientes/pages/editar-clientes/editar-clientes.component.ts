@@ -117,7 +117,7 @@ export class EditarClientesComponent {
         this.clienteIdForm.reset();
       },
       error: (error) => {
-        this.snackbar.open('Cliente eliminado', 'Cerrar', {
+        this.snackbar.open('Error al borrar cliente', 'Cerrar', {
           duration: 3000,
         });
       },

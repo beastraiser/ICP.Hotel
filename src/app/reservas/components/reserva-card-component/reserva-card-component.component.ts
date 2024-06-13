@@ -56,7 +56,6 @@ export class ReservaCardComponent implements OnInit {
       if (result) {
         this.updateReservation(result);
       }
-      // Aquí puedes manejar el resultado del modal si es necesario
     });
   }
 

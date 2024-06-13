@@ -60,7 +60,7 @@ export class ClientesService {
     const body = { dni, telefono, nombre, apellidos };
 
     return this.http.post<ClienteDatos>(url, body).pipe(
-      tap(() => console.log('Cliente actualizado')),
+      tap(() => console.log('Cliente creado')),
       catchError((err) => throwError(() => err.error.message))
     );
   }

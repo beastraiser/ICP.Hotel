@@ -136,26 +136,6 @@ export class CuentaPageComponent {
       });
   }
 
-  // buscarCliente(): void {
-  //   this.obtenerIdCliente();
-  //   this.clientesService.obtenerClientePorId(this.clienteId).subscribe({
-  //     next: (data) => {
-  //       this.cliente = data;
-  //       this.clienteEditForm.patchValue({
-  //         dni: this.cliente.dni,
-  //         telefono: this.cliente.telefono,
-  //         nombre: this.cliente.nombre,
-  //         apellidos: this.cliente.apellidos,
-  //       });
-  //     },
-  //     error: (error) => {
-  //       this.snackbar.open('Cliente no encontrado', 'Cerrar', {
-  //         duration: 3000,
-  //       });
-  //     },
-  //   });
-  // }
-
   guardarCambiosCliente(): void {
     if (!this.clienteUsuario) return;
 
@@ -180,39 +160,6 @@ export class CuentaPageComponent {
         },
       });
   }
-
-  // obtenerIdCliente() {
-  //   this.reservasService
-  //     .obtenerClienteConUsuario(this.authService.currentUser()!.id)
-  //     .subscribe({
-  //       next: (data) => {
-  //         this.clienteId = data.idCliente;
-  //       },
-  //       error: (error) => {
-  //         this.snackbar.open('Error al obtener cliente', 'Cerrar', {
-  //           duration: 3000,
-  //         });
-  //       },
-  //     });
-  // }
-
-  // buscarUsuario(): void {
-  //   this.reservasService
-  //     .obtenerUsuarioPorId(this.authService.currentUser()!.id)
-  //     .subscribe({
-  //       next: (data) => {
-  //         this.usuario = data;
-  //         this.usuarioEditForm.patchValue({
-  //           email: this.usuario.email,
-  //         });
-  //       },
-  //       error: (error) => {
-  //         this.snackbar.open('Usuario no encontrado', 'Cerrar', {
-  //           duration: 3000,
-  //         });
-  //       },
-  //     });
-  // }
 
   guardarCambiosUsuario(): void {
     if (!this.clienteUsuario) return;

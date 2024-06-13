@@ -36,7 +36,7 @@ export class CrearPageComponent implements OnInit {
   public habitacionesDisponibles: HabitacionDisponible[] = [];
 
   public paginatedHabitaciones: HabitacionDisponible[] = [];
-  public pageSize = 8;
+  public pageSize = 4;
 
   public servicios: Servicio[] = [];
   public extras: Servicio[] = [];
@@ -77,7 +77,7 @@ export class CrearPageComponent implements OnInit {
   );
 
   public myHabitacionesServiciosForm: FormGroup = this.fb.group({
-    habitacionSeleccionada: ['', Validators.required],
+    habitacionSeleccionada: [''],
   });
 
   public myDatosPersonalesForm: FormGroup = this.fb.group({
@@ -258,12 +258,14 @@ export class CrearPageComponent implements OnInit {
         this.myDatosPersonalesForm.get('nombre')?.setValidators(null);
         this.myDatosPersonalesForm.get('apellidos')?.setValidators(null);
         this.myDatosPersonalesForm.get('telefono')?.setValidators(null);
+        this.myDatosPersonalesForm.get('contrasenya')?.setValidators(null);
 
         this.myDatosPersonalesForm.get('email')?.updateValueAndValidity();
         this.myDatosPersonalesForm.get('DNI')?.updateValueAndValidity();
         this.myDatosPersonalesForm.get('nombre')?.updateValueAndValidity();
         this.myDatosPersonalesForm.get('apellidos')?.updateValueAndValidity();
         this.myDatosPersonalesForm.get('telefono')?.updateValueAndValidity();
+        this.myDatosPersonalesForm.get('contrasenya')?.updateValueAndValidity();
       }
     }
   }
@@ -277,12 +279,15 @@ export class CrearPageComponent implements OnInit {
       .subscribe({
         next: (cliente) => {
           this.clientId = cliente.id;
+
           // Ruta para el usuario recepcion
-          if (this.authService.currentUser()!.rol === 'RECEPCION') {
+          if (
+            this.authService.authStatus() === AuthStatus.authenticated &&
+            this.authService.currentUser()!.rol === 'RECEPCION'
+          ) {
             this.userId = this.authService.currentUser()!.id;
-          }
-          // Ruta para el cliente sin cuenta. Se le asigna el usuario invitado
-          else {
+            // Ruta para el cliente sin cuenta. Se le asigna el usuario invitado
+          } else {
             this.userId = 1;
           }
           Swal.fire('Datos enviados con éxito', '', 'success');
@@ -301,7 +306,10 @@ export class CrearPageComponent implements OnInit {
       next: (cliente) => {
         this.clientId = cliente.id;
         // Ruta para el usuario recepcion
-        if (this.authService.currentUser()!.rol === 'RECEPCION') {
+        if (
+          this.authService.authStatus() === AuthStatus.authenticated &&
+          this.authService.currentUser()!.rol === 'RECEPCION'
+        ) {
           this.userId = this.authService.currentUser()!.id;
         }
         // Ruta para el cliente sin cuenta. Se le asigna el usuario invitado
@@ -361,6 +369,10 @@ export class CrearPageComponent implements OnInit {
       .checkUsuarioCredenciales(email, contrasenya)
       .subscribe({
         next: (user) => {
+          if (user.idPerfil !== 4) {
+            Swal.fire('Datos erroneos', 'Usuario no autorizado', 'error');
+            return;
+          }
           this.usuarioLogeado(user.id);
           Swal.fire('Datos enviados con éxito', '', 'success');
           this.myStepper.next();
@@ -393,16 +405,6 @@ export class CrearPageComponent implements OnInit {
 
   crearReserva() {
     this.generarDatosReserva();
-
-    console.log(
-      `Datos enviados: ${JSON.stringify({
-        rhs: this.reservaHabitacionServicios,
-        idcli: this.clientId,
-        idus: this.userId,
-        inicio: this.formattedFechaInicio,
-        fin: this.formattedFechaFin,
-      })}`
-    );
 
     return this.dashboardService
       .crearReserva(
@@ -533,6 +535,8 @@ export class CrearPageComponent implements OnInit {
     this.paginatedHabitaciones = [];
     this.reservaHabitacionServicios = [];
     this.reserva = null;
+    this.userId = 0;
+    this.clientId = 0;
 
     this.myStepper.reset();
   }

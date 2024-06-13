@@ -33,11 +33,11 @@ export class EditarReservaModalComponent {
     this.reservationForm = this.fb.group(
       {
         fechaInicio: [
-          data.reserva.fechaInicio,
+          new Date(data.reserva.fechaInicio),
           [Validators.required, this.validatorsService.isValidDate],
         ],
         fechaFin: [
-          data.reserva.fechaFin,
+          new Date(data.reserva.fechaFin),
           [Validators.required, this.validatorsService.isValidDate],
         ],
       },
@@ -50,12 +50,12 @@ export class EditarReservaModalComponent {
   }
 
   guardarCambios() {
-    const fechaInicio = this.reservationForm.get('fechaInicio')!.value
-      ? this.reservationForm.get('fechaInicio')!.value
-      : this.data.reserva.fechaInicio;
-    const fechaFin = this.reservationForm.get('fechaFin')!.value
-      ? this.reservationForm.get('fechaFin')!.value
-      : this.data.reserva.fechaFin;
+    const fechaInicio = this.convertToUtcDate(
+      this.reservationForm.get('fechaInicio')!.value
+    );
+    const fechaFin = this.convertToUtcDate(
+      this.reservationForm.get('fechaFin')!.value
+    );
 
     this.dialogRef.close({
       id: this.data.reserva.id,
@@ -69,5 +69,12 @@ export class EditarReservaModalComponent {
 
   cerrarModal() {
     this.dialogRef.close();
+  }
+
+  private convertToUtcDate(date: Date): Date {
+    const utcDate = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
+    return utcDate;
   }
 }

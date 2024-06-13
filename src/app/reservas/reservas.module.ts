@@ -14,6 +14,7 @@ import { InformacionPageComponent } from './pages/informacion-page/informacion-p
 import { ReservasLayoutComponent } from './pages/layout-page/layout-page.component';
 import { CrearPageComponent } from './pages/crear-page/crear-page.component';
 import { CuentaPageComponent } from './pages/cuenta-page/cuenta-page.component';
+import { DateAdjustPipe } from './pipes/date-adjust.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CuentaPageComponent } from './pages/cuenta-page/cuenta-page.component';
     EditarReservaModalComponent,
     InformacionPageComponent,
     CuentaPageComponent,
+    DateAdjustPipe
   ],
   imports: [
     CommonModule,

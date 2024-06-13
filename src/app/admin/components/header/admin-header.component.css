@@ -3,6 +3,17 @@
   padding: 20px;
 }
 
+.nav-link.active::before {
+  content: "• ";
+  color: rgba(23, 162, 184);
+}
+
+.navbar-nav .nav-link {
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  margin: 0 15px;
+}
+
 .navbar-toggler {
   border-color: #dee2e6;
   background-color: #dee2e6;
@@ -26,6 +37,6 @@
 }
 
 .nav-link.active {
-  color: #17a2b8;
+  color: rgb(23, 162, 184);
   font-weight: bold;
 }

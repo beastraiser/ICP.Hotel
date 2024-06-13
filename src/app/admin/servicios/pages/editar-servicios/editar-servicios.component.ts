@@ -48,7 +48,6 @@ export class EditarServiciosComponent {
             descripcion: this.servicio.descripcion,
             coste: this.servicio.coste,
           });
-          console.log(this.servicio);
         },
         error: (error) => {
           this.snackbar.open('Servicio no encontrado', 'Cerrar', {
@@ -59,7 +58,6 @@ export class EditarServiciosComponent {
   }
 
   guardarCambios(): void {
-    debugger;
     if (!this.servicio) return;
 
     const id = this.servicio.id;
@@ -76,6 +74,7 @@ export class EditarServiciosComponent {
             duration: 3000,
           });
           this.servicio = null;
+          this.ServiceEditForm.reset();
         },
         error: (error) => {
           this.snackbar.open('Error al actualizar servicio', 'Cerrar', {
@@ -94,6 +93,7 @@ export class EditarServiciosComponent {
           duration: 3000,
         });
         this.servicio = null;
+        this.ServiceEditForm.reset();
       },
       error: (error) => {
         this.snackbar.open('Servicio no encontrado', 'Cerrar', {

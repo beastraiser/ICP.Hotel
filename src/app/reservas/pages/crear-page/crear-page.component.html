@@ -1,11 +1,11 @@
 <div
   class="row justify-content-center align-content-center content-display my-5 flex-column"
 >
-  <div class="col col-sm-10 col-md-10 col-lg-10">
+  <div class="col col-sm-10 col-md-10 col-lg-8">
     <!-- Paso 1: Datos de la reserva -->
     <mat-stepper
       orientation="vertical"
-      linear="false"
+      linear="true"
       (selectionChange)="onStepChange($event)"
       #stepper
     >
@@ -76,13 +76,14 @@
           <div class="row">
             <div
               *ngFor="let habitacion of paginatedHabitaciones"
-              class="col-sm-6 col-md-4 col-lg-3 mb-3"
+              class="col-sm-6 col-md-6 col-lg-6 mb-3"
             >
               <mat-card
                 [ngClass]="{
                   'habitacion-seleccionada':
                     isHabitacionSeleccionada(habitacion)
                 }"
+                class="habitacion-card"
               >
                 <mat-card-header class="p-3">
                   <mat-card-title>Nº {{ habitacion.id }}</mat-card-title>
@@ -380,7 +381,11 @@
               color="basic"
               class="mx-1 my-3"
               matStepperNext
-              [disabled]="!myDatosPersonalesForm.valid || clientId === 0"
+              [disabled]="
+                (!myDatosPersonalesForm.valid && !askForAccount) ||
+                clientId === 0 ||
+                !isLoggedIn
+              "
             >
               Next
             </button>
@@ -391,9 +396,6 @@
       <!-- Paso 4: Confirmación -->
       <mat-step color="accent">
         <ng-template matStepLabel>Confirmación</ng-template>
-        <p *ngIf="!reserva" class="fs-4 text-center fw-bolder mt-3">
-          ¡Todo listo!
-        </p>
         <div class="row justify-content-center flex-wrap mt-3">
           <mat-card
             *ngIf="reserva"
@@ -454,13 +456,25 @@
 
           <button
             *ngIf="!reserva"
+            mat-fab
+            extended
+            aria-label="Reservation icon"
+            color="accent"
+            (click)="crearReserva()"
+            class="col-auto mt-2 mb-3 reserv-button"
+          >
+            <mat-icon>hotel</mat-icon>
+            Finalizar Reserva
+          </button>
+          <!-- <button
+            *ngIf="!reserva"
             mat-flat-button
             color="accent"
             (click)="crearReserva()"
-            class="col-4 mb-4"
+            class="col-auto m-5"
           >
             Finalizar Reserva
-          </button>
+          </button> -->
 
           <div>
             <button
