@@ -1,5 +1,5 @@
 .mat-card-header-cancelled {
-  background-color: #f8d7da; 
+  background-color: #f8d7da;
   color: #721c24;
 }
 
@@ -8,10 +8,19 @@
   color: #155724;
 }
 
+.mat-card-header-toPay {
+  background-color: #fff5cb;
+  color: #ac9429;
+}
+
 mat-card-title {
   font-weight: bold;
 }
 
 mat-card-content p {
   margin: 0;
+}
+
+.btn-toPay {
+  background-color: #ad9b4a;
 }

@@ -162,20 +162,22 @@ export class ReservasService {
     idCliente: number,
     idUsuario: number,
     fechaInicio: string,
-    fechaFin: string
+    fechaFin: string,
+    pagado: boolean
   ): Observable<boolean> {
     const url = `${this.baseUrl}/reservas/${id}`;
     const body = {
       reservaHabitacionServicios,
       idCliente,
       idUsuario,
+      pagado,
       fechaInicio,
       fechaFin,
     };
 
     return this.http.put(url, body).pipe(
       map(() => true),
-      catchError((err) => throwError(() => err.error.message))
+      catchError((err) => throwError(() => err.error))
     );
   }
 
@@ -184,5 +186,13 @@ export class ReservasService {
     return this.http
       .get<Reserva>(url)
       .pipe(catchError((err) => throwError(() => err.error.message)));
+  }
+
+  pagarReserva(id: number): Observable<boolean> {
+    const url = `${this.baseUrl}/reservas/${id}/pagar`;
+    return this.http.get(url).pipe(
+      map(() => true),
+      catchError((err) => throwError(() => err.error.message))
+    );
   }
 }
