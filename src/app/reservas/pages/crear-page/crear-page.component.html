@@ -481,6 +481,46 @@
               mat-stroked-button
               color="basic"
               class="mx-1"
+              matStepperNext
+              [disabled]="!reserva"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </mat-step>
+
+      <!-- Nuevo paso: Pago -->
+      <mat-step color="accent">
+        <ng-template matStepLabel>Pago</ng-template>
+        <div class="row justify-content-center flex-wrap mt-3">
+          <div class="col-lg-8 col-sm-12 text-center">
+            <button
+              mat-fab
+              extended
+              aria-label="Pay with PayPal"
+              color="accent"
+              (click)="redirectToPaypal()"
+              class="col-auto mt-2 mb-3 pay-button"
+            >
+              <mat-icon>euro_symbol</mat-icon>
+              Pagar
+            </button>
+          </div>
+
+          <div>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              matStepperPrevious
+            >
+              Back
+            </button>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
               (click)="resetForm()"
             >
               Reset

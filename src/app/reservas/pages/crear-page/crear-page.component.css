@@ -155,6 +155,7 @@ mat-stepper {
 .room-card-content {
   padding: 15px;
 }
-.reserv-button {
+.reserv-button,
+.pay-button {
   scale: 1.2;
 }

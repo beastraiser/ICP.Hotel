@@ -178,7 +178,7 @@ export class PanelPersonalPageComponent implements OnInit {
             'La reserva ha sido cancelada con éxito',
             'success'
           );
-          this.reservas = this.reservas.filter((reserva) => reserva.id !== id);
+          this.reservas = this.reservas;
         } else {
           Swal.fire('Error', 'No se pudo cancelar la reserva', 'error');
         }

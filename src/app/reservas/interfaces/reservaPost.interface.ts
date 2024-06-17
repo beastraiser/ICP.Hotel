@@ -9,6 +9,7 @@ export interface Reserva {
   fechaFin: Date;
   cancelada: boolean;
   costeTotal: number;
+  pagado: boolean;
 }
 
 export interface ReservaHabitacionServicio {

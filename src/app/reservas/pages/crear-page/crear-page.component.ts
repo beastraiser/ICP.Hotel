@@ -58,6 +58,8 @@ export class CrearPageComponent implements OnInit {
   public habitacionesAgrupadas: any[] = [];
   public currentRol = this.authService.currentUser()?.rol;
 
+  public pagado: boolean = false;
+
   ngOnInit(): void {}
 
   public myDisponiblilidadForm: FormGroup = this.fb.group(
@@ -518,6 +520,32 @@ export class CrearPageComponent implements OnInit {
     this.habitacionesAgrupadas = Array.from(habitacionesMap.values());
   }
 
+  redirectToPaypal() {
+    if (!this.reserva) {
+      Swal.fire('¡Error!', 'No se pudo crear la reserva', 'error');
+    }
+    this.dashboardService.pagarReserva(this.reserva!.id).subscribe({
+      next: () => {
+        // this.reserva!.pagado = true;
+        Swal.fire({
+          title: '¡Enhorabuena!',
+          text: 'Su reserva ha sido pagada con éxito',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.resetForm();
+          }
+        });
+      },
+      error: (msg) => {
+        console.log(`crearReserva(): ${msg}`);
+        Swal.fire('¡Error!', msg, 'error');
+      },
+    });
+    window.open('https://www.paypal.com', '_blank');
+  }
+
   resetForm() {
     this.myDatosPersonalesForm.reset();
     this.myDisponiblilidadForm.reset();
@@ -537,6 +565,7 @@ export class CrearPageComponent implements OnInit {
     this.reserva = null;
     this.userId = 0;
     this.clientId = 0;
+    this.pagado = false;
 
     this.myStepper.reset();
   }

@@ -67,7 +67,8 @@ export class ReservaCardComponent implements OnInit {
         updatedData.idCliente,
         updatedData.idUsuario,
         updatedData.fechaInicio,
-        updatedData.fechaFin
+        updatedData.fechaFin,
+        updatedData.pagado
       )
       .subscribe({
         next: () => {
@@ -77,7 +78,29 @@ export class ReservaCardComponent implements OnInit {
             'success'
           );
         },
-        error: (err) => console.error('Error actualizando reserva', err),
+        error: (err) => {
+          console.error('Error actualizando reserva', err.message);
+          Swal.fire('¡Error!', err.message, 'error');
+        },
       });
+  }
+
+  payReservation(id: number) {
+    this.dashboardService.pagarReserva(this.reserva!.id).subscribe({
+      next: () => {
+        this.reserva!.pagado = true;
+        Swal.fire({
+          title: '¡Enhorabuena!',
+          text: 'Su reserva ha sido pagada con éxito',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+      },
+      error: (msg) => {
+        console.log(`payReservation(): ${msg}`);
+        Swal.fire('¡Error!', msg, 'error');
+      },
+    });
+    window.open('https://www.paypal.com', '_blank');
   }
 }

@@ -61,6 +61,7 @@ export class EditarReservaModalComponent {
       id: this.data.reserva.id,
       idCliente: this.data.reserva.idCliente,
       idUsuario: this.data.reserva.idUsuario,
+      pagado: this.data.reserva.pagado,
       reservaHabitacionServicios: this.data.reserva.reservaHabitacionServicios,
       fechaInicio: fechaInicio,
       fechaFin: fechaFin,
