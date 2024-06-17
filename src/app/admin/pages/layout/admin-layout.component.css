@@ -1,0 +1,26 @@
+.dashboard-layout {
+  background-image: url(../../../../assets/images/bg-06.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  background-attachment: fixed;
+}
+
+dashboard-header {
+  animation-name: headerColorAnimation;
+  animation-timeline: scroll();
+}
+
+@keyframes headerColorAnimation {
+  0% {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(0.6) translateY(-50px);
+  }
+  100% {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(0.6) translateY(-50px);
+  }
+}

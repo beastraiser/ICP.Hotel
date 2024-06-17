@@ -1,0 +1,13 @@
+img {
+  width: auto;
+  height: 250px;
+  border-radius: 20px;
+  object-fit: cover;
+  padding: 10px;
+}
+
+.cabecera {
+  background-color: rgb(240, 240, 240);
+  font-size: 1.1rem;
+  font-weight: bold;
+}

@@ -1,0 +1,135 @@
+<div *ngIf="clienteUsuario" class="container align-items-center">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-10 col-lg-5 form-bg my-4">
+      <h4 class="mt-1 text-white row justify-content-center">- Cuenta -</h4>
+      <form
+        [formGroup]="usuarioEditForm"
+        class="row justify-content-center align-content-center flex-column mb-3 col-auto"
+      >
+        <mat-form-field appearance="fill" class="col">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            placeholder="Email"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="contrasenya"
+            placeholder="Contraseña"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col">
+          <mat-label>Repite la Contraseña</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="contrasenya2"
+            placeholder="Repite la Contraseña"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <div class="col d-flex justify-content-center gap-1">
+          <button
+            mat-flat-button
+            color="basic"
+            [disabled]="usuarioEditForm.invalid"
+            (click)="guardarCambiosUsuario()"
+            class="w-100"
+          >
+            Editar
+          </button>
+          <!-- <button
+            mat-flat-button
+            color="warn"
+            [disabled]="usuarioEditForm.invalid"
+            (click)="borrarUsuario()"
+            class="w-100"
+          >
+            Eliminar
+          </button> -->
+        </div>
+      </form>
+
+      <h4 class="row justify-content-center mt-2 text-white">
+        - Datos Personales -
+      </h4>
+      <form
+        [formGroup]="clienteEditForm"
+        class="row justify-content-center align-content-center flex-column mb-2 col-auto"
+      >
+        <mat-form-field appearance="fill" class="col">
+          <mat-label>DNI/NIE</mat-label>
+          <input
+            matInput
+            required
+            formControlName="dni"
+            placeholder="DNI/NIE"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            required
+            formControlName="nombre"
+            placeholder="Nombre"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col">
+          <mat-label>Apellidos</mat-label>
+          <input
+            matInput
+            required
+            formControlName="apellidos"
+            placeholder="Apellidos"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col">
+          <mat-label>Teléfono</mat-label>
+          <input
+            matInput
+            type="telefono"
+            required
+            formControlName="telefono"
+            placeholder="Teléfono"
+          />
+        </mat-form-field>
+
+        <div class="col d-flex justify-content-center gap-1">
+          <button
+            mat-flat-button
+            color="basic"
+            [disabled]="clienteEditForm.invalid"
+            (click)="guardarCambiosCliente()"
+            class="w-100"
+          >
+            Editar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

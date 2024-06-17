@@ -1,0 +1,34 @@
+.cuerpo {
+  text-align: center;
+  height: 100vh;
+  font-family: "Courier New", Courier, monospace;
+  color: #8b4513;
+  background-image: url(/assets/images/bg-09.jpg);
+  background-size: cover;
+  background-position: top;
+}
+h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+p {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+button {
+  background-color: #d2691e;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+}
+button:hover {
+  background-color: #a0522d;
+}

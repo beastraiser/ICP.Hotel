@@ -1,0 +1,493 @@
+<div
+  class="row justify-content-center align-content-center content-display my-5 flex-column"
+>
+  <div class="col col-sm-10 col-md-10 col-lg-8">
+    <!-- Paso 1: Datos de la reserva -->
+    <mat-stepper
+      orientation="vertical"
+      linear="true"
+      (selectionChange)="onStepChange($event)"
+      #stepper
+    >
+      <mat-step [stepControl]="myDisponiblilidadForm" color="accent">
+        <form
+          [formGroup]="myDisponiblilidadForm"
+          (ngSubmit)="mostrarHabitaciones(stepper)"
+          class="row justify-content-center flex-wrap m-5 m-sm-2"
+        >
+          <ng-template matStepLabel
+            >Selecciona los datos de tu reserva</ng-template
+          >
+          <mat-form-field class="col min-width">
+            <mat-label>Fechas</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input
+                matStartDate
+                required
+                formControlName="fechaInicio"
+                placeholder="Fecha Inicio"
+              />
+
+              <input
+                matEndDate
+                required
+                formControlName="fechaFin"
+                placeholder="Fecha Fin"
+              />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+          <mat-form-field class="col min-width">
+            <mat-label>Personas</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              max="3"
+              required
+              formControlName="maximoPersonas"
+            />
+          </mat-form-field>
+          <button
+            mat-fab
+            aria-label="Key icon"
+            class="col-2"
+            [disabled]="myDisponiblilidadForm.invalid"
+          >
+            <mat-icon>key</mat-icon>
+          </button>
+        </form>
+      </mat-step>
+
+      <!-- Paso 2: Selección de habitaciones y servicios -->
+      <mat-step [stepControl]="myHabitacionesServiciosForm" color="accent">
+        <form
+          [formGroup]="myHabitacionesServiciosForm"
+          class="row justify-content-center flex-wrap mt-3"
+        >
+          <ng-template matStepLabel
+            >Selecciona una habitación disponible</ng-template
+          >
+          <div class="row">
+            <div
+              *ngFor="let habitacion of paginatedHabitaciones"
+              class="col-sm-6 col-md-6 col-lg-6 mb-3"
+            >
+              <mat-card
+                [ngClass]="{
+                  'habitacion-seleccionada':
+                    isHabitacionSeleccionada(habitacion)
+                }"
+                class="habitacion-card"
+              >
+                <mat-card-header class="p-3">
+                  <mat-card-title>Nº {{ habitacion.id }}</mat-card-title>
+                  <mat-card-subtitle>{{
+                    habitacion.categoriaTipo | titlecase
+                  }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="row my-4 align-content-center">
+                    <div class="col">
+                      <p>
+                        <strong>Camas: </strong>{{ habitacion.numeroCamas }}
+                      </p>
+                      <p>
+                        <strong>Máximo personas: </strong
+                        >{{ habitacion.maximoPersonas }}
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p
+                        class="d-flex align-items-center h-100 justify-content-center fs-4 price"
+                      >
+                        <strong
+                          >{{
+                            habitacion.costeNoche | currency : "EUR" : "symbol"
+                          }}/noche</strong
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <mat-form-field class="w-100">
+                    <mat-label>Servicios</mat-label>
+                    <mat-select
+                      multiple
+                      [(value)]="selectedServicios[habitacion.id]"
+                      (selectionChange)="
+                        toggleServiceSelection(habitacion.id, $event.value)
+                      "
+                    >
+                      <mat-option
+                        *ngFor="let servicio of servicios"
+                        [value]="servicio.id"
+                        >{{ servicio.nombre | titlecase }}
+                        {{ servicio.coste | currency : "EUR" : "symbol" }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="w-100">
+                    <mat-label>Extras</mat-label>
+                    <mat-select
+                      multiple
+                      [(value)]="selectedExtras[habitacion.id]"
+                      (selectionChange)="
+                        toggleExtraSelection(habitacion.id, $event.value)
+                      "
+                    >
+                      <mat-option
+                        *ngFor="let extra of extras"
+                        [value]="extra.id"
+                        >{{ extra.nombre | titlecase }}
+                        {{
+                          extra.coste | currency : "EUR" : "symbol"
+                        }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                  <button
+                    mat-raised-button
+                    color="accent"
+                    class="w-100"
+                    (click)="toggleHabitacionSeleccionada(habitacion)"
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+
+          <!-- Paginador -->
+          <mat-paginator
+            [length]="habitacionesDisponibles.length"
+            [pageSize]="pageSize"
+            (page)="onPageChange($event)"
+            class="bg-transparent"
+          ></mat-paginator>
+
+          <!-- Botones de navegación -->
+          <div>
+            <button
+              mat-stroked-button
+              color="basic"
+              matStepperPrevious
+              class="mx-1"
+            >
+              Back
+            </button>
+            <button
+              matStepperNext
+              [disabled]="selectedHabitaciones.length === 0"
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Paso 3: Datos personales -->
+      <mat-step [stepControl]="myDatosPersonalesForm" color="accent">
+        <form
+          [formGroup]="myDatosPersonalesForm"
+          class="row justify-content-center flex-wrap mt-3"
+        >
+          <ng-template matStepLabel>Datos personales</ng-template>
+
+          <ng-container *ngIf="isLoggedIn; else noLogForm">
+            <div class="logged-in-container">
+              <p class="welcome-message">
+                Ya tenemos tus datos listos, ¡Gracias por Iniciar sesión!
+              </p>
+              <p class="confirmation-message">
+                Puedes pasar a la confirmación de la reserva
+              </p>
+            </div>
+          </ng-container>
+
+          <ng-template #noLogForm>
+            <!-- Preguntar si tiene cuenta -->
+            <div
+              *ngIf="askForAccount"
+              class="col-sm-10 col-md-8 col-lg-4 text-center question-container"
+            >
+              <p>¿Tienes una cuenta?</p>
+              <button
+                mat-flat-button
+                color="accent"
+                class="mx-1 account-button"
+                (click)="tieneCuenta(true)"
+              >
+                Sí
+              </button>
+              <button
+                mat-flat-button
+                color="accent"
+                class="mx-1 account-button"
+                (click)="tieneCuenta(false)"
+              >
+                No
+              </button>
+            </div>
+
+            <!-- Preguntar si es su primera reserva -->
+            <div
+              *ngIf="askForReservation"
+              class="col-sm-10 col-md-8 col-lg-4 text-center question-container"
+            >
+              <p>¿Es tu primera reserva?</p>
+              <button
+                mat-flat-button
+                color="accent"
+                class="mx-1 account-button"
+                (click)="esPrimeraReserva(true)"
+              >
+                Sí
+              </button>
+              <button
+                mat-flat-button
+                color="accent"
+                class="mx-1 account-button"
+                (click)="esPrimeraReserva(false)"
+              >
+                No
+              </button>
+            </div>
+
+            <!-- Formulario para usuarios que tienen cuenta -->
+            <div
+              *ngIf="hasAccountForm"
+              class="row justify-content-center flex-wrap mt-3 gap-1 form-container"
+            >
+              <mat-form-field class="col min-width p-0">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" required formControlName="email" />
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="col min-width p-0">
+                <mat-label>Contraseña</mat-label>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  formControlName="contrasenya"
+                  placeholder="Contraseña"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="clickEvent($event)"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                >
+                  <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+              </mat-form-field>
+              <button
+                mat-flat-button
+                color="accent"
+                class="submit-button"
+                (click)="usuarioConCuenta()"
+              >
+                Enviar
+              </button>
+            </div>
+
+            <!-- Formulario para sin cuenta y primera reserva -->
+            <div
+              *ngIf="
+                !hasAccountForm &&
+                !askForAccount &&
+                !askForReservation &&
+                isFirstReservation
+              "
+              class="row justify-content-center flex-wrap mt-3 gap-1 form-container"
+            >
+              <mat-form-field class="col min-width p-0 form-field">
+                <mat-label>DNI/NIE</mat-label>
+                <input matInput required formControlName="DNI" />
+              </mat-form-field>
+              <mat-form-field class="col min-width p-0 form-field">
+                <mat-label>Nombre</mat-label>
+                <input matInput required formControlName="nombre" />
+              </mat-form-field>
+              <mat-form-field class="col min-width p-0 form-field">
+                <mat-label>Apellidos</mat-label>
+                <input matInput required formControlName="apellidos" />
+              </mat-form-field>
+              <mat-form-field class="col min-width p-0 form-field">
+                <mat-label>Teléfono</mat-label>
+                <input
+                  matInput
+                  type="tel"
+                  required
+                  formControlName="telefono"
+                />
+              </mat-form-field>
+              <button
+                mat-flat-button
+                color="accent"
+                class="submit-button"
+                (click)="crearCliente()"
+              >
+                Enviar
+              </button>
+            </div>
+
+            <!-- Formulario para sin cuenta y no primera reserva -->
+            <div
+              *ngIf="
+                !hasAccountForm &&
+                !askForAccount &&
+                !askForReservation &&
+                !isFirstReservation
+              "
+              class="row justify-content-center flex-wrap mt-3 gap-1 form-container"
+            >
+              <mat-form-field class="col min-width p-0 form-field">
+                <mat-label>DNI/NIE</mat-label>
+                <input matInput required formControlName="DNI" />
+              </mat-form-field>
+              <button
+                mat-flat-button
+                color="accent"
+                class="submit-button"
+                (click)="obtenerClientePorDNI()"
+              >
+                Enviar
+              </button>
+            </div>
+          </ng-template>
+
+          <div>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              matStepperPrevious
+            >
+              Back
+            </button>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1 my-3"
+              matStepperNext
+              [disabled]="
+                (!myDatosPersonalesForm.valid && !askForAccount) ||
+                clientId === 0 ||
+                !isLoggedIn
+              "
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Paso 4: Confirmación -->
+      <mat-step color="accent">
+        <ng-template matStepLabel>Confirmación</ng-template>
+        <div class="row justify-content-center flex-wrap mt-3">
+          <mat-card
+            *ngIf="reserva"
+            class="mb-3 p-0 col-lg-8 col-sm-12 reservation-card"
+          >
+            <mat-card-header class="reservation-card-header">
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>Nº Reserva: {{ reserva.id }}</mat-card-title>
+              <mat-card-subtitle class="mb-1">
+                {{ reserva.nombreCliente }} {{ reserva.apellidosCliente }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="mt-2 fs-5 reservation-card-content">
+              <p class="fs-5">
+                <strong>Fechas:</strong> {{ reserva.fechaInicio | date }} -
+                {{ reserva.fechaFin | date }}
+              </p>
+              <p class="fs-5">
+                <strong>Coste Total: </strong>
+                <span>{{
+                  reserva.costeTotal | currency : "EUR" : "symbol"
+                }}</span>
+              </p>
+              <div class="row gap-3 p-4 room-container mt-2">
+                <mat-card
+                  *ngFor="let habitacion of habitacionesAgrupadas"
+                  class="col p-0 room-card"
+                >
+                  <mat-card-header class="room-card-header">
+                    <mat-card-title>
+                      Habitación <strong>{{ habitacion.idHabitacion }}</strong>
+                    </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content class="mt-1 room-card-content">
+                    <p>
+                      <strong>Tipo Habitación:</strong>
+                      {{ habitacion.tipoHabitacion }}
+                    </p>
+                    <p>
+                      <strong>Servicios:</strong>
+                      <span
+                        *ngFor="
+                          let servicio of habitacion.servicios;
+                          let i = index
+                        "
+                      >
+                        {{ servicio
+                        }}<span *ngIf="i < habitacion.servicios.length - 1"
+                          >,
+                        </span>
+                      </span>
+                    </p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <button
+            *ngIf="!reserva"
+            mat-fab
+            extended
+            aria-label="Reservation icon"
+            color="accent"
+            (click)="crearReserva()"
+            class="col-auto mt-2 mb-3 reserv-button"
+          >
+            <mat-icon>hotel</mat-icon>
+            Finalizar Reserva
+          </button>
+
+          <div>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              matStepperPrevious
+              [disabled]="reserva"
+            >
+              Back
+            </button>
+            <button
+              mat-stroked-button
+              color="basic"
+              class="mx-1"
+              (click)="resetForm()"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>

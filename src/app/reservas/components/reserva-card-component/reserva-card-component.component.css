@@ -1,0 +1,17 @@
+.mat-card-header-cancelled {
+  background-color: #f8d7da; 
+  color: #721c24;
+}
+
+.mat-card-header-active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+mat-card-title {
+  font-weight: bold;
+}
+
+mat-card-content p {
+  margin: 0;
+}

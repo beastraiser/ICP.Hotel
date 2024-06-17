@@ -1,22 +1,39 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthModule } from './auth/auth.module';
+import { isNotAuthenticatedGuard } from './auth/guards/is-not-authenticated.guard';
+import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
+import { isAdminGuard } from './admin/guards/is-admin.guard';
 
 const routes: Routes = [
   {
     path: 'auth',
-    //guards
+    canActivate: [isNotAuthenticatedGuard],
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'dashboard',
-    //guards
+    path: 'reservas',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('./reservas/reservas.module').then((m) => m.ReservasModule),
+  },
+  {
+    path: 'admin',
+    canActivate: [isAdminGuard],
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: '',
+    redirectTo: 'reservas',
+    pathMatch: 'full',
+  },
+  {
+    path: '404',
+    component: Error404PageComponent,
   },
   {
     path: '**',
-    redirectTo: 'auth',
+    redirectTo: '404',
+    pathMatch: 'full',
   },
 ];
 

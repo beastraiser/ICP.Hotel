@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-md p-2">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">
+    <img src="../../../../assets/images/logo.png" alt="Logo" />
+  </a>
+  <div
+    class="collapse navbar-collapse justify-content-end nav-text"
+    id="navbarSupportedContent"
+  >
+    <ul class="navbar-nav mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="crear"
+          routerLinkActive="active"
+          aria-current="page"
+          >Inicio</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="panel"
+          routerLinkActive="active"
+          aria-current="page"
+          >Reservas</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="info"
+          routerLinkActive="active"
+          aria-current="page"
+          >Información</a
+        >
+      </li>
+      <li *ngIf="isClient()" class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="cuenta"
+          routerLinkActive="active"
+          aria-current="page"
+          >Cuenta</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,15 @@
+<mat-toolbar color="primary" class="custom-toolbar">
+  <span class="text-white toolbar-title">Gestión de {{ modulo }}</span>
+  <span class="spacer"></span>
+  <nav>
+    <a
+      *ngFor="let ruta of rutas"
+      mat-button
+      [routerLink]="ruta.path"
+      routerLinkActive="active"
+      class="nav-link"
+    >
+      {{ ruta.label }}
+    </a>
+  </nav>
+</mat-toolbar>

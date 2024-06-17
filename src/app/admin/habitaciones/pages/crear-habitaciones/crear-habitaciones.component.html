@@ -1,0 +1,40 @@
+<div class="container align-content-center">
+  <form
+    [formGroup]="createRoomForm"
+    class="row justify-content-center align-content-center flex-column m-3"
+  >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Número</mat-label>
+      <input
+        matInput
+        formControlName="id"
+        placeholder="Número de la nueva habitación"
+        type="number"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Categoría</mat-label>
+      <input
+        matInput
+        formControlName="idCategoria"
+        placeholder="Id de categoría"
+        type="number"
+        required
+      />
+    </mat-form-field>
+    <div
+      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1"
+    >
+      <button
+        mat-flat-button
+        color="basic"
+        [disabled]="createRoomForm.invalid"
+        (click)="crearHabitacion()"
+        class="w-100"
+      >
+        Crear
+      </button>
+    </div>
+  </form>
+</div>

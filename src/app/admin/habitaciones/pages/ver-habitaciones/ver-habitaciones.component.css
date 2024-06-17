@@ -1,0 +1,8 @@
+.container {
+  min-height: 70vh;
+}
+.cabecera {
+  background-color: rgb(240, 240, 240);
+  font-size: 1.1rem;
+  font-weight: bold;
+}

@@ -1,0 +1,51 @@
+<div *ngIf="!perfil" class="container align-content-center">
+  <form [formGroup]="idPerfilForm" class="row justify-content-center m-3">
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-6">
+      <mat-label>Id Perfil</mat-label>
+      <input matInput formControlName="id" placeholder="Id" required />
+      <mat-hint class="text-white fw-bold">Busca un perfil por su id</mat-hint>
+    </mat-form-field>
+    <button
+      mat-fab
+      color="basic"
+      [disabled]="idPerfilForm.invalid"
+      (click)="buscarPerfil()"
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+</div>
+
+<div *ngIf="perfil" class="container align-content-center">
+  <form
+    [formGroup]="cambiarPerfilForm"
+    class="row justify-content-center align-content-center flex-column m-3"
+  >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="tipo" placeholder="Nombre" required />
+    </mat-form-field>
+    <div
+      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1"
+    >
+      <button
+        mat-flat-button
+        color="basic"
+        [disabled]="cambiarPerfilForm.invalid"
+        (click)="guardarCambios()"
+        class="w-100"
+      >
+        Editar
+      </button>
+      <!-- <button
+        mat-flat-button
+        color="warn"
+        [disabled]="cambiarPerfilForm.invalid"
+        (click)="borrarPerfil()"
+        class="w-100"
+      >
+        Eliminar
+      </button> -->
+    </div>
+  </form>
+</div>

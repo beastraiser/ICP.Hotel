@@ -1,0 +1,22 @@
+.dialog-title {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.dialog-content {
+  margin-bottom: 20px;
+}
+
+.date-input {
+  width: 100%;
+}
+
+.date-range-picker {
+  width: 100%;
+}
+
+.dialog-actions {
+  justify-content: center;
+  width: 100%;
+}

@@ -1,0 +1,29 @@
+<div class="container align-content-center">
+  <form
+    [formGroup]="createPerfilForm"
+    class="row justify-content-center align-content-center flex-column m-3"
+  >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Nombre</mat-label>
+      <input
+        matInput
+        formControlName="tipo"
+        placeholder="Nombre del perfil"
+        required
+      />
+    </mat-form-field>
+    <div
+      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1"
+    >
+      <button
+        mat-flat-button
+        color="basic"
+        [disabled]="createPerfilForm.invalid"
+        (click)="crearPerfil()"
+        class="w-100"
+      >
+        Crear
+      </button>
+    </div>
+  </form>
+</div>

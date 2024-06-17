@@ -1,0 +1,54 @@
+<h1 mat-dialog-title class="dialog-title text-center">Editar Reserva</h1>
+<div mat-dialog-content class="dialog-content">
+  <form [formGroup]="reservationForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Seleccione el rango de fechas</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input
+          matStartDate
+          required
+          formControlName="fechaInicio"
+          placeholder="Fecha Inicio"
+          class="date-input"
+        />
+        <input
+          matEndDate
+          required
+          formControlName="fechaFin"
+          placeholder="Fecha Fin"
+          class="date-input"
+        />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+        class="datepicker-toggle"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker
+        #picker
+        class="date-range-picker"
+      ></mat-date-range-picker>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions class="dialog-actions w-100">
+  <button
+    mat-flat-button
+    color="primary"
+    class="w-100"
+    (click)="guardarCambios()"
+    class="save-button"
+  >
+    Guardar
+  </button>
+  <button
+    mat-flat-button
+    color="warn"
+    class="w-100"
+    (click)="cerrarModal()"
+    class="cancel-button"
+  >
+    Cancelar
+  </button>
+</div>

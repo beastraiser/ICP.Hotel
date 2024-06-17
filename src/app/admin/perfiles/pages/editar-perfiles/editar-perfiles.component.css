@@ -1,0 +1,8 @@
+.container {
+  min-height: 70vh;
+}
+mat-hint {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 3px;
+  border-radius: 0px 0px 5px 5px;
+}

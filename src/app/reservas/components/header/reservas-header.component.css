@@ -1,0 +1,92 @@
+.navbar {
+  background-color: rgba(0, 0, 0, 0.65);
+  animation-name: headerScale;
+  animation-duration: 1ms;
+  animation-timeline: scroll();
+}
+
+.navbar-brand {
+  margin-left: 200px;
+}
+.navbar-brand img {
+  height: 100px;
+}
+
+.nav-link.active::before {
+  content: "• ";
+  color: rgb(155, 128, 102);
+}
+
+.navbar-nav .nav-link {
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  margin: 0 15px;
+}
+
+.navbar-toggler {
+  background-color: rgb(155, 128, 102);
+  color: rgb(155, 128, 102);
+  margin-left: 20px;
+}
+.nav-text {
+  font-size: 24px;
+  margin-right: 200px;
+}
+
+.nav-link {
+  color: #fff;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #ccc;
+}
+
+.nav-link.active {
+  color: rgb(155, 128, 102);
+  font-weight: bold;
+  scale: 0.95;
+}
+
+@keyframes headerScale {
+  to {
+    scale: 0.7;
+    transform: translateY(-30px);
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+@media (width <= 1070px) {
+  .navbar-brand {
+    margin-left: 100px;
+  }
+  .navbar-brand img {
+    height: 100px;
+  }
+  .nav-text {
+    font-size: 24px;
+    margin-right: 100px;
+  }
+}
+
+@media (width <= 840px) {
+  .navbar-brand {
+    margin-left: 60px;
+  }
+  .navbar-brand img {
+    height: 80px;
+  }
+  .nav-text {
+    margin-right: 60px;
+  }
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    margin: 0 15px;
+  }
+}
+
+@media (width <= 840px) {
+  .nav-link.active {
+    scale: 1;
+  }
+}

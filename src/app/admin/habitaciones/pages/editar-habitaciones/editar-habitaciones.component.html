@@ -1,0 +1,61 @@
+<div *ngIf="!habitacion" class="container align-content-center">
+  <form [formGroup]="idHabitacionForm" class="row justify-content-center m-3">
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-6">
+      <mat-label>Número de Habitación</mat-label>
+      <input matInput formControlName="id" placeholder="Número" required />
+      <mat-hint class="text-white fw-bold"
+        >Busca una habitación por su nº</mat-hint
+      >
+    </mat-form-field>
+    <button
+      mat-fab
+      color="basic"
+      [disabled]="idHabitacionForm.invalid"
+      (click)="buscarHabitacion()"
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+</div>
+
+<div *ngIf="habitacion" class="container align-content-center">
+  <form
+    [formGroup]="habitacionForm"
+    class="row justify-content-center align-content-center flex-column m-3"
+  >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Categoría</mat-label>
+      <input
+        matInput
+        formControlName="idCategoria"
+        placeholder="Categoría"
+        type="number"
+        min="1"
+        max="3"
+        required
+      />
+    </mat-form-field>
+    <div
+      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1"
+    >
+      <button
+        mat-flat-button
+        color="basic"
+        [disabled]="habitacionForm.invalid"
+        (click)="guardarCambios()"
+        class="w-100"
+      >
+        Editar
+      </button>
+      <!-- <button
+        mat-flat-button
+        color="warn"
+        [disabled]="habitacionForm.invalid"
+        (click)="borrarHabitacion()"
+        class="w-100"
+      >
+        Eliminar
+      </button> -->
+    </div>
+  </form>
+</div>

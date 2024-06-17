@@ -1,0 +1,42 @@
+.navbar {
+  background-color: rgba(34, 45, 50, 0.9);
+  padding: 20px;
+}
+
+.nav-link.active::before {
+  content: "• ";
+  color: rgba(23, 162, 184);
+}
+
+.navbar-nav .nav-link {
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  margin: 0 15px;
+}
+
+.navbar-toggler {
+  border-color: #dee2e6;
+  background-color: #dee2e6;
+}
+
+.navbar-toggler-icon {
+  background-color: #343a40;
+}
+
+.nav-text {
+  font-size: 24px;
+}
+
+.nav-link {
+  color: #f8f9fa;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #adb5bd;
+}
+
+.nav-link.active {
+  color: rgb(23, 162, 184);
+  font-weight: bold;
+}

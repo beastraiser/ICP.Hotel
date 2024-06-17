@@ -1,0 +1,160 @@
+.bg-transparent {
+  background: transparent;
+}
+
+.min-width {
+  min-width: 150px;
+}
+
+mat-card {
+  margin: 20px 0;
+}
+
+mat-card-header {
+  background-color: #f5f5f5;
+}
+
+mat-card-title {
+  font-size: 1.5em;
+}
+
+mat-card-subtitle {
+  font-size: 1.2em;
+  color: gray;
+}
+
+mat-card-content p {
+  margin: 0;
+}
+
+.content-display {
+  min-height: 70vh;
+}
+
+mat-stepper {
+  background: rgba(245, 230, 200, 0.9);
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+}
+
+.habitacion-seleccionada {
+  border: 2px solid green;
+  background-color: lightgreen;
+}
+
+.price {
+  color: rgba(10, 66, 117, 0.8);
+}
+
+.logged-in-container {
+  background-color: #f0f8ff;
+  border: 1px solid #cce7ff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 500px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-message {
+  font-size: 1.2em;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.confirmation-message {
+  font-size: 1em;
+  color: #333;
+  margin-top: 0;
+}
+
+.question-container {
+  background-color: #f0f8ff;
+  border: 1px solid #cce7ff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 500px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.account-button {
+  margin: 0 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+  background-color: #f0f8ff;
+  border: 1px solid #cce7ff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button {
+  display: block;
+  margin: 20px auto 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-title {
+  font-size: 1.5em;
+  color: #007bff;
+}
+
+.confirmation-container {
+  background-color: #f0f8ff;
+  border: 1px solid #cce7ff;
+  padding: 20px;
+}
+
+.reservation-card {
+  background-color: #fff0f0;
+  border: 1px solid #ffcccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.1);
+}
+
+.reservation-card-header {
+  background-color: #ffe6e6;
+}
+
+.reservation-card-content {
+  padding: 20px;
+}
+
+.room-container {
+  background-image: url(../../../../assets/images/reservas-card-header.jpg);
+  background-size: cover;
+  border: 1px solid #ffcccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.room-card {
+  background-color: #fff0f0;
+  border: 1px solid #ffcccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.1);
+}
+
+.room-card-header {
+  background-color: #ffe6e6;
+}
+
+.room-card-content {
+  padding: 15px;
+}
+.reserv-button {
+  scale: 1.2;
+}

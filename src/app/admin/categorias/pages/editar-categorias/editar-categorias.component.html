@@ -1,0 +1,117 @@
+<div *ngIf="!categoria" class="container align-content-center">
+  <form [formGroup]="categoriaIdForm" class="row justify-content-center m-3">
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-6">
+      <mat-label>Id Categoría</mat-label>
+      <input
+        matInput
+        formControlName="id"
+        placeholder="Id"
+        required
+        type="number"
+      />
+      <mat-hint class="text-white fw-bold"
+        >Busca una categoría por su id</mat-hint
+      >
+    </mat-form-field>
+    <button
+      mat-fab
+      color="basic"
+      [disabled]="categoriaIdForm.invalid"
+      (click)="buscarCategoria()"
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+</div>
+
+<div *ngIf="categoria" class="container align-content-center">
+  <form
+    [formGroup]="categoriaEditForm"
+    class="row justify-content-center align-content-center flex-column m-3"
+  >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Tipo Camas</mat-label>
+      <mat-select formControlName="tipoCamas" multiple required>
+        <mat-option value="INDIVIDUAL">INDIVIDUAL</mat-option>
+        <mat-option value="MATRIMONIO">MATRIMONIO</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Nombre</mat-label>
+      <input
+        matInput
+        formControlName="tipo"
+        placeholder="Nombre"
+        type="text"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Nº camas</mat-label>
+      <input
+        matInput
+        formControlName="numeroCamas"
+        placeholder="Nº camas"
+        type="number"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Máximo personas</mat-label>
+      <input
+        matInput
+        formControlName="maximoPersonas"
+        placeholder="Máx. perosnas"
+        type="number"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>Coste por noche</mat-label>
+      <input
+        matInput
+        formControlName="costeNoche"
+        placeholder="Coste por noche"
+        type="number"
+        step="0.01"
+      />
+    </mat-form-field>
+    <div class="col-sm-12 col-md-10 col-lg-4">
+      <button
+        type="button"
+        mat-raised-button
+        (click)="fileInput.click()"
+        class="button text-white"
+      >
+        Choose File
+      </button>
+      <input hidden (change)="onFileSelected($event)" #fileInput type="file" />
+      <span class="file-name"
+        >{{ selectedFile?.name
+        }}<img *ngIf="!selectedFile" src="{{ categoria.foto }}"
+      /></span>
+    </div>
+
+    <div
+      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1 mt-4"
+    >
+      <button
+        mat-flat-button
+        color="basic"
+        [disabled]="categoriaEditForm.invalid"
+        (click)="guardarCambios()"
+        class="w-100"
+      >
+        Editar
+      </button>
+      <!-- <button
+        mat-flat-button
+        color="warn"
+        [disabled]="categoriaEditForm.invalid"
+        (click)="borrarCategoria()"
+        class="w-100"
+      >
+        Eliminar
+      </button> -->
+    </div>
+  </form>
+</div>
