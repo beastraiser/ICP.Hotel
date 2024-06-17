@@ -35,13 +35,34 @@ export class UserService {
     );
   }
 
-  borrarUsuario(id: number): Observable<boolean> {
-    const url = `${this.baseUrl}/usuarios/${id}`;
+  bajaUsuario(id: number): Observable<boolean> {
+    const url = `${this.baseUrl}/usuarios/${id}/baja`;
 
-    return this.http.delete<boolean>(url).pipe(
+    return this.http.get<boolean>(url).pipe(
       map(() => true),
-      tap(() => console.log('Usuario borrado')),
-      catchError((err) => throwError(() => err.error.message))
+      tap(() => console.log('Usuario dado de baja')),
+      catchError((err) => throwError(() => err.error))
+    );
+  }
+
+  altaUsuario(id: number, dni: string): Observable<boolean> {
+    const url = `${this.baseUrl}/usuarios/${id}/altaC`;
+    const body = { dni };
+
+    return this.http.put<boolean>(url, body).pipe(
+      map(() => true),
+      tap(() => console.log('Usuario dado de alta')),
+      catchError((err) => throwError(() => err.error))
+    );
+  }
+
+  altaTrabajador(id: number): Observable<boolean> {
+    const url = `${this.baseUrl}/usuarios/${id}/altaT`;
+
+    return this.http.get<boolean>(url).pipe(
+      map(() => true),
+      tap(() => console.log('Trabajador dado de alta')),
+      catchError((err) => throwError(() => err.error))
     );
   }
 

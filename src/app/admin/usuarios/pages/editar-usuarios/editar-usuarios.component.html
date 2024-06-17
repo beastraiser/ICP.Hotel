@@ -57,8 +57,13 @@
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
     </mat-form-field>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-10 col-lg-4">
+      <mat-label>DNI/NIE</mat-label>
+      <input matInput formControlName="dni" placeholder="DNI/NIE" />
+      <mat-hint class="dni-hint fw-bold">Obligatorio para dar de alta</mat-hint>
+    </mat-form-field>
     <div
-      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1"
+      class="col-sm-12 col-md-10 col-lg-4 d-flex justify-content-center gap-1 mt-2"
     >
       <button
         mat-flat-button
@@ -69,15 +74,36 @@
       >
         Editar
       </button>
-      <!-- <button
+      <button
+        *ngIf="!usuario.baja"
         mat-flat-button
         color="warn"
         [disabled]="userForm.invalid"
-        (click)="borrarUsuario()"
+        (click)="bajaUsuario()"
         class="w-100"
       >
-        Eliminar
-      </button> -->
+        Dar de baja
+      </button>
+      <button
+        *ngIf="usuario.baja && usuario.idPerfil == 4"
+        mat-flat-button
+        color="primary"
+        [disabled]="userForm.invalid"
+        (click)="altaUsuario()"
+        class="w-100"
+      >
+        Alta de usuario
+      </button>
+      <button
+        *ngIf="usuario.baja && usuario.idPerfil != 4"
+        mat-flat-button
+        color="primary"
+        [disabled]="userForm.invalid"
+        (click)="altaTrabajador()"
+        class="w-100"
+      >
+        Alta de trabajador
+      </button>
     </div>
   </form>
 </div>

@@ -47,6 +47,7 @@ export class EditarUsuariosComponent {
       '',
       [Validators.pattern(this.validatorsService.passwordPattern)],
     ],
+    dni: ['', [Validators.pattern(this.validatorsService.dniPattern)]],
   });
 
   hide = true;
@@ -108,12 +109,12 @@ export class EditarUsuariosComponent {
       });
   }
 
-  borrarUsuario(): void {
+  bajaUsuario(): void {
     if (!this.usuario) return;
 
-    this.userService.borrarUsuario(this.usuario.id).subscribe({
+    this.userService.bajaUsuario(this.usuario.id).subscribe({
       next: () => {
-        this.snackbar.open('Usuario eliminado', 'Cerrar', {
+        this.snackbar.open('Usuario dado de baja', 'Cerrar', {
           duration: 3000,
         });
         this.usuario = null;
@@ -122,6 +123,51 @@ export class EditarUsuariosComponent {
         this.snackbar.open('Usuario no encontrado', 'Cerrar', {
           duration: 3000,
         });
+        console.log(error);
+      },
+    });
+  }
+
+  altaUsuario(): void {
+    if (!this.usuario) return;
+    if (!this.userForm.get('dni')?.value) {
+      this.snackbar.open('El DNI es obligatorio', 'Cerrar', {
+        duration: 3000,
+      });
+    }
+    const dni = this.userForm.get('dni')?.value;
+
+    this.userService.altaUsuario(this.usuario.id, dni).subscribe({
+      next: () => {
+        this.snackbar.open('Usuario dado de alta', 'Cerrar', {
+          duration: 3000,
+        });
+        this.usuario = null;
+      },
+      error: (error) => {
+        this.snackbar.open('Usuario no encontrado', 'Cerrar', {
+          duration: 3000,
+        });
+        console.log(error);
+      },
+    });
+  }
+
+  altaTrabajador(): void {
+    if (!this.usuario) return;
+
+    this.userService.altaTrabajador(this.usuario.id).subscribe({
+      next: () => {
+        this.snackbar.open('Usuario dado de alta', 'Cerrar', {
+          duration: 3000,
+        });
+        this.usuario = null;
+      },
+      error: (error) => {
+        this.snackbar.open('Usuario no encontrado', 'Cerrar', {
+          duration: 3000,
+        });
+        console.log(error);
       },
     });
   }

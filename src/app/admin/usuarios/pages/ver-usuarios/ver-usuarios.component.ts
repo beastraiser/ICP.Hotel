@@ -9,7 +9,7 @@ import { UserService } from '../../services/user-service.service';
 })
 export class VerUsuariosComponent {
   usuarios: UsuarioDatos[] = [];
-  displayedColumns: string[] = ['id', 'email', 'idPerfil', 'fecha'];
+  displayedColumns: string[] = ['id', 'email', 'idPerfil', 'fecha', 'baja'];
   private userService = inject(UserService);
 
   constructor() {}

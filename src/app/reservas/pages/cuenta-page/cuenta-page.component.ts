@@ -194,14 +194,14 @@ export class CuentaPageComponent {
       });
   }
 
-  borrarUsuario(): void {
+  bajaUsuario(): void {
     if (!this.clienteUsuario) return;
 
     this.userService
-      .borrarUsuario(this.authService.currentUser()!.id)
+      .bajaUsuario(this.authService.currentUser()!.id)
       .subscribe({
         next: () => {
-          this.snackbar.open('Usuario eliminado', 'Cerrar', {
+          this.snackbar.open('Usuario dado de baja', 'Cerrar', {
             duration: 3000,
           });
           this.authService.logout();
