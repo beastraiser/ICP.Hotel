@@ -123,9 +123,7 @@ export class ReservasService {
 
     return this.http.get<Reserva[]>(url).pipe(
       catchError((err) => {
-        return throwError(
-          () => new Error(err.error.message || 'Error desconocido')
-        );
+        return throwError(() => new Error(err.error || 'Error desconocido'));
       })
     );
   }

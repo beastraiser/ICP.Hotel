@@ -45,7 +45,16 @@ export class LoginPageComponent {
     const { email, password } = this.myLoginForm.value;
 
     this.authService.login(email, password).subscribe({
-      next: () => this.router.navigateByUrl('/reservas'),
+      next: () => {
+        if (this.authService.currentUser()?.rol === 'ADMIN') {
+          this.router.navigateByUrl('/admin');
+        } else if (
+          this.authService.currentUser()?.rol === 'CLIENTE' ||
+          this.authService.currentUser()?.rol === 'RECEPCION'
+        ) {
+          this.router.navigateByUrl('/reservas');
+        }
+      },
       error: (message) => {
         Swal.fire('Login fallido', message, 'error');
       },

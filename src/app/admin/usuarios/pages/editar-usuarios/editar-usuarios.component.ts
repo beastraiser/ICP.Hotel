@@ -130,10 +130,11 @@ export class EditarUsuariosComponent {
 
   altaUsuario(): void {
     if (!this.usuario) return;
-    if (!this.userForm.get('dni')?.value) {
+    if (this.userForm.get('dni')?.value === '') {
       this.snackbar.open('El DNI es obligatorio', 'Cerrar', {
         duration: 3000,
       });
+      return;
     }
     const dni = this.userForm.get('dni')?.value;
 
