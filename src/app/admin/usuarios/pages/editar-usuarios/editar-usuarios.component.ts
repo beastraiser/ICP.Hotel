@@ -111,7 +111,12 @@ export class EditarUsuariosComponent {
 
   bajaUsuario(): void {
     if (!this.usuario) return;
-
+    if (this.usuario.id === parseInt(localStorage.getItem('idUsuario')!)) {
+      this.snackbar.open('No te puedes dar de baja a ti mismo', 'Cerrar', {
+        duration: 3000,
+      });
+      return;
+    }
     this.userService.bajaUsuario(this.usuario.id).subscribe({
       next: () => {
         this.snackbar.open('Usuario dado de baja', 'Cerrar', {
@@ -132,6 +137,12 @@ export class EditarUsuariosComponent {
     if (!this.usuario) return;
     if (this.userForm.get('dni')?.value === '') {
       this.snackbar.open('El DNI es obligatorio', 'Cerrar', {
+        duration: 3000,
+      });
+      return;
+    }
+    if (this.usuario.id === parseInt(localStorage.getItem('idUsuario')!)) {
+      this.snackbar.open('No te puedes dar de alta a ti mismo', 'Cerrar', {
         duration: 3000,
       });
       return;

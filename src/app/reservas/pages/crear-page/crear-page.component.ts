@@ -182,8 +182,7 @@ export class CrearPageComponent implements OnInit {
     this.dashboardService.mostrarServicios().subscribe({
       next: (servicios) => {
         this.servicios = servicios.filter(
-          (servicio) =>
-            servicio.tipo === 'SERVICIO' && servicio.nombre !== 'SIN SERVICIO'
+          (servicio) => servicio.tipo === 'SERVICIO' && servicio.id !== 1
         );
         this.extras = servicios.filter((servicio) => servicio.tipo === 'EXTRA');
       },
@@ -471,7 +470,7 @@ export class CrearPageComponent implements OnInit {
       ) {
         this.reservaHabitacionServicios.push({
           idHabitacion: habitacion.id,
-          idServicio: 17,
+          idServicio: 1,
         });
       }
     }
