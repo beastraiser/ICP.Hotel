@@ -107,6 +107,10 @@ export class PanelPersonalPageComponent implements OnInit {
             localStorage.setItem('idCliente', `${cliente.idCliente}`);
             this.clientId = cliente.idCliente;
           },
+          error: (err) => {
+            Swal.fire('Error', err.message, 'error');
+            console.log(`usuarioConCuenta(): ${err.message}`);
+          },
         });
         this.obtenerReservasPorUsuario();
         this.checked = true;
@@ -163,8 +167,13 @@ export class PanelPersonalPageComponent implements OnInit {
         next: (reservas) => {
           this.reservas = reservas;
         },
-        error: (message) => {
-          console.log(`obtenerReservasPorUsuario(): ${message}`);
+        error: (err) => {
+          Swal.fire(
+            'Error',
+            err.message,
+            'error'
+          );
+          console.log(`obtenerReservasPorUsuario(): ${err.message}`);
         },
       });
   }

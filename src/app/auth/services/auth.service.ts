@@ -103,15 +103,5 @@ export class AuthService {
     localStorage.removeItem('exp');
     this._currentUser.set(null);
     this._authStatus.set(AuthStatus.notAuthenticated);
-    // this.router
-    //   .navigateByUrl('/auth')
-    //   .then((success) => {
-    //     if (!success) {
-    //       console.error('Redirección a /auth fallida');
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error('Error al intentar redirigir a /auth:', err);
-    //   });
   }
 }

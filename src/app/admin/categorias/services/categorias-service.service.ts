@@ -85,16 +85,6 @@ export class CategoriasService {
     );
   }
 
-  // urlToFile(url: string): Promise<File> {
-  //   return fetch(url)
-  //     .then((response) => response.blob())
-  //     .then((blob) => {
-  //       const filename = url.substring(url.lastIndexOf('/') + 1);
-  //       const mimeType = blob.type;
-  //       return new File([blob], filename, { type: mimeType });
-  //     });
-  // }
-
   onImageEdit = async (imgUrl: string) => {
     var imgExt = this.getUrlExtension(imgUrl);
 
@@ -114,30 +104,4 @@ export class CategoriasService {
   private getImgName = (url: string) => {
     return url.substring(url.lastIndexOf('/') + 1);
   };
-
-  // urlToFile(url: string): Promise<File> {
-  //   const filename = url.substring(url.lastIndexOf('/') + 1);
-  //   const mimeType = this.getMimeType(filename);
-
-  //   return fetch(url)
-  //     .then((response) => response.arrayBuffer())
-  //     .then((buffer) => new File([buffer], filename, { type: mimeType }));
-  // }
-
-  // private getMimeType(filename: string): string {
-  //   const extension = filename
-  //     .substring(filename.lastIndexOf('.') + 1)
-  //     .toLowerCase();
-  //   switch (extension) {
-  //     case 'jpg':
-  //     case 'jpeg':
-  //       return 'image/jpeg';
-  //     case 'png':
-  //       return 'image/png';
-  //     case 'gif':
-  //       return 'image/gif';
-  //     default:
-  //       return 'application/octet-stream';
-  //   }
-  // }
 }

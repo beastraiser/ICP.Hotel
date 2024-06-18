@@ -4,4 +4,5 @@ export interface UsuarioDatos {
   email: string;
   contrasenya: string;
   fechaRegistro: Date;
+  baja: boolean;
 }
