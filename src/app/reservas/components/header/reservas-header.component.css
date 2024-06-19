@@ -1,5 +1,5 @@
 .navbar {
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgba(0, 0, 0, 0.9);
   animation-name: headerScale;
   animation-duration: 1ms;
   animation-timeline: scroll();
@@ -52,7 +52,7 @@
   to {
     scale: 0.7;
     transform: translateY(-30px);
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 1);
   }
 }
 
@@ -88,5 +88,8 @@
 @media (width <= 840px) {
   .nav-link.active {
     scale: 1;
+  }
+  .navbar {
+    animation: none;
   }
 }

@@ -157,10 +157,9 @@ export class EditarUsuariosComponent {
         this.usuario = null;
       },
       error: (error) => {
-        this.snackbar.open('Usuario no encontrado', 'Cerrar', {
+        this.snackbar.open(error.message, 'Cerrar', {
           duration: 3000,
         });
-        console.log(error);
       },
     });
   }
@@ -176,10 +175,9 @@ export class EditarUsuariosComponent {
         this.usuario = null;
       },
       error: (error) => {
-        this.snackbar.open('Usuario no encontrado', 'Cerrar', {
+        this.snackbar.open(error.message, 'Cerrar', {
           duration: 3000,
         });
-        console.log(error);
       },
     });
   }

@@ -48,8 +48,7 @@ export class ReservasService {
 
     return this.http.get<ClienteUsuario>(url).pipe(
       catchError((err) => {
-        console.error('Error:', err);
-        return throwError(() => new Error('Error al obtener los datos'));
+        return throwError(() => err.error);
       })
     );
   }
@@ -60,7 +59,7 @@ export class ReservasService {
 
     return this.http
       .post<UsuarioDatos>(url, body)
-      .pipe(catchError((err) => throwError(() => err.error.message)));
+      .pipe(catchError((err) => throwError(() => err.error)));
   }
 
   obtenerUsuarioPorId(id: number): Observable<UsuarioDatos> {
@@ -121,11 +120,9 @@ export class ReservasService {
   obtenerReservasPorUsuario(idUsuario: number): Observable<Reserva[]> {
     const url = `${this.baseUrl}/reservas/usuario/${idUsuario}`;
 
-    return this.http.get<Reserva[]>(url).pipe(
-      catchError((err) => {
-        return throwError(() => new Error(err.error || 'Error desconocido'));
-      })
-    );
+    return this.http
+      .get<Reserva[]>(url)
+      .pipe(catchError((err) => throwError(() => err.error)));
   }
 
   obtenerReservasPorCliente(idCliente: number): Observable<Reserva[]> {

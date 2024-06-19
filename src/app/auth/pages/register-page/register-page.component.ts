@@ -19,28 +19,28 @@ export class RegisterPageComponent {
   public myRegisterForm: FormGroup = this.fb.group(
     {
       DNI: [
-        'x3456123f',
+        '',
         [
           Validators.required,
           Validators.pattern(this.validatorsService.dniPattern),
         ],
       ],
       telefono: [
-        '34655897425',
+        '',
         [
           Validators.required,
           Validators.pattern(this.validatorsService.tlfPattern),
         ],
       ],
       nombre: [
-        'Marius',
+        '',
         [
           Validators.required,
           Validators.pattern(this.validatorsService.nombresPattern),
         ],
       ],
       apellidos: [
-        'Bulc Bulc',
+        '',
         [
           Validators.required,
           Validators.pattern(this.validatorsService.nombresPattern),

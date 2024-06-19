@@ -107,17 +107,17 @@ export class PanelPersonalPageComponent implements OnInit {
             localStorage.setItem('idCliente', `${cliente.idCliente}`);
             this.clientId = cliente.idCliente;
           },
-          error: (err) => {
-            Swal.fire('Error', err.message, 'error');
-            console.log(`usuarioConCuenta(): ${err.message}`);
-          },
+          // error: (err) => {
+          //   Swal.fire('Error', err.message, 'error');
+          //   console.log(`usuarioConCuenta(): ${err.message}`);
+          // },
         });
         this.obtenerReservasPorUsuario();
         this.checked = true;
       },
-      error: (msg) => {
-        Swal.fire('Error', 'El usuario no existe', 'error');
-        console.log(`usuarioConCuenta(): ${msg}`);
+      error: (err) => {
+        Swal.fire('Error', err.message, 'error');
+        console.log(`usuarioConCuenta(): ${err.message}`);
       },
     });
   }
@@ -168,11 +168,7 @@ export class PanelPersonalPageComponent implements OnInit {
           this.reservas = reservas;
         },
         error: (err) => {
-          Swal.fire(
-            'Error',
-            err.message,
-            'error'
-          );
+          Swal.fire('Error', err.message, 'error');
           console.log(`obtenerReservasPorUsuario(): ${err.message}`);
         },
       });
